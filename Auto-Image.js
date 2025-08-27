@@ -19,6 +19,12 @@
     AUTO_CAPTCHA_ENABLED: true, // Turnstile generator enabled by default
     TOKEN_SOURCE: "generator", // "generator", "manual", or "hybrid" - default to generator
     COOLDOWN_CHARGE_THRESHOLD: 1, // Default wait threshold
+    SPEED_PRINT_ZONE: {
+      ENABLED: false, // Off by default
+      SKIP_INTERVAL: 5, // Print every X pixels initially
+      MIN_INTERVAL: 2, // Minimum skip interval
+      MAX_INTERVAL: 50, // Maximum skip interval
+    },
     // Desktop Notifications (defaults)
     NOTIFICATIONS: {
       ENABLED: true,
@@ -303,6 +309,11 @@
       captchaFailed: "❌ Turnstile token generation failed. Trying fallback method...",
       automation: "Automation",
       noChargesThreshold: "⌛ Waiting for charges to reach {threshold}. Currently {current}. Next in {time}...",
+      speedPrintZone: "Speed Print Zone",
+      speedPrintZoneDesc: "Print every X pixels initially, then fill gaps to complete the drawing faster",
+      speedPrintZoneInterval: "Skip interval",
+      speedPrintZoneEnabled: "Enable Speed Print Zone",
+      speedPrintZoneProgress: "🚀 Speed Print Zone - Pass {pass}: {painted}/{total} pixels",
     },
     ru: {
       title: "WPlace Авто-Изображение",
@@ -595,6 +606,11 @@
       captchaFailed: "❌ Échec de l'Auto-CAPTCHA. Peignez un pixel manuellement.",
       automation: "Automatisation",
       noChargesThreshold: "⌛ En attente que les charges atteignent {threshold}. Actuel: {current}. Prochaine dans {time}...",
+      speedPrintZone: "Zone d'impression rapide",
+      speedPrintZoneDesc: "Imprime 1 pixel sur X initialement, puis remplit les espaces pour terminer le dessin plus rapidement",
+      speedPrintZoneInterval: "Intervalle de saut",
+      speedPrintZoneEnabled: "Activer la zone d'impression rapide",
+      speedPrintZoneProgress: "🚀 Zone d'impression rapide - Passe {pass}: {painted}/{total} pixels",
     },
     id: {
       title: "WPlace Auto-Image",
@@ -1174,6 +1190,12 @@
     _lastSaveTime: 0,
     _saveInProgress: false,
     paintedMap: null,
+    // Speed print zone settings
+    speedPrintZoneEnabled: CONFIG.SPEED_PRINT_ZONE.ENABLED,
+    speedPrintZoneInterval: CONFIG.SPEED_PRINT_ZONE.SKIP_INTERVAL,
+    speedPrintZonePass: 0, // Current pass number (0 = initial skip pattern, 1+ = fill passes)
+    speedPrintZoneOffset: 0, // Current offset within the skip interval for fill passes
+    speedPrintZoneCurrentPassPixels: 0, // Pixels painted in current pass only
   }
 
   let _updateResizePreview = () => { };
@@ -1447,7 +1469,7 @@
         if (a < alphaThresh) {
           // Treat as transparent / unavailable
           // Lightweight debug: show when transparency causes skip (only if verbose enabled)
-          if (window._overlayDebug) console.debug('getTilePixelColor: transparent pixel, skipping', tileKey, x, y, a);
+          console.debug('getTilePixelColor: transparent pixel, skipping', tileKey, x, y, a);
           return null;
         }
         return [d[idx], d[idx + 1], d[idx + 2], a];
@@ -1477,7 +1499,7 @@
         const a = data[3];
         const alphaThresh = state.customTransparencyThreshold || CONFIG.TRANSPARENCY_THRESHOLD;
         if (a < alphaThresh) {
-          if (window._overlayDebug) console.debug('getTilePixelColor: transparent pixel (fallback), skipping', tileKey, x, y, a);
+          console.debug('getTilePixelColor: transparent pixel (fallback), skipping', tileKey, x, y, a);
           return null;
         }
         return [data[0], data[1], data[2], a];
@@ -4972,6 +4994,67 @@
           </label>
         </div>
 
+        <!-- Speed Print Zone Section -->
+        <div style="margin-bottom: 25px;">
+          <label style="display: block; margin-bottom: 12px; color: white; font-weight: 500; font-size: 16px; display: flex; align-items: center; gap: 8px;">
+            <i class="fas fa-rocket" style="color: #ff6b35; font-size: 16px;"></i>
+            ${Utils.t("speedPrintZone")}
+          </label>
+          <div style="background: rgba(255,255,255,0.1); border-radius: 12px; padding: 18px; border: 1px solid rgba(255,255,255,0.1);">
+            <p style="color: rgba(255,255,255,0.8); font-size: 13px; margin-bottom: 15px; line-height: 1.4;">
+              ${Utils.t("speedPrintZoneDesc")}
+            </p>
+            
+            <!-- Enable Speed Print Zone -->
+            <label style="display: flex; align-items: center; gap: 8px; color: white; margin-bottom: 15px;">
+              <input type="checkbox" id="enableSpeedPrintZone" ${state.speedPrintZoneEnabled ? 'checked' : ''} style="cursor: pointer;"/>
+              <span>${Utils.t("speedPrintZoneEnabled")}</span>
+            </label>
+            
+            <!-- Skip Interval Control -->
+            <div id="speedPrintZoneControls" style="${state.speedPrintZoneEnabled ? '' : 'display: none;'}">
+              <label style="display: block; margin-bottom: 8px; color: rgba(255,255,255,0.9); font-weight: 500; font-size: 14px;">
+                <i class="fas fa-forward" style="color: #ff6b35; margin-right: 6px;"></i>
+                ${Utils.t("speedPrintZoneInterval")}
+              </label>
+              <div style="display: flex; align-items: center; gap: 15px;">
+                <input type="range" id="speedPrintZoneSlider" 
+                  min="${CONFIG.SPEED_PRINT_ZONE.MIN_INTERVAL}" 
+                  max="${CONFIG.SPEED_PRINT_ZONE.MAX_INTERVAL}" 
+                  value="${state.speedPrintZoneInterval}" 
+                  style="
+                    flex: 1;
+                    height: 8px;
+                    background: linear-gradient(to right, #ff6b35 0%, #f7931e 100%);
+                    border-radius: 4px;
+                    outline: none;
+                    -webkit-appearance: none;
+                    cursor: pointer;
+                  ">
+                <div id="speedPrintZoneValue" style="
+                  min-width: 80px;
+                  text-align: center;
+                  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+                  padding: 8px 12px;
+                  border-radius: 8px;
+                  color: white;
+                  font-weight: bold;
+                  font-size: 13px;
+                  box-shadow: 0 3px 10px rgba(255, 107, 53, 0.3);
+                  border: 1px solid rgba(255,255,255,0.2);
+                ">${state.speedPrintZoneInterval}</div>
+              </div>
+              <div style="display: flex; justify-content: space-between; color: rgba(255,255,255,0.7); font-size: 11px; margin-top: 8px;">
+                <span><i class="fas fa-slow"></i> ${CONFIG.SPEED_PRINT_ZONE.MIN_INTERVAL}</span>
+                <span><i class="fas fa-fast"></i> ${CONFIG.SPEED_PRINT_ZONE.MAX_INTERVAL}</span>
+              </div>
+              <p style="font-size: 11px; color: rgba(255,255,255,0.6); margin: 12px 0 0 0; text-align: center;">
+                🚀 Print every X pixels initially, then fill gaps to complete the drawing
+              </p>
+            </div>
+          </div>
+        </div>
+
         <!-- Notifications Section -->
         <div style="margin-bottom: 25px;">
           <label style="display: block; margin-bottom: 12px; color: white; font-weight: 500; font-size: 16px; display: flex; align-items: center; gap: 8px;">
@@ -5712,6 +5795,31 @@
             await overlayManager.processImageIntoChunks();
             Utils.showAlert("Overlay updated!", "success");
           }
+        });
+      }
+
+      // Speed Print Zone event listeners
+      const enableSpeedPrintZone = settingsContainer.querySelector("#enableSpeedPrintZone");
+      const speedPrintZoneSlider = settingsContainer.querySelector("#speedPrintZoneSlider");
+      const speedPrintZoneValue = settingsContainer.querySelector("#speedPrintZoneValue");
+      const speedPrintZoneControls = settingsContainer.querySelector("#speedPrintZoneControls");
+
+      if (enableSpeedPrintZone) {
+        enableSpeedPrintZone.addEventListener('change', (e) => {
+          state.speedPrintZoneEnabled = e.target.checked;
+          if (speedPrintZoneControls) {
+            speedPrintZoneControls.style.display = e.target.checked ? '' : 'none';
+          }
+          saveBotSettings();
+        });
+      }
+
+      if (speedPrintZoneSlider && speedPrintZoneValue) {
+        speedPrintZoneSlider.addEventListener('input', (e) => {
+          const interval = parseInt(e.target.value, 10);
+          state.speedPrintZoneInterval = interval;
+          speedPrintZoneValue.textContent = interval;
+          saveBotSettings();
         });
       }
 
@@ -7042,7 +7150,20 @@
       saveBtn.disabled = true
       toggleOverlayBtn.disabled = true;
 
-      updateUI("startPaintingMsg", "success")
+      // Initialize Speed Print Zone if enabled
+      if (state.speedPrintZoneEnabled) {
+        state.speedPrintZonePass = 0;
+        state.speedPrintZoneOffset = 0;
+        state.speedPrintZoneCurrentPassPixels = 0;
+        console.debug(`🚀 Speed Print Zone enabled: ${state.speedPrintZoneInterval} pixel skip interval`);
+        updateUI("speedPrintZoneProgress", "info", {
+          pass: 1,
+          painted: 0,
+          total: state.totalPixels
+        });
+      } else {
+        updateUI("startPaintingMsg", "success");
+      }
 
       try {
         await processImage()
@@ -7132,22 +7253,66 @@
       return true;
     };
 
+    // Speed Print Zone Logic: determine which pixels to paint in current pass
+    const shouldPaintPixelInCurrentPass = (x, y) => {
+      if (!state.speedPrintZoneEnabled) {
+        return true; // Normal mode - paint all pixels
+      }
+
+      // Convert 2D coordinates to linear index for consistent skipping pattern
+      const linearIndex = y * width + x;
+      const interval = state.speedPrintZoneInterval;
+
+      // Calculate which pixels should be painted in current pass
+      const pixelPassNumber = linearIndex % interval;
+      return pixelPassNumber === state.speedPrintZoneOffset;
+    };
+
+    // Count total eligible pixels and pixels already painted for this pass
+    let totalEligibleInPass = 0;
+    let paintedInCurrentPass = 0;
+
+    if (state.speedPrintZoneEnabled) {
+      for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+          if (isEligibleAt(x, y) && shouldPaintPixelInCurrentPass(x, y)) {
+            totalEligibleInPass++;
+          }
+        }
+      }
+      console.debug(`🚀 Speed Print Zone: Pass ${state.speedPrintZonePass + 1}, Offset ${state.speedPrintZoneOffset}, Pixels in this pass: ${totalEligibleInPass}`);
+    }
+
     let startRow = 0;
     let startCol = 0;
     let foundStart = false;
     let seen = 0;
-    const target = Math.max(0, Math.min(state.paintedPixels || 0, width * height));
-    for (let y = 0; y < height && !foundStart; y++) {
-      for (let x = 0; x < width; x++) {
-        if (!isEligibleAt(x, y)) continue;
-        if (seen === target) { startRow = y; startCol = x; foundStart = true; break; }
-        seen++;
+
+    // In speed print zone mode, always start from beginning for each pass
+    // since we're looking for different pixels in each pass
+    const target = state.speedPrintZoneEnabled ? 0 : Math.max(0, Math.min(state.paintedPixels || 0, width * height));
+
+    // In speed print zone mode, we need to adjust the target for resuming
+    if (!state.speedPrintZoneEnabled) {
+      for (let y = 0; y < height && !foundStart; y++) {
+        for (let x = 0; x < width; x++) {
+          if (!isEligibleAt(x, y)) continue;
+          if (seen === target) { startRow = y; startCol = x; foundStart = true; break; }
+          seen++;
+        }
       }
+    } else {
+      // In speed print zone mode, always start from the beginning since we're looking for different pixels
+      startRow = 0;
+      startCol = 0;
+      foundStart = true;
+      console.debug(`🎯 Speed Print Zone: Starting from beginning for pass ${state.speedPrintZonePass + 1}`);
     }
+
     if (!foundStart) { startRow = height; startCol = 0; }
 
     let pixelBatch = null;
-    let skippedPixels = { transparent: 0, white: 0, alreadyPainted: 0 };
+    let skippedPixels = { transparent: 0, white: 0, alreadyPainted: 0, speedPrintZoneSkipped: 0 };
 
     try {
       outerLoop: for (let y = startRow; y < height; y++) {
@@ -7167,7 +7332,6 @@
             break outerLoop
           }
 
-
           const idx = (y * width + x) * 4
           const r = pixels[idx]
           const g = pixels[idx + 1]
@@ -7182,6 +7346,18 @@
               skippedPixels.white++;
             }
             continue;
+          }
+
+          // Speed Print Zone: Skip pixels not in current pass
+          if (state.speedPrintZoneEnabled && !shouldPaintPixelInCurrentPass(x, y)) {
+            skippedPixels.speedPrintZoneSkipped++;
+            continue;
+          }
+
+          // Debug log for Speed Print Zone - when we find a pixel to paint
+          if (state.speedPrintZoneEnabled) {
+            const linearIndex = y * width + x;
+            console.debug(`🎯 Found pixel to paint at (${x},${y}) linear:${linearIndex} pass:${state.speedPrintZonePass + 1} offset:${state.speedPrintZoneOffset}`);
           }
 
           let targetRgb;
@@ -7273,6 +7449,11 @@
             localX: x,
             localY: y,
           });
+
+          // Increment speed print zone current pass counter
+          if (state.speedPrintZoneEnabled) {
+            state.speedPrintZoneCurrentPassPixels++;
+          }
 
           // Calculate batch size based on mode (normal/random)
           const maxBatchSize = calculateBatchSize();
@@ -7383,7 +7564,83 @@
       // Save progress when stopped to preserve painted map
       Utils.saveProgress()
     } else {
-      updateUI("paintingComplete", "success", { count: state.paintedPixels })
+      // Check if we're in Speed Print Zone mode and need to advance to next pass
+      if (state.speedPrintZoneEnabled) {
+        // Simple approach: check if we went through all pixels without finding any to paint
+        // If we processed the entire image and painted less than the expected pixels for this pass,
+        // it means this pass is complete
+
+        // Count total pixels that should be painted in current pass
+        let totalPixelsInCurrentPass = 0;
+        let paintedInThisPassCount = 0;
+
+        const isEligibleAtCheck = (x, y) => {
+          const idx = (y * width + x) * 4;
+          const r = pixels[idx], g = pixels[idx + 1], b = pixels[idx + 2], a = pixels[idx + 3];
+          if (a < tThresh2) return false;
+          if (!state.paintWhitePixels && Utils.isWhitePixel(r, g, b)) return false;
+          return true;
+        };
+
+        const shouldPaintPixelInCurrentPassCheck = (x, y) => {
+          const linearIndex = y * width + x;
+          const interval = state.speedPrintZoneInterval;
+          const pixelPassNumber = linearIndex % interval;
+          return pixelPassNumber === state.speedPrintZoneOffset;
+        };
+
+        for (let y = 0; y < height; y++) {
+          for (let x = 0; x < width; x++) {
+            if (isEligibleAtCheck(x, y) && shouldPaintPixelInCurrentPassCheck(x, y)) {
+              totalPixelsInCurrentPass++;
+            }
+          }
+        }
+
+        // Check if we should continue to next pass
+        // We advance to the next pass when we've completed scanning the entire image
+        // and either painted some pixels or confirmed there are no more pixels for this pass
+
+        {
+          console.debug(`🔍 Speed Print Zone Analysis:`);
+          console.debug(`   Pass ${state.speedPrintZonePass + 1} (offset ${state.speedPrintZoneOffset})`);
+          console.debug(`   Total pixels that should be in this pass: ${totalPixelsInCurrentPass}`);
+          console.debug(`   Pixels painted in this pass: ${state.speedPrintZoneCurrentPassPixels}`);
+        }
+
+        // Advance to next pass since we've completed scanning this pass
+        state.speedPrintZoneOffset++;
+        if (state.speedPrintZoneOffset < state.speedPrintZoneInterval) {
+          // Start next pass
+          state.speedPrintZonePass++;
+          console.debug(`🚀 Speed Print Zone: Advancing to pass ${state.speedPrintZonePass + 1} (offset ${state.speedPrintZoneOffset})`);
+
+          // Reset current pass counter
+          state.speedPrintZoneCurrentPassPixels = 0;
+
+          updateUI("speedPrintZoneProgress", "info", {
+            pass: state.speedPrintZonePass + 1,
+            painted: state.speedPrintZoneCurrentPassPixels,
+            total: totalPixelsInCurrentPass
+          });
+
+          // Continue painting automatically
+          setTimeout(() => {
+            if (!state.stopFlag) {
+              console.log(`🔄 Restarting processImage for next pass...`);
+              processImage();
+            }
+          }, 1000);
+          return;
+        } else {
+          // All passes complete
+          console.debug(`🎉 Speed Print Zone: All ${state.speedPrintZoneInterval} passes completed!`);
+          // Reset for future use
+          state.speedPrintZonePass = 0;
+          state.speedPrintZoneOffset = 0;
+          state.speedPrintZoneCurrentPassPixels = 0;
+        }
+      } updateUI("paintingComplete", "success", { count: state.paintedPixels })
       state.lastPosition = { x: 0, y: 0 }
       // Keep painted map until user starts new project
       // state.paintedMap = null  // Commented out to preserve data
@@ -7402,7 +7659,14 @@
     console.log(`   Skipped - Transparent: ${skippedPixels.transparent}`);
     console.log(`   Skipped - White (disabled): ${skippedPixels.white}`);
     console.log(`   Skipped - Already painted: ${skippedPixels.alreadyPainted}`);
-    console.log(`   Total processed: ${state.paintedPixels + skippedPixels.transparent + skippedPixels.white + skippedPixels.alreadyPainted}`);
+    if (state.speedPrintZoneEnabled) {
+      {
+        console.debug(`   Skipped - Speed Print Zone (other passes): ${skippedPixels.speedPrintZoneSkipped}`);
+        console.debug(`   Speed Print Zone - Pass: ${state.speedPrintZonePass + 1}, Offset: ${state.speedPrintZoneOffset}`);
+        console.debug(`   Speed Print Zone - Pixels painted in current pass: ${state.speedPrintZoneCurrentPassPixels}`);
+      }
+    }
+    console.log(`   Total processed: ${state.paintedPixels + skippedPixels.transparent + skippedPixels.white + skippedPixels.alreadyPainted + (skippedPixels.speedPrintZoneSkipped || 0)}`);
 
     updateStats()
   }
@@ -7584,6 +7848,9 @@
         notifyOnChargesReached: state.notifyOnChargesReached,
         notifyOnlyWhenUnfocused: state.notifyOnlyWhenUnfocused,
         notificationIntervalMinutes: state.notificationIntervalMinutes,
+        // Speed Print Zone settings
+        speedPrintZoneEnabled: state.speedPrintZoneEnabled,
+        speedPrintZoneInterval: state.speedPrintZoneInterval,
       };
       CONFIG.PAINTING_SPEED_ENABLED = settings.paintingSpeedEnabled;
       // AUTO_CAPTCHA_ENABLED is always true - no need to save/load
@@ -7625,6 +7892,9 @@
       state.notifyOnChargesReached = settings.notifyOnChargesReached ?? CONFIG.NOTIFICATIONS.ON_CHARGES_REACHED;
       state.notifyOnlyWhenUnfocused = settings.notifyOnlyWhenUnfocused ?? CONFIG.NOTIFICATIONS.ONLY_WHEN_UNFOCUSED;
       state.notificationIntervalMinutes = settings.notificationIntervalMinutes ?? CONFIG.NOTIFICATIONS.REPEAT_MINUTES;
+      // Speed Print Zone settings
+      state.speedPrintZoneEnabled = settings.speedPrintZoneEnabled ?? CONFIG.SPEED_PRINT_ZONE.ENABLED;
+      state.speedPrintZoneInterval = settings.speedPrintZoneInterval ?? CONFIG.SPEED_PRINT_ZONE.SKIP_INTERVAL;
       // Restore ignore mask if dims match current resizeSettings
       if (settings.resizeIgnoreMask && settings.resizeIgnoreMask.data && state.resizeSettings && settings.resizeIgnoreMask.w === state.resizeSettings.width && settings.resizeIgnoreMask.h === state.resizeSettings.height) {
         try {
@@ -7707,6 +7977,19 @@
       if (notifOnlyUnfocusedToggle) notifOnlyUnfocusedToggle.checked = state.notifyOnlyWhenUnfocused;
       const notifIntervalInput = document.getElementById('notifIntervalInput');
       if (notifIntervalInput) notifIntervalInput.value = state.notificationIntervalMinutes;
+
+      // Speed Print Zone UI
+      const enableSpeedPrintZone = document.getElementById('enableSpeedPrintZone');
+      if (enableSpeedPrintZone) enableSpeedPrintZone.checked = state.speedPrintZoneEnabled;
+      const speedPrintZoneSlider = document.getElementById('speedPrintZoneSlider');
+      if (speedPrintZoneSlider) speedPrintZoneSlider.value = state.speedPrintZoneInterval;
+      const speedPrintZoneValue = document.getElementById('speedPrintZoneValue');
+      if (speedPrintZoneValue) speedPrintZoneValue.textContent = state.speedPrintZoneInterval;
+      const speedPrintZoneControls = document.getElementById('speedPrintZoneControls');
+      if (speedPrintZoneControls) {
+        speedPrintZoneControls.style.display = state.speedPrintZoneEnabled ? '' : 'none';
+      }
+
       NotificationManager.resetEdgeTracking();
 
     } catch (e) {
