@@ -41,16 +41,25 @@ Dit project is een fork van https://github.com/DarkModde/WPlace-AutoBOT
 <br>
 
 ### 🎯┃Auto-Farm
+
 #### AUTOFARM GEBRUIKT LADINGEN OM LEVELS TE KRIJGEN, HET TEKENT GEEN AFBEELDING VOOR JE. GEBRUIK DAARVOOR AUTO-IMAGE
 
 ```js
-javascript:fetch("https://raw.githubusercontent.com/Wplace-AutoBot/WPlace-AutoBOT/refs/heads/main/Auto-Farm.js").then(t=>t.text()).then(eval);
+javascript: fetch(
+  "https://raw.githubusercontent.com/Wplace-AutoBot/WPlace-AutoBOT/refs/heads/main/Auto-Farm.js"
+)
+  .then((t) => t.text())
+  .then(eval);
 ```
 
 ### 🖼️┃Auto-Image
 
 ```js
-javascript:fetch("https://raw.githubusercontent.com/Wplace-AutoBot/WPlace-AutoBOT/refs/heads/main/Auto-Image.js").then(t=>t.text()).then(eval);
+javascript: fetch(
+  "https://raw.githubusercontent.com/Wplace-AutoBot/WPlace-AutoBOT/refs/heads/main/Auto-Image.js"
+)
+  .then((t) => t.text())
+  .then(eval);
 ```
 
 <details>
@@ -82,15 +91,15 @@ javascript:fetch("https://raw.githubusercontent.com/Wplace-AutoBot/WPlace-AutoBO
 
 ### ✨┃Functies
 
-* [x] Farmt automatisch druppels/levels
-* [x] Correcte kleur pixel overslaan
-* [x] Overlay (je hebt Bluemarble niet meer nodig)
-* [x] Schilder over meerdere tegels
-* [x] AutoCaptcha-oplosser met Turnstile Token Generator
-* [x] Geavanceerde kleurverwerking
-* [x] Meertalige ondersteuning
-* [x] Meerdere accounts via opslaan en laden
-* [x] Werkt op mobiel \:P
+- [x] Farmt automatisch druppels/levels
+- [x] Correcte kleur pixel overslaan
+- [x] Overlay (je hebt Bluemarble niet meer nodig)
+- [x] Schilder over meerdere tegels
+- [x] AutoCaptcha-oplosser met Turnstile Token Generator
+- [x] Geavanceerde kleurverwerking
+- [x] Meertalige ondersteuning
+- [x] Meerdere accounts via opslaan en laden
+- [x] Werkt op mobiel \:P
 
 ---
 
@@ -104,19 +113,19 @@ javascript:fetch("https://raw.githubusercontent.com/Wplace-AutoBot/WPlace-AutoBO
 
 ### 📋┃Te doen
 
-* [x] AutoFarm werkend maken
-* [ ] Beide scripts samenvoegen
-* [ ] Multi Account Switcher (momenteel in ontwikkeling)
-* [ ] Multi Account Wachtrijsysteem
-* [x] Overlay-systeem toevoegen
-* [x] Ondersteuning voor kruistegels toevoegen
-* [x] AutoCaptcha-oplosser toevoegen
-* [x] Correcte kleur pixel overslaan toevoegen
-* [ ] CSS scheiden
+- [x] AutoFarm werkend maken
+- [ ] Beide scripts samenvoegen
+- [ ] Multi Account Switcher (momenteel in ontwikkeling)
+- [ ] Multi Account Wachtrijsysteem
+- [x] Overlay-systeem toevoegen
+- [x] Ondersteuning voor kruistegels toevoegen
+- [x] AutoCaptcha-oplosser toevoegen
+- [x] Correcte kleur pixel overslaan toevoegen
+- [ ] CSS scheiden
 
 ---
 
-* Bijdragers: <img src="https://contrib.rocks/image?repo=Wplace-AutoBot/WPlace-AutoBOT" alt="Contributors" />
+- Bijdragers: <img src="https://contrib.rocks/image?repo=Wplace-AutoBot/WPlace-AutoBOT" alt="Contributors" />
 
 <p align="center">
   <a href="#"><img src="https://komarev.com/ghpvc/?username=WPlace-AutoBOT&style=for-the-badge&label=Views:&color=gray"/></a>

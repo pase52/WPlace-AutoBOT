@@ -41,15 +41,25 @@
 <br>
 
 ### 🎯┃Авто-Фарм
+
 #### AUTOFARM ВИКОРИСТОВУЄ ЧАРДЖІ ДЛЯ ОТРИМАННЯ РІВНІВ, ВІН НЕ МАЛЮЄ ЗОБРАЖЕННЯ. ДЛЯ ЦЬОГО ВИКОРИСТОВУЙТЕ AUTO-IMAGE
+
 ```js
-javascript:fetch("https://raw.githubusercontent.com/Wplace-AutoBot/WPlace-AutoBOT/refs/heads/main/Auto-Farm.js").then(t=>t.text()).then(eval);
+javascript: fetch(
+  "https://raw.githubusercontent.com/Wplace-AutoBot/WPlace-AutoBOT/refs/heads/main/Auto-Farm.js"
+)
+  .then((t) => t.text())
+  .then(eval);
 ```
 
 ### 🖼️┃Авто-Зображення
 
 ```js
-javascript:fetch("https://raw.githubusercontent.com/Wplace-AutoBot/WPlace-AutoBOT/refs/heads/main/Auto-Image.js").then(t=>t.text()).then(eval);
+javascript: fetch(
+  "https://raw.githubusercontent.com/Wplace-AutoBot/WPlace-AutoBOT/refs/heads/main/Auto-Image.js"
+)
+  .then((t) => t.text())
+  .then(eval);
 ```
 
 <details>
@@ -69,10 +79,10 @@ javascript:fetch("https://raw.githubusercontent.com/Wplace-AutoBot/WPlace-AutoBO
 
 </details>
 
-
 <br>
 
 > [!IMPORTANT]
+>
 > <p><sub><strong>1.</strong> Жоден скрипт не працюватиме, якщо ви закриєте вкладку браузера. Вкладка WPlace має залишатися відкритою, навіть у фоні.</sub></p>
 > <p><sub><strong>2.</strong> Ніколи не запускайте обидва скрипти на одній сторінці — це може зламати WPlace. Якщо це сталося — просто оновіть сторінку!</sub></p>
 > <p><sub><strong>3.</strong> Якщо скрипт не визначає доступні кольори, натисніть кнопку «Paint», щоб вони з’явилися — лише тоді запускайте Auto-Imager.</sub></p>
@@ -90,7 +100,6 @@ javascript:fetch("https://raw.githubusercontent.com/Wplace-AutoBot/WPlace-AutoBO
 - [x] Підтримка кількох мов
 - [x] Багатоакаунтність через функції збереження та завантаження
 - [x] Працює на мобільних :P
-
 
 ---
 
@@ -118,7 +127,6 @@ javascript:fetch("https://raw.githubusercontent.com/Wplace-AutoBot/WPlace-AutoBO
 
 - Контриб’ютори:  
   <img src="https://contrib.rocks/image?repo=Wplace-AutoBot/WPlace-AutoBOT" alt="Contributors" />
-
 
 <p align="center">
   <a href="#"><img src="https://komarev.com/ghpvc/?username=WPlace-AutoBOT&style=for-the-badge&label=Перегляди:&color=gray"/></a>

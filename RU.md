@@ -41,15 +41,25 @@
 <br>
 
 ### 🎯┃Авто-Фарм
+
 #### АВТОФАРМ ИСПОЛЬЗУЕТ ЗАРЯДЫ ДЛЯ ПОЛУЧЕНИЯ УРОВНЕЙ, А НЕ РИСУЕТ ИЗОБРАЖЕНИЕ ЗА ВАС. ПОЖАЛУЙСТА, ИСПОЛЬЗУЙТЕ ДЛЯ ЭТОГО АВТОМАТИЧЕСКОЕ ИЗОБРАЖЕНИЕ
+
 ```js
-javascript:fetch("https://raw.githubusercontent.com/Wplace-AutoBot/WPlace-AutoBOT/refs/heads/main/Auto-Farm.js").then(t=>t.text()).then(eval);
+javascript: fetch(
+  "https://raw.githubusercontent.com/Wplace-AutoBot/WPlace-AutoBOT/refs/heads/main/Auto-Farm.js"
+)
+  .then((t) => t.text())
+  .then(eval);
 ```
 
 ### 🖼️┃Auto-Image
 
 ```js
-javascript:fetch("https://raw.githubusercontent.com/Wplace-AutoBot/WPlace-AutoBOT/refs/heads/main/Auto-Image.js").then(t=>t.text()).then(eval);
+javascript: fetch(
+  "https://raw.githubusercontent.com/Wplace-AutoBot/WPlace-AutoBOT/refs/heads/main/Auto-Image.js"
+)
+  .then((t) => t.text())
+  .then(eval);
 ```
 
 <details>
@@ -69,10 +79,10 @@ javascript:fetch("https://raw.githubusercontent.com/Wplace-AutoBot/WPlace-AutoBO
 
 </details>
 
-
 <br>
 
 > [!ВАЖНО]
+>
 > <p><sub><strong>1.</strong> Ни один из сценариев не будет работать, если вы закроете вкладку браузера. Вы должны оставить вкладку WPlace открытой, даже если она находится в фоновом режиме.</sub></p>
 > <p><sub><strong>2.</strong> Никогда не запускайте оба скрипта на одной странице — это может привести к ошибке в вашем WPlace. Если это произойдет, просто обновите страницу!</sub></p>
 > <p><sub><strong>3.</strong> Если скрипт не распознает доступные цвета, просто нажмите кнопку "Нарисовать", чтобы отобразить их — только после этого запустите автоматическое создание изображений.</sub></p>
@@ -90,9 +100,7 @@ javascript:fetch("https://raw.githubusercontent.com/Wplace-AutoBot/WPlace-AutoBO
 - [x] Мультиязычность
 - [x] Несколько учетных записей с помощью функции сохранения и загрузки
 
-
 ---
-
 
 ---
 
@@ -119,7 +127,6 @@ javascript:fetch("https://raw.githubusercontent.com/Wplace-AutoBot/WPlace-AutoBO
 
 - Контрибьютуоры:  
   <img src="https://contrib.rocks/image?repo=Wplace-AutoBot/WPlace-AutoBOT" alt="Contributors" />
-
 
 <p align="center">
   <a href="#"><img src="https://komarev.com/ghpvc/?username=WPlace-AutoBOT&style=for-the-badge&label=Views:&color=gray"/></a>
