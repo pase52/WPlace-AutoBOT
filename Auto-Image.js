@@ -20,6 +20,12 @@
     AUTO_CAPTCHA_ENABLED: true, // Turnstile generator enabled by default
     TOKEN_SOURCE: 'generator', // "generator", "manual", or "hybrid" - default to generator
     COOLDOWN_CHARGE_THRESHOLD: 1, // Default wait threshold
+    SPEED_PRINT_ZONE: {
+      ENABLED: false, // Off by default
+      SKIP_INTERVAL: 5, // Print every X pixels initially
+      MIN_INTERVAL: 2, // Minimum skip interval
+      MAX_INTERVAL: 50, // Maximum skip interval
+    },
     // Desktop Notifications (defaults)
     NOTIFICATIONS: {
       ENABLED: false,
@@ -4764,6 +4770,31 @@
         });
       }
 
+      // Speed Print Zone event listeners
+      const enableSpeedPrintZone = settingsContainer.querySelector("#enableSpeedPrintZone");
+      const speedPrintZoneSlider = settingsContainer.querySelector("#speedPrintZoneSlider");
+      const speedPrintZoneValue = settingsContainer.querySelector("#speedPrintZoneValue");
+      const speedPrintZoneControls = settingsContainer.querySelector("#speedPrintZoneControls");
+
+      if (enableSpeedPrintZone) {
+        enableSpeedPrintZone.addEventListener('change', (e) => {
+          state.speedPrintZoneEnabled = e.target.checked;
+          if (speedPrintZoneControls) {
+            speedPrintZoneControls.style.display = e.target.checked ? '' : 'none';
+          }
+          saveBotSettings();
+        });
+      }
+
+      if (speedPrintZoneSlider && speedPrintZoneValue) {
+        speedPrintZoneSlider.addEventListener('input', (e) => {
+          const interval = parseInt(e.target.value, 10);
+          state.speedPrintZoneInterval = interval;
+          speedPrintZoneValue.textContent = interval;
+          saveBotSettings();
+        });
+      }
+
       // (Advanced color listeners moved outside to work with resize dialog)
       // (Advanced color listeners moved outside to work with resize dialog)
       // Notifications listeners
@@ -7672,6 +7703,19 @@
         notifOnlyUnfocusedToggle.checked = state.notifyOnlyWhenUnfocused;
       const notifIntervalInput = document.getElementById('notifIntervalInput');
       if (notifIntervalInput) notifIntervalInput.value = state.notificationIntervalMinutes;
+
+      // Speed Print Zone UI
+      const enableSpeedPrintZone = document.getElementById('enableSpeedPrintZone');
+      if (enableSpeedPrintZone) enableSpeedPrintZone.checked = state.speedPrintZoneEnabled;
+      const speedPrintZoneSlider = document.getElementById('speedPrintZoneSlider');
+      if (speedPrintZoneSlider) speedPrintZoneSlider.value = state.speedPrintZoneInterval;
+      const speedPrintZoneValue = document.getElementById('speedPrintZoneValue');
+      if (speedPrintZoneValue) speedPrintZoneValue.textContent = state.speedPrintZoneInterval;
+      const speedPrintZoneControls = document.getElementById('speedPrintZoneControls');
+      if (speedPrintZoneControls) {
+        speedPrintZoneControls.style.display = state.speedPrintZoneEnabled ? '' : 'none';
+      }
+
       NotificationManager.resetEdgeTracking();
     } catch (e) {
       console.warn('Could not load bot settings:', e);
