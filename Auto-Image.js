@@ -21,10 +21,10 @@
     COOLDOWN_CHARGE_THRESHOLD: 1, // Default wait threshold
     // Desktop Notifications (defaults)
     NOTIFICATIONS: {
-        ENABLED: true,
-        ON_CHARGES_REACHED: true,
-        ONLY_WHEN_UNFOCUSED: true,
-        REPEAT_MINUTES: 5, // repeat reminder while threshold condition holds
+      ENABLED: true,
+      ON_CHARGES_REACHED: true,
+      ONLY_WHEN_UNFOCUSED: true,
+      REPEAT_MINUTES: 5, // repeat reminder while threshold condition holds
     },
     OVERLAY: {
       OPACITY_DEFAULT: 0.6,
@@ -224,7 +224,7 @@
       localStorage.setItem("wplace_language", browserLocale)
     } else if (TEXT[browserLanguage]) {                        // trying to load base language match (e.g. "en" for "en-US" or "en-GB" etc)
       state.language = browserLanguage
-      localStorage.setItem("wplace_language", browserLanguage) 
+      localStorage.setItem("wplace_language", browserLanguage)
     }
   }
 
@@ -1152,28 +1152,28 @@
     initialSetupComplete: false, // Track if initial startup setup is complete (only happens once)
     overlayOpacity: CONFIG.OVERLAY.OPACITY_DEFAULT,
     blueMarbleEnabled: CONFIG.OVERLAY.BLUE_MARBLE_DEFAULT,
-  ditheringEnabled: true,
-  // Advanced color matching settings
-  colorMatchingAlgorithm: 'lab',
-  enableChromaPenalty: true,
-  chromaPenaltyWeight: 0.15,
-  customTransparencyThreshold: CONFIG.TRANSPARENCY_THRESHOLD,
-  customWhiteThreshold: CONFIG.WHITE_THRESHOLD,
-  resizeSettings: null,
-  originalImage: null,
-  resizeIgnoreMask: null,
-  // Notification prefs and runtime bookkeeping
-  notificationsEnabled: CONFIG.NOTIFICATIONS.ENABLED,
-  notifyOnChargesReached: CONFIG.NOTIFICATIONS.ON_CHARGES_REACHED,
-  notifyOnlyWhenUnfocused: CONFIG.NOTIFICATIONS.ONLY_WHEN_UNFOCUSED,
-  notificationIntervalMinutes: CONFIG.NOTIFICATIONS.REPEAT_MINUTES,
-  _lastChargesNotifyAt: 0,
-  _lastChargesBelow: true,
-  // Smart save tracking
-  _lastSavePixelCount: 0,
-  _lastSaveTime: 0,
-  _saveInProgress: false,
-  paintedMap: null,
+    ditheringEnabled: true,
+    // Advanced color matching settings
+    colorMatchingAlgorithm: 'lab',
+    enableChromaPenalty: true,
+    chromaPenaltyWeight: 0.15,
+    customTransparencyThreshold: CONFIG.TRANSPARENCY_THRESHOLD,
+    customWhiteThreshold: CONFIG.WHITE_THRESHOLD,
+    resizeSettings: null,
+    originalImage: null,
+    resizeIgnoreMask: null,
+    // Notification prefs and runtime bookkeeping
+    notificationsEnabled: CONFIG.NOTIFICATIONS.ENABLED,
+    notifyOnChargesReached: CONFIG.NOTIFICATIONS.ON_CHARGES_REACHED,
+    notifyOnlyWhenUnfocused: CONFIG.NOTIFICATIONS.ONLY_WHEN_UNFOCUSED,
+    notificationIntervalMinutes: CONFIG.NOTIFICATIONS.REPEAT_MINUTES,
+    _lastChargesNotifyAt: 0,
+    _lastChargesBelow: true,
+    // Smart save tracking
+    _lastSavePixelCount: 0,
+    _lastSaveTime: 0,
+    _saveInProgress: false,
+    paintedMap: null,
   }
 
   let _updateResizePreview = () => { };
@@ -1206,8 +1206,8 @@
       this.disable();
       this.imageBitmap = null;
       this.chunkedTiles.clear();
-  this.originalTiles.clear();
-  this.originalTilesData.clear();
+      this.originalTiles.clear();
+      this.originalTilesData.clear();
       this.lastProcessedHash = null;
       if (this.processPromise) {
         this.processPromise = null;
@@ -1274,7 +1274,7 @@
     async _doProcessImageIntoChunks() {
       const startTime = performance.now();
       this.chunkedTiles.clear();
-      
+
       const { width: imageWidth, height: imageHeight } = this.imageBitmap;
       const { x: startPixelX, y: startPixelY } = this.startCoords.pixel;
       const { x: startRegionX, y: startRegionY } = this.startCoords.region;
@@ -1303,7 +1303,7 @@
       // Process tiles in batches with yielding
       for (let i = 0; i < tilesToProcess.length; i += batchSize) {
         const batch = tilesToProcess.slice(i, i + batchSize);
-        
+
         await Promise.all(batch.map(async ({ tx, ty }) => {
           const tileKey = `${tx},${ty}`;
           const chunkBitmap = await this._processTile(tx, ty, imageWidth, imageHeight, startPixelX, startPixelY, startRegionX, startRegionY);
@@ -1351,18 +1351,18 @@
       if (state.blueMarbleEnabled) {
         const imageData = chunkCtx.getImageData(dX, dY, sW, sH);
         const data = imageData.data;
-        
+
         // Faster pixel manipulation using typed arrays
         for (let i = 0; i < data.length; i += 4) {
           const pixelIndex = i / 4;
           const pixelY = Math.floor(pixelIndex / sW);
           const pixelX = pixelIndex % sW;
-          
+
           if ((pixelX + pixelY) % 2 === 0 && data[i + 3] > 0) {
             data[i + 3] = 0; // Set alpha to 0
           }
         }
-        
+
         chunkCtx.putImageData(imageData, dX, dY);
       }
 
@@ -1491,7 +1491,7 @@
       const originalBitmap = await createImageBitmap(originalBlob);
       const canvas = new OffscreenCanvas(originalBitmap.width, originalBitmap.height);
       const ctx = canvas.getContext('2d');
-      
+
       // Disable antialiasing for pixel-perfect rendering
       ctx.imageSmoothingEnabled = false;
 
@@ -1504,7 +1504,7 @@
       ctx.drawImage(overlayBitmap, 0, 0);
 
       // Use faster blob conversion with compression settings
-      return await canvas.convertToBlob({ 
+      return await canvas.convertToBlob({
         type: 'image/png',
         quality: 0.95 // Slight compression for faster processing
       });
@@ -1561,7 +1561,7 @@
     }
 
     tokenGenerationInProgress = true;
-    
+
     try {
       console.log("🔄 Token expired or missing, generating new one...");
       const token = await handleCaptchaWithRetry();
@@ -1727,7 +1727,7 @@
         this.turnstileLoaded = true;
         return Promise.resolve();
       }
-      
+
       return new Promise((resolve, reject) => {
         // Avoid adding the script twice
         if (document.querySelector('script[src^="https://challenges.cloudflare.com/turnstile/v0/api.js"]')) {
@@ -1741,7 +1741,7 @@
           };
           return checkReady();
         }
-        
+
         const script = document.createElement('script');
         script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
         script.async = true;
@@ -1766,7 +1766,7 @@
         if (this._turnstileContainer) {
           this._turnstileContainer.remove();
         }
-        
+
         this._turnstileContainer = document.createElement('div');
         this._turnstileContainer.style.cssText = `
           position: fixed !important;
@@ -1870,24 +1870,24 @@
         try {
           // Force cleanup of any existing widget
           if (this._turnstileWidgetId && window.turnstile?.remove) {
-            try { 
-              window.turnstile.remove(this._turnstileWidgetId); 
+            try {
+              window.turnstile.remove(this._turnstileWidgetId);
               console.log('🧹 Cleaned up existing Turnstile widget');
             } catch (e) {
               console.warn('⚠️ Widget cleanup warning:', e.message);
             }
           }
-          
+
           const container = this.ensureTurnstileContainer();
           container.innerHTML = '';
-          
+
           // Verify Turnstile is available
           if (!window.turnstile?.render) {
             console.error('❌ Turnstile not available for rendering');
             resolve(null);
             return;
           }
-          
+
           console.log('🔧 Creating invisible Turnstile widget...');
           const widgetId = window.turnstile.render(container, {
             sitekey,
@@ -1902,10 +1902,10 @@
             'error-callback': () => resolve(null),
             'timeout-callback': () => resolve(null)
           });
-          
+
           this._turnstileWidgetId = widgetId;
           this._lastSitekey = sitekey;
-          
+
           if (!widgetId) {
             return resolve(null);
           }
@@ -1925,31 +1925,31 @@
     async createTurnstileWidgetInteractive(sitekey, action) {
       // Create a visible widget that users can interact with if needed
       console.log('🔄 Creating interactive Turnstile widget (visible)');
-      
+
       return new Promise((resolve) => {
         try {
           // Force cleanup of any existing widget
           if (this._turnstileWidgetId && window.turnstile?.remove) {
-            try { 
-              window.turnstile.remove(this._turnstileWidgetId); 
+            try {
+              window.turnstile.remove(this._turnstileWidgetId);
             } catch (e) {
               console.warn('⚠️ Widget cleanup warning:', e.message);
             }
           }
-          
+
           const overlay = this.ensureTurnstileOverlayContainer();
           overlay.style.display = 'block';
-          
+
           const host = overlay.querySelector('#turnstile-overlay-host');
           host.innerHTML = '';
-          
+
           // Set a timeout for interactive mode
           const timeout = setTimeout(() => {
             console.warn('⏰ Interactive Turnstile widget timeout');
             overlay.style.display = 'none';
             resolve(null);
           }, 60000); // 60 seconds for user interaction
-          
+
           const widgetId = window.turnstile.render(host, {
             sitekey,
             action,
@@ -1959,7 +1959,7 @@
               clearTimeout(timeout);
               overlay.style.display = 'none';
               console.log('✅ Interactive Turnstile completed successfully');
-              
+
               if (typeof token === 'string' && token.length > 20) {
                 resolve(token);
               } else {
@@ -1974,10 +1974,10 @@
               resolve(null);
             },
           });
-          
+
           this._turnstileWidgetId = widgetId;
           this._lastSitekey = sitekey;
-          
+
           if (!widgetId) {
             clearTimeout(timeout);
             overlay.style.display = 'none';
@@ -2006,15 +2006,15 @@
           console.warn('Failed to cleanup Turnstile widget:', e);
         }
       }
-      
+
       if (this._turnstileContainer && document.body.contains(this._turnstileContainer)) {
         this._turnstileContainer.remove();
       }
-      
+
       if (this._turnstileOverlay && document.body.contains(this._turnstileOverlay)) {
         this._turnstileOverlay.remove();
       }
-      
+
       this._turnstileWidgetId = null;
       this._turnstileContainer = null;
       this._turnstileOverlay = null;
@@ -2092,11 +2092,11 @@
           this._cachedSitekey = testSitekey;
           return testSitekey;
         }
-        
+
       } catch (error) {
         console.warn('Error detecting sitekey:', error);
       }
-      
+
       console.log("🔍 Using fallback sitekey:", fallback);
       this._cachedSitekey = fallback;
       return fallback;
@@ -2237,7 +2237,7 @@
       if (!palette || palette.length === 0) {
         palette = Object.values(CONFIG.COLOR_MAP)
           .filter(c => c.rgb)
-            .map(c => [c.rgb.r, c.rgb.g, c.rgb.b]);
+          .map(c => [c.rgb.r, c.rgb.g, c.rgb.b]);
       }
       if (state.colorMatchingAlgorithm === 'legacy') {
         let menorDist = Infinity;
@@ -2431,9 +2431,9 @@
     markPixelPainted: (x, y, regionX = 0, regionY = 0) => {
       const actualX = x + regionX;
       const actualY = y + regionY;
-      
-      if (state.paintedMap && state.paintedMap[actualY] && 
-          actualX >= 0 && actualX < state.paintedMap[actualY].length) {
+
+      if (state.paintedMap && state.paintedMap[actualY] &&
+        actualX >= 0 && actualX < state.paintedMap[actualY].length) {
         state.paintedMap[actualY][actualX] = true;
       }
     },
@@ -2441,9 +2441,9 @@
     isPixelPainted: (x, y, regionX = 0, regionY = 0) => {
       const actualX = x + regionX;
       const actualY = y + regionY;
-      
-      if (state.paintedMap && state.paintedMap[actualY] && 
-          actualX >= 0 && actualX < state.paintedMap[actualY].length) {
+
+      if (state.paintedMap && state.paintedMap[actualY] &&
+        actualX >= 0 && actualX < state.paintedMap[actualY].length) {
         return state.paintedMap[actualY][actualX];
       }
       return false;
@@ -2454,28 +2454,28 @@
       const now = Date.now();
       const pixelsSinceLastSave = state.paintedPixels - state._lastSavePixelCount;
       const timeSinceLastSave = now - state._lastSaveTime;
-      
+
       // Save conditions:
       // 1. Every 25 pixels (reduced from 50 for more frequent saves)
       // 2. At least 30 seconds since last save (prevent spam)
       // 3. Not already saving
-      return !state._saveInProgress && 
-             pixelsSinceLastSave >= 25 && 
-             timeSinceLastSave >= 30000;
+      return !state._saveInProgress &&
+        pixelsSinceLastSave >= 25 &&
+        timeSinceLastSave >= 30000;
     },
 
     performSmartSave: () => {
       if (!Utils.shouldAutoSave()) return false;
-      
+
       state._saveInProgress = true;
       const success = Utils.saveProgress();
-      
+
       if (success) {
         state._lastSavePixelCount = state.paintedPixels;
         state._lastSaveTime = Date.now();
         console.log(`💾 Auto-saved at ${state.paintedPixels} pixels`);
       }
-      
+
       state._saveInProgress = false;
       return success;
     },
@@ -2529,7 +2529,7 @@
     migrateProgressToV2: (saved) => {
       if (!saved) return saved;
       const isV1 = !saved.version || saved.version === '1' || saved.version === '1.0' || saved.version === '1.1';
-      if (!isV1) return saved; 
+      if (!isV1) return saved;
 
       try {
         const migrated = { ...saved };
@@ -2574,7 +2574,7 @@
       }
     },
 
-  saveProgress: () => {
+    saveProgress: () => {
       try {
         // Pack painted map if available
         let paintedMapPacked = null;
@@ -2636,7 +2636,7 @@
           migrated = Utils.migrateProgressToV21(data);
         }
         if (migrated && migrated !== data) {
-          try { localStorage.setItem("wplace-bot-progress", JSON.stringify(migrated)); } catch {}
+          try { localStorage.setItem("wplace-bot-progress", JSON.stringify(migrated)); } catch { }
           data = migrated;
         }
         return data;
@@ -2679,7 +2679,7 @@
             const imageData = new ImageData(state.imageData.pixels, state.imageData.width, state.imageData.height);
             ctx.putImageData(imageData, 0, 0);
             const proc = new ImageProcessor('');
-            proc.img = canvas; 
+            proc.img = canvas;
             proc.canvas = canvas;
             proc.ctx = ctx;
             state.imageData.processor = proc;
@@ -2703,7 +2703,7 @@
       }
     },
 
-  saveProgressToFile: () => {
+    saveProgressToFile: () => {
       try {
         // Pack painted map if available
         let paintedMapPacked = null;
@@ -2751,7 +2751,7 @@
       }
     },
 
-  loadProgressFromFile: async () => {
+    loadProgressFromFile: async () => {
       try {
         const data = await Utils.createFileUploader()
         if (!data || !data.state) {
@@ -2765,7 +2765,7 @@
         } else {
           migrated = Utils.migrateProgressToV21(data) || data;
         }
-    const success = Utils.restoreProgress(migrated)
+        const success = Utils.restoreProgress(migrated)
         return success
       } catch (error) {
         console.error("Error loading from file:", error)
@@ -2933,96 +2933,96 @@
 
   // Desktop Notification Manager
   const NotificationManager = {
-      pollTimer: null,
-      pollIntervalMs: 60_000,
-      icon() {
-          const link = document.querySelector("link[rel~='icon']");
-          return link?.href || (location.origin + "/favicon.ico");
-      },
-      async requestPermission() {
-          if (!("Notification" in window)) {
-              Utils.showAlert("Notifications are not supported in this browser.", "warning");
-              return "denied";
-          }
-          if (Notification.permission === "granted") return "granted";
-          try {
-              const perm = await Notification.requestPermission();
-              return perm;
-          } catch {
-              return Notification.permission;
-          }
-      },
-      canNotify() {
-          return state.notificationsEnabled &&
-              typeof Notification !== "undefined" &&
-              Notification.permission === "granted";
-      },
-      notify(title, body, tag = "wplace-charges", force = false) {
-          if (!this.canNotify()) return false;
-          if (!force && state.notifyOnlyWhenUnfocused && document.hasFocus()) return false;
-          try {
-              new Notification(title, {
-                  body,
-                  tag,
-                  renotify: true,
-                  icon: this.icon(),
-                  badge: this.icon(),
-                  silent: false,
-              });
-              return true;
-          } catch {
-              // Graceful fallback
-              Utils.showAlert(body, "info");
-              return false;
-          }
-      },
-      resetEdgeTracking() {
-          state._lastChargesBelow = state.currentCharges < state.cooldownChargeThreshold;
-          state._lastChargesNotifyAt = 0;
-      },
-      maybeNotifyChargesReached(force = false) {
-          if (!state.notificationsEnabled || !state.notifyOnChargesReached) return;
-          const reached = state.currentCharges >= state.cooldownChargeThreshold;
-          const now = Date.now();
-          const repeatMs = Math.max(1, Number(state.notificationIntervalMinutes || 5)) * 60_000;
-          if (reached) {
-              const shouldEdge = state._lastChargesBelow || force;
-              const shouldRepeat = now - (state._lastChargesNotifyAt || 0) >= repeatMs;
-              if (shouldEdge || shouldRepeat) {
-                  const msg = `Charges ready: ${Math.floor(state.currentCharges)} / ${state.maxCharges}. Threshold: ${state.cooldownChargeThreshold}.`;
-                  this.notify("WPlace — Charges Ready", msg, "wplace-notify-charges");
-                  state._lastChargesNotifyAt = now;
-              }
-              state._lastChargesBelow = false;
-          } else {
-              state._lastChargesBelow = true;
-          }
-      },
-      startPolling() {
-          this.stopPolling();
-          if (!state.notificationsEnabled || !state.notifyOnChargesReached) return;
-          // lightweight background polling
-          this.pollTimer = setInterval(async () => {
-              try {
-                  const { charges, cooldown, max } = await WPlaceService.getCharges();
-                  state.currentCharges = Math.floor(charges);
-                  state.cooldown = cooldown;
-                  state.maxCharges = Math.max(1, Math.floor(max));
-                  this.maybeNotifyChargesReached();
-              } catch { /* ignore */ }
-          }, this.pollIntervalMs);
-      },
-      stopPolling() {
-          if (this.pollTimer) {
-              clearInterval(this.pollTimer);
-              this.pollTimer = null;
-          }
-      },
-      syncFromState() {
-          this.resetEdgeTracking();
-          if (state.notificationsEnabled && state.notifyOnChargesReached) this.startPolling();
-          else this.stopPolling();
-      },
+    pollTimer: null,
+    pollIntervalMs: 60_000,
+    icon() {
+      const link = document.querySelector("link[rel~='icon']");
+      return link?.href || (location.origin + "/favicon.ico");
+    },
+    async requestPermission() {
+      if (!("Notification" in window)) {
+        Utils.showAlert("Notifications are not supported in this browser.", "warning");
+        return "denied";
+      }
+      if (Notification.permission === "granted") return "granted";
+      try {
+        const perm = await Notification.requestPermission();
+        return perm;
+      } catch {
+        return Notification.permission;
+      }
+    },
+    canNotify() {
+      return state.notificationsEnabled &&
+        typeof Notification !== "undefined" &&
+        Notification.permission === "granted";
+    },
+    notify(title, body, tag = "wplace-charges", force = false) {
+      if (!this.canNotify()) return false;
+      if (!force && state.notifyOnlyWhenUnfocused && document.hasFocus()) return false;
+      try {
+        new Notification(title, {
+          body,
+          tag,
+          renotify: true,
+          icon: this.icon(),
+          badge: this.icon(),
+          silent: false,
+        });
+        return true;
+      } catch {
+        // Graceful fallback
+        Utils.showAlert(body, "info");
+        return false;
+      }
+    },
+    resetEdgeTracking() {
+      state._lastChargesBelow = state.currentCharges < state.cooldownChargeThreshold;
+      state._lastChargesNotifyAt = 0;
+    },
+    maybeNotifyChargesReached(force = false) {
+      if (!state.notificationsEnabled || !state.notifyOnChargesReached) return;
+      const reached = state.currentCharges >= state.cooldownChargeThreshold;
+      const now = Date.now();
+      const repeatMs = Math.max(1, Number(state.notificationIntervalMinutes || 5)) * 60_000;
+      if (reached) {
+        const shouldEdge = state._lastChargesBelow || force;
+        const shouldRepeat = now - (state._lastChargesNotifyAt || 0) >= repeatMs;
+        if (shouldEdge || shouldRepeat) {
+          const msg = `Charges ready: ${Math.floor(state.currentCharges)} / ${state.maxCharges}. Threshold: ${state.cooldownChargeThreshold}.`;
+          this.notify("WPlace — Charges Ready", msg, "wplace-notify-charges");
+          state._lastChargesNotifyAt = now;
+        }
+        state._lastChargesBelow = false;
+      } else {
+        state._lastChargesBelow = true;
+      }
+    },
+    startPolling() {
+      this.stopPolling();
+      if (!state.notificationsEnabled || !state.notifyOnChargesReached) return;
+      // lightweight background polling
+      this.pollTimer = setInterval(async () => {
+        try {
+          const { charges, cooldown, max } = await WPlaceService.getCharges();
+          state.currentCharges = Math.floor(charges);
+          state.cooldown = cooldown;
+          state.maxCharges = Math.max(1, Math.floor(max));
+          this.maybeNotifyChargesReached();
+        } catch { /* ignore */ }
+      }, this.pollIntervalMs);
+    },
+    stopPolling() {
+      if (this.pollTimer) {
+        clearInterval(this.pollTimer);
+        this.pollTimer = null;
+      }
+    },
+    syncFromState() {
+      this.resetEdgeTracking();
+      if (state.notificationsEnabled && state.notifyOnChargesReached) this.startPolling();
+      else this.stopPolling();
+    },
   };
 
   // COLOR MATCHING FUNCTION - Optimized with caching
@@ -3030,7 +3030,7 @@
 
   function findClosestColor(targetRgb, availableColors) {
     if (!availableColors || availableColors.length === 0) return 1
-    const cacheKey = `${targetRgb[0]},${targetRgb[1]},${targetRgb[2]}|${state.colorMatchingAlgorithm}|${state.enableChromaPenalty?'c':'nc'}|${state.chromaPenaltyWeight}`
+    const cacheKey = `${targetRgb[0]},${targetRgb[1]},${targetRgb[2]}|${state.colorMatchingAlgorithm}|${state.enableChromaPenalty ? 'c' : 'nc'}|${state.chromaPenaltyWeight}`
     if (colorCache.has(cacheKey)) return colorCache.get(cacheKey)
 
     const whiteThreshold = state.customWhiteThreshold || CONFIG.WHITE_THRESHOLD
@@ -3211,29 +3211,29 @@
   }
   async function handleCaptcha() {
     const startTime = performance.now();
-    
+
     // Check user's token source preference
     if (state.tokenSource === "manual") {
       console.log("🎯 Manual token source selected - using pixel placement automation");
       return await handleCaptchaFallback();
     }
-    
+
     // Generator mode (pure) or Hybrid mode - try generator first
     try {
       // Use optimized token generation with automatic sitekey detection
       const sitekey = Utils.detectSitekey();
       console.log("🔑 Generating Turnstile token for sitekey:", sitekey);
       console.log('🧭 UA:', navigator.userAgent.substring(0, 50) + '...', 'Platform:', navigator.platform);
-      
+
       // Add additional checks before token generation
       if (!window.turnstile) {
         await Utils.loadTurnstile();
       }
-      
+
       const token = await Utils.generatePaintToken(sitekey);
-      
+
       console.log(`🔍 Token received - Type: ${typeof token}, Value: ${token ? (typeof token === 'string' ? (token.length > 50 ? token.substring(0, 50) + '...' : token) : JSON.stringify(token)) : 'null/undefined'}, Length: ${token?.length || 0}`);
-      
+
       if (typeof token === 'string' && token.length > 20) {
         const duration = Math.round(performance.now() - startTime);
         console.log(`✅ Turnstile token generated successfully in ${duration}ms`);
@@ -3244,7 +3244,7 @@
     } catch (error) {
       const duration = Math.round(performance.now() - startTime);
       console.error(`❌ Turnstile token generation failed after ${duration}ms:`, error);
-      
+
       // Fallback to manual pixel placement for hybrid mode
       if (state.tokenSource === "hybrid") {
         console.log("🔄 Hybrid mode: Generator failed, automatically switching to manual pixel placement...");
@@ -4663,12 +4663,12 @@
     // Use the theme variable already declared at the top of createUI function
     const settingsContainer = document.createElement("div")
     settingsContainer.id = "wplace-settings-container"
-    
+
     // Apply theme-based styling
-    const themeBackground = theme.primary ? 
-      `linear-gradient(135deg, ${theme.primary} 0%, ${theme.secondary || theme.primary} 100%)` : 
+    const themeBackground = theme.primary ?
+      `linear-gradient(135deg, ${theme.primary} 0%, ${theme.secondary || theme.primary} 100%)` :
       `linear-gradient(135deg, #667eea 0%, #764ba2 100%)`
-    
+
     settingsContainer.style.cssText = `
       position: fixed;
       top: 50%;
@@ -5277,8 +5277,8 @@
           <label style="display:flex; flex-direction:column; gap:4px; font-size:12px;">
             <span style="font-weight:600;">Algorithm</span>
             <select id="colorAlgorithmSelect" style="padding:6px 8px; border-radius:6px; border:1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color:#fff;">
-              <option value="lab" ${state.colorMatchingAlgorithm==='lab'?'selected':''}>Perceptual (Lab)</option>
-            <option value="legacy" ${state.colorMatchingAlgorithm==='legacy'?'selected':''}>Legacy (RGB)</option>
+              <option value="lab" ${state.colorMatchingAlgorithm === 'lab' ? 'selected' : ''}>Perceptual (Lab)</option>
+            <option value="legacy" ${state.colorMatchingAlgorithm === 'legacy' ? 'selected' : ''}>Legacy (RGB)</option>
             </select>
           </label>
           <label style="display:flex; align-items:center; justify-content:space-between; font-size:12px;">
@@ -5286,7 +5286,7 @@
               <span style="font-weight:600;">Chroma Penalty</span>
               <div style="margin-top:2px; opacity:0.65;">Preserve vivid colors (Lab only)</div>
             </div>
-            <input type="checkbox" id="enableChromaPenaltyToggle" ${state.enableChromaPenalty?'checked':''} style="width:18px; height:18px; cursor:pointer;" />
+            <input type="checkbox" id="enableChromaPenaltyToggle" ${state.enableChromaPenalty ? 'checked' : ''} style="width:18px; height:18px; cursor:pointer;" />
           </label>
           <div>
             <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:4px;">
@@ -5300,7 +5300,7 @@
               <span style="font-weight:600;">Enable Dithering</span>
               <div style="margin-top:2px; opacity:0.65;">Floyd–Steinberg error diffusion in preview and applied output</div>
             </div>
-            <input type="checkbox" id="enableDitheringToggle" ${state.ditheringEnabled?'checked':''} style="width:18px; height:18px; cursor:pointer;" />
+            <input type="checkbox" id="enableDitheringToggle" ${state.ditheringEnabled ? 'checked' : ''} style="width:18px; height:18px; cursor:pointer;" />
           </label>
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
             <label style="display:flex; flex-direction:column; gap:4px; font-size:12px;">
@@ -5350,7 +5350,7 @@
     const loadBtn = container.querySelector("#loadBtn")
     const saveToFileBtn = container.querySelector("#saveToFileBtn")
     const loadFromFileBtn = container.querySelector("#loadFromFileBtn")
-    
+
     // Disable load/upload buttons until initial setup is complete (startup only)
     if (loadBtn) {
       loadBtn.disabled = !state.initialSetupComplete;
@@ -5364,7 +5364,7 @@
       uploadBtn.disabled = !state.initialSetupComplete;
       uploadBtn.title = state.initialSetupComplete ? "" : "🔄 Waiting for initial setup to complete...";
     }
-    
+
     const minimizeBtn = container.querySelector("#minimizeBtn")
     const compactBtn = container.querySelector("#compactBtn")
     const statsBtn = container.querySelector("#statsBtn")
@@ -5556,11 +5556,11 @@
         if (chromaPenaltyWeightSlider) state.chromaPenaltyWeight = parseFloat(chromaPenaltyWeightSlider.value) || 0.15;
         const transparencyThresholdInput = document.getElementById('transparencyThresholdInput');
         if (transparencyThresholdInput) {
-          const v = parseInt(transparencyThresholdInput.value, 10); if (!isNaN(v) && v >=0 && v <=255) state.customTransparencyThreshold = v;
+          const v = parseInt(transparencyThresholdInput.value, 10); if (!isNaN(v) && v >= 0 && v <= 255) state.customTransparencyThreshold = v;
         }
         const whiteThresholdInput = document.getElementById('whiteThresholdInput');
         if (whiteThresholdInput) {
-          const v = parseInt(whiteThresholdInput.value, 10); if (!isNaN(v) && v >=200 && v <=255) state.customWhiteThreshold = v;
+          const v = parseInt(whiteThresholdInput.value, 10); if (!isNaN(v) && v >= 200 && v <= 255) state.customWhiteThreshold = v;
         }
         // Update functional thresholds
         CONFIG.TRANSPARENCY_THRESHOLD = state.customTransparencyThreshold;
@@ -5574,8 +5574,8 @@
         if (notifOnChargesToggle) state.notifyOnChargesReached = !!notifOnChargesToggle.checked;
         if (notifOnlyUnfocusedToggle) state.notifyOnlyWhenUnfocused = !!notifOnlyUnfocusedToggle.checked;
         if (notifIntervalInput) {
-            const v = parseInt(notifIntervalInput.value, 10);
-            if (!isNaN(v) && v >= 1 && v <= 60) state.notificationIntervalMinutes = v;
+          const v = parseInt(notifIntervalInput.value, 10);
+          if (!isNaN(v) && v >= 1 && v <= 60) state.notificationIntervalMinutes = v;
         }
         saveBotSettings();
         Utils.showAlert(Utils.t("settingsSaved"), "success");
@@ -5606,11 +5606,11 @@
       const randomBatchControls = settingsContainer.querySelector("#randomBatchControls")
       const randomBatchMin = settingsContainer.querySelector("#randomBatchMin")
       const randomBatchMax = settingsContainer.querySelector("#randomBatchMax")
-      
+
       if (batchModeSelect) {
         batchModeSelect.addEventListener("change", (e) => {
           state.batchMode = e.target.value
-          
+
           // Switch between normal and random controls
           if (normalBatchControls && randomBatchControls) {
             if (e.target.value === 'random') {
@@ -5621,13 +5621,13 @@
               randomBatchControls.style.display = 'none'
             }
           }
-          
+
           saveBotSettings()
           console.log(`📦 Batch mode changed to: ${state.batchMode}`)
           Utils.showAlert(`Batch mode set to: ${state.batchMode === 'random' ? 'Random Range' : 'Normal Fixed Size'}`, "success")
         })
       }
-      
+
       if (randomBatchMin) {
         randomBatchMin.addEventListener("input", (e) => {
           const min = parseInt(e.target.value)
@@ -5642,7 +5642,7 @@
           }
         })
       }
-      
+
       if (randomBatchMax) {
         randomBatchMax.addEventListener("input", (e) => {
           const max = parseInt(e.target.value)
@@ -5715,7 +5715,7 @@
         });
       }
 
-  // (Advanced color listeners moved outside to work with resize dialog)
+      // (Advanced color listeners moved outside to work with resize dialog)
       // (Advanced color listeners moved outside to work with resize dialog)
       // Notifications listeners
       const notifPermBtn = settingsContainer.querySelector("#notifRequestPermBtn");
@@ -5741,23 +5741,23 @@
     const heightValue = resizeContainer.querySelector("#heightValue")
     const keepAspect = resizeContainer.querySelector("#keepAspect")
     const paintWhiteToggle = resizeContainer.querySelector("#paintWhiteToggle");
-  const zoomSlider = resizeContainer.querySelector("#zoomSlider");
-  const zoomValue = resizeContainer.querySelector('#zoomValue');
-  const zoomInBtn = resizeContainer.querySelector('#zoomInBtn');
-  const zoomOutBtn = resizeContainer.querySelector('#zoomOutBtn');
-  const zoomFitBtn = resizeContainer.querySelector('#zoomFitBtn');
-  const zoomActualBtn = resizeContainer.querySelector('#zoomActualBtn');
-  const panModeBtn = resizeContainer.querySelector('#panModeBtn');
-  const panStage = resizeContainer.querySelector('#resizePanStage');
-  const canvasStack = resizeContainer.querySelector('#resizeCanvasStack');
-  const baseCanvas = resizeContainer.querySelector('#resizeCanvas');
-  const maskCanvas = resizeContainer.querySelector('#maskCanvas');
-  const baseCtx = baseCanvas.getContext('2d');
-  const maskCtx = maskCanvas.getContext('2d');
+    const zoomSlider = resizeContainer.querySelector("#zoomSlider");
+    const zoomValue = resizeContainer.querySelector('#zoomValue');
+    const zoomInBtn = resizeContainer.querySelector('#zoomInBtn');
+    const zoomOutBtn = resizeContainer.querySelector('#zoomOutBtn');
+    const zoomFitBtn = resizeContainer.querySelector('#zoomFitBtn');
+    const zoomActualBtn = resizeContainer.querySelector('#zoomActualBtn');
+    const panModeBtn = resizeContainer.querySelector('#panModeBtn');
+    const panStage = resizeContainer.querySelector('#resizePanStage');
+    const canvasStack = resizeContainer.querySelector('#resizeCanvasStack');
+    const baseCanvas = resizeContainer.querySelector('#resizeCanvas');
+    const maskCanvas = resizeContainer.querySelector('#maskCanvas');
+    const baseCtx = baseCanvas.getContext('2d');
+    const maskCtx = maskCanvas.getContext('2d');
     const confirmResize = resizeContainer.querySelector("#confirmResize")
     const cancelResize = resizeContainer.querySelector("#cancelResize")
-  const downloadPreviewBtn = resizeContainer.querySelector("#downloadPreviewBtn");
-  const clearIgnoredBtn = resizeContainer.querySelector('#clearIgnoredBtn');
+    const downloadPreviewBtn = resizeContainer.querySelector("#downloadPreviewBtn");
+    const clearIgnoredBtn = resizeContainer.querySelector('#clearIgnoredBtn');
 
     if (compactBtn) {
       compactBtn.addEventListener("click", () => {
@@ -5794,9 +5794,9 @@
 
     if (toggleOverlayBtn) {
       toggleOverlayBtn.addEventListener('click', () => {
-  const isEnabled = overlayManager.toggle();
-  toggleOverlayBtn.classList.toggle('active', isEnabled);
-  toggleOverlayBtn.setAttribute('aria-pressed', isEnabled ? 'true' : 'false');
+        const isEnabled = overlayManager.toggle();
+        toggleOverlayBtn.classList.toggle('active', isEnabled);
+        toggleOverlayBtn.setAttribute('aria-pressed', isEnabled ? 'true' : 'false');
         Utils.showAlert(`Overlay ${isEnabled ? 'enabled' : 'disabled'}.`, 'info');
       });
     }
@@ -5841,7 +5841,7 @@
           Utils.showAlert("🔄 Please wait for the initial setup to complete before loading progress.", "warning");
           return;
         }
-        
+
         const savedData = Utils.loadProgress()
         if (!savedData) {
           updateUI("noSavedData", "warning")
@@ -5905,7 +5905,7 @@
           Utils.showAlert("🔄 Please wait for the initial setup to complete before loading from file.", "warning");
           return;
         }
-        
+
         try {
           const success = await Utils.loadProgressFromFile()
           if (success) {
@@ -6033,31 +6033,31 @@
       }
       const aspectRatio = width / height;
 
-  const rs = state.resizeSettings;
-  widthSlider.max = width * 2;
-  heightSlider.max = height * 2;
-  let initialW = width;
-  let initialH = height;
-  if (rs && Number.isFinite(rs.width) && Number.isFinite(rs.height) && rs.width > 0 && rs.height > 0) {
-    initialW = rs.width;
-    initialH = rs.height;
-  }
-  // Clamp to slider ranges
-  initialW = Math.max(parseInt(widthSlider.min, 10) || 10, Math.min(initialW, parseInt(widthSlider.max, 10)));
-  initialH = Math.max(parseInt(heightSlider.min, 10) || 10, Math.min(initialH, parseInt(heightSlider.max, 10)));
-  widthSlider.value = initialW;
-  heightSlider.value = initialH;
-  widthValue.textContent = initialW;
-  heightValue.textContent = initialH;
-  zoomSlider.value = 1;
-  if (zoomValue) zoomValue.textContent = '100%';
+      const rs = state.resizeSettings;
+      widthSlider.max = width * 2;
+      heightSlider.max = height * 2;
+      let initialW = width;
+      let initialH = height;
+      if (rs && Number.isFinite(rs.width) && Number.isFinite(rs.height) && rs.width > 0 && rs.height > 0) {
+        initialW = rs.width;
+        initialH = rs.height;
+      }
+      // Clamp to slider ranges
+      initialW = Math.max(parseInt(widthSlider.min, 10) || 10, Math.min(initialW, parseInt(widthSlider.max, 10)));
+      initialH = Math.max(parseInt(heightSlider.min, 10) || 10, Math.min(initialH, parseInt(heightSlider.max, 10)));
+      widthSlider.value = initialW;
+      heightSlider.value = initialH;
+      widthValue.textContent = initialW;
+      heightValue.textContent = initialH;
+      zoomSlider.value = 1;
+      if (zoomValue) zoomValue.textContent = '100%';
       paintWhiteToggle.checked = state.paintWhitePixels;
 
       let _previewTimer = null;
       let _previewJobId = 0;
       let _isDraggingSize = false;
       let _zoomLevel = 1;
-      let _ditherWorkBuf = null; 
+      let _ditherWorkBuf = null;
       let _ditherEligibleBuf = null;
       const ensureDitherBuffers = (n) => {
         if (!_ditherWorkBuf || _ditherWorkBuf.length !== n * 3) _ditherWorkBuf = new Float32Array(n * 3);
@@ -6120,31 +6120,31 @@
         widthValue.textContent = newWidth;
         heightValue.textContent = newHeight;
 
-  ensureMaskSize(newWidth, newHeight);
-  canvasStack.style.width = newWidth + 'px';
-  canvasStack.style.height = newHeight + 'px';
+        ensureMaskSize(newWidth, newHeight);
+        canvasStack.style.width = newWidth + 'px';
+        canvasStack.style.height = newHeight + 'px';
         baseCtx.imageSmoothingEnabled = false;
         if (!state.availableColors || state.availableColors.length === 0) {
           if (baseProcessor !== processor && (!baseProcessor.img || !baseProcessor.canvas)) {
             await baseProcessor.load();
           }
-          baseCtx.clearRect(0,0,newWidth,newHeight);
+          baseCtx.clearRect(0, 0, newWidth, newHeight);
           baseCtx.drawImage(baseProcessor.img, 0, 0, newWidth, newHeight);
           // Draw existing mask overlay buffer
-          maskCtx.clearRect(0,0,maskCanvas.width,maskCanvas.height);
+          maskCtx.clearRect(0, 0, maskCanvas.width, maskCanvas.height);
           if (_maskImageData) maskCtx.putImageData(_maskImageData, 0, 0);
           updateZoomLayout();
           return;
         }
-  if (baseProcessor !== processor && (!baseProcessor.img || !baseProcessor.canvas)) {
+        if (baseProcessor !== processor && (!baseProcessor.img || !baseProcessor.canvas)) {
           await baseProcessor.load();
         }
-        baseCtx.clearRect(0,0,newWidth,newHeight);
+        baseCtx.clearRect(0, 0, newWidth, newHeight);
         baseCtx.drawImage(baseProcessor.img, 0, 0, newWidth, newHeight);
         const imgData = baseCtx.getImageData(0, 0, newWidth, newHeight);
         const data = imgData.data;
 
-  const tThresh = state.customTransparencyThreshold || CONFIG.TRANSPARENCY_THRESHOLD;
+        const tThresh = state.customTransparencyThreshold || CONFIG.TRANSPARENCY_THRESHOLD;
 
         const applyFSDither = () => {
           const w = newWidth, h = newHeight;
@@ -6221,9 +6221,9 @@
 
         if (jobId !== _previewJobId) return;
         baseCtx.putImageData(imgData, 0, 0);
-  maskCtx.clearRect(0,0,maskCanvas.width,maskCanvas.height);
-  if (_maskImageData) maskCtx.putImageData(_maskImageData, 0, 0);
-  updateZoomLayout();
+        maskCtx.clearRect(0, 0, maskCanvas.width, maskCanvas.height);
+        if (_maskImageData) maskCtx.putImageData(_maskImageData, 0, 0);
+        updateZoomLayout();
       };
 
       const onWidthInput = () => {
@@ -6231,13 +6231,13 @@
           heightSlider.value = Math.round(parseInt(widthSlider.value, 10) / aspectRatio);
         }
         _updateResizePreview();
-  const curW = parseInt(widthSlider.value, 10);
-  const curH = parseInt(heightSlider.value, 10);
-  state.resizeSettings = { baseWidth: width, baseHeight: height, width: curW, height: curH };
-  saveBotSettings();
+        const curW = parseInt(widthSlider.value, 10);
+        const curH = parseInt(heightSlider.value, 10);
+        state.resizeSettings = { baseWidth: width, baseHeight: height, width: curW, height: curH };
+        saveBotSettings();
         // Auto-fit after size changes
         const fit = (typeof computeFitZoom === 'function') ? computeFitZoom() : 1;
-  if (!isNaN(fit) && isFinite(fit)) applyZoom(fit);
+        if (!isNaN(fit) && isFinite(fit)) applyZoom(fit);
       };
 
       const onHeightInput = () => {
@@ -6245,13 +6245,13 @@
           widthSlider.value = Math.round(parseInt(heightSlider.value, 10) * aspectRatio);
         }
         _updateResizePreview();
-  const curW = parseInt(widthSlider.value, 10);
-  const curH = parseInt(heightSlider.value, 10);
-  state.resizeSettings = { baseWidth: width, baseHeight: height, width: curW, height: curH };
-  saveBotSettings();
+        const curW = parseInt(widthSlider.value, 10);
+        const curH = parseInt(heightSlider.value, 10);
+        state.resizeSettings = { baseWidth: width, baseHeight: height, width: curW, height: curH };
+        saveBotSettings();
         // Auto-fit after size changes
         const fit = (typeof computeFitZoom === 'function') ? computeFitZoom() : 1;
-  if (!isNaN(fit) && isFinite(fit)) applyZoom(fit);
+        if (!isNaN(fit) && isFinite(fit)) applyZoom(fit);
       };
 
       paintWhiteToggle.onchange = (e) => {
@@ -6306,8 +6306,8 @@
       zoomSlider.addEventListener('input', () => {
         applyZoom(parseFloat(zoomSlider.value));
       });
-  if (zoomInBtn) zoomInBtn.addEventListener('click', () => applyZoom(parseFloat(zoomSlider.value) + 0.1));
-  if (zoomOutBtn) zoomOutBtn.addEventListener('click', () => applyZoom(parseFloat(zoomSlider.value) - 0.1));
+      if (zoomInBtn) zoomInBtn.addEventListener('click', () => applyZoom(parseFloat(zoomSlider.value) + 0.1));
+      if (zoomOutBtn) zoomOutBtn.addEventListener('click', () => applyZoom(parseFloat(zoomSlider.value) - 0.1));
       const computeFitZoom = () => {
         const wrapRect = panStage?.getBoundingClientRect();
         if (!wrapRect) return 1;
@@ -6318,8 +6318,8 @@
         const scaleY = (wrapRect.height - margin) / h;
         return Math.max(0.05, Math.min(20, Math.min(scaleX, scaleY)));
       };
-  if (zoomFitBtn) zoomFitBtn.addEventListener('click', () => { applyZoom(computeFitZoom()); centerInView(); });
-  if (zoomActualBtn) zoomActualBtn.addEventListener('click', () => { applyZoom(1); centerInView(); });
+      if (zoomFitBtn) zoomFitBtn.addEventListener('click', () => { applyZoom(computeFitZoom()); centerInView(); });
+      if (zoomActualBtn) zoomActualBtn.addEventListener('click', () => { applyZoom(1); centerInView(); });
 
       const centerInView = () => {
         if (!panStage) return;
@@ -6331,12 +6331,12 @@
         applyPan();
       };
 
-  let isPanning = false; let startX = 0, startY = 0, startPanX = 0, startPanY = 0;
-  let allowPan = false; // Space key
-  let panMode = false;  // Explicit pan mode toggle for touch/one-button mice
+      let isPanning = false; let startX = 0, startY = 0, startPanX = 0, startPanY = 0;
+      let allowPan = false; // Space key
+      let panMode = false;  // Explicit pan mode toggle for touch/one-button mice
       const isPanMouseButton = (e) => e.button === 1 || e.button === 2;
-  const setCursor = (val) => { if (panStage) panStage.style.cursor = val; };
-  const isPanActive = (e) => panMode || allowPan || isPanMouseButton(e);
+      const setCursor = (val) => { if (panStage) panStage.style.cursor = val; };
+      const isPanActive = (e) => panMode || allowPan || isPanMouseButton(e);
       const updatePanModeBtn = () => {
         if (!panModeBtn) return;
         panModeBtn.classList.toggle('active', panMode);
@@ -6348,8 +6348,8 @@
       }
       if (panStage) {
         panStage.addEventListener('contextmenu', (e) => { if (allowPan) e.preventDefault(); });
-        window.addEventListener('keydown', (e) => { if (e.code === 'Space') { allowPan = true; setCursor('grab'); }});
-        window.addEventListener('keyup', (e) => { if (e.code === 'Space') { allowPan = false; if (!isPanning) setCursor(''); }});
+        window.addEventListener('keydown', (e) => { if (e.code === 'Space') { allowPan = true; setCursor('grab'); } });
+        window.addEventListener('keyup', (e) => { if (e.code === 'Space') { allowPan = false; if (!isPanning) setCursor(''); } });
         panStage.addEventListener('mousedown', (e) => {
           if (!isPanActive(e)) return;
           e.preventDefault();
@@ -6361,8 +6361,8 @@
           const dx = e.clientX - startX; const dy = e.clientY - startY;
           panX = startPanX + dx; panY = startPanY + dy; applyPan();
         });
-        window.addEventListener('mouseup', () => { if (isPanning) { isPanning = false; setCursor(allowPan ? 'grab' : ''); }});
-  panStage.addEventListener('wheel', (e) => {
+        window.addEventListener('mouseup', () => { if (isPanning) { isPanning = false; setCursor(allowPan ? 'grab' : ''); } });
+        panStage.addEventListener('wheel', (e) => {
           if (!e.ctrlKey && !e.metaKey) return;
           e.preventDefault();
           const rect = panStage.getBoundingClientRect();
@@ -6448,8 +6448,8 @@
       heightSlider.addEventListener('pointerdown', markDragStart);
       widthSlider.addEventListener('pointerup', markDragEnd);
       heightSlider.addEventListener('pointerup', markDragEnd);
-  widthSlider.addEventListener("input", () => { onWidthInput(); schedulePreview(); });
-  heightSlider.addEventListener("input", () => { onHeightInput(); schedulePreview(); });
+      widthSlider.addEventListener("input", () => { onWidthInput(); schedulePreview(); });
+      heightSlider.addEventListener("input", () => { onHeightInput(); schedulePreview(); });
 
       // Mask painting UX: brush size, modes, row/column fills, and precise coords
       let draggingMask = false;
@@ -6491,11 +6491,11 @@
         rowColSizeValEl.textContent = rowColSizeEl.value;
         rowColSize = parseInt(rowColSizeEl.value, 10) || 1;
       }
-  if (btnIgnore) btnIgnore.addEventListener('click', () => setMode('ignore'));
-  if (btnUnignore) btnUnignore.addEventListener('click', () => setMode('unignore'));
-  if (btnToggle) btnToggle.addEventListener('click', () => setMode('toggle'));
-  // Initialize button state (default to toggle mode)
-  updateModeButtons();
+      if (btnIgnore) btnIgnore.addEventListener('click', () => setMode('ignore'));
+      if (btnUnignore) btnUnignore.addEventListener('click', () => setMode('unignore'));
+      if (btnToggle) btnToggle.addEventListener('click', () => setMode('toggle'));
+      // Initialize button state (default to toggle mode)
+      updateModeButtons();
 
       const mapClientToPixel = (clientX, clientY) => {
         // Compute without rounding until final step to avoid drift at higher zoom
@@ -6550,12 +6550,12 @@
         const w = baseCanvas.width, h = baseCanvas.height;
         ensureMask(w, h);
         if (y < 0 || y >= h) return;
-        
+
         // Paint multiple rows based on rowColSize
         const halfSize = Math.floor(rowColSize / 2);
         const startY = Math.max(0, y - halfSize);
         const endY = Math.min(h - 1, y + halfSize);
-        
+
         for (let rowY = startY; rowY <= endY; rowY++) {
           for (let x = 0; x < w; x++) {
             const idx = rowY * w + x;
@@ -6582,12 +6582,12 @@
         const w = baseCanvas.width, h = baseCanvas.height;
         ensureMask(w, h);
         if (x < 0 || x >= w) return;
-        
+
         // Paint multiple columns based on rowColSize
         const halfSize = Math.floor(rowColSize / 2);
         const startX = Math.max(0, x - halfSize);
         const endX = Math.min(w - 1, x + halfSize);
-        
+
         for (let colX = startX; colX <= endX; colX++) {
           for (let y = 0; y < h; y++) {
             const idx = y * w + colX;
@@ -6633,16 +6633,16 @@
         redrawMaskOverlay();
       };
 
-  maskCanvas.addEventListener('mousedown', (e) => {
+      maskCanvas.addEventListener('mousedown', (e) => {
         if (e.button === 1 || e.button === 2 || allowPan) return; // let pan handler manage
         draggingMask = true; handlePaint(e);
       });
-  // Avoid hijacking touch gestures for panning/zooming
-  maskCanvas.addEventListener('touchstart', (e) => { /* let panStage handle */ }, { passive: true });
-  maskCanvas.addEventListener('touchmove', (e) => { /* let panStage handle */ }, { passive: true });
-  maskCanvas.addEventListener('touchend', (e) => { /* let panStage handle */ }, { passive: true });
+      // Avoid hijacking touch gestures for panning/zooming
+      maskCanvas.addEventListener('touchstart', (e) => { /* let panStage handle */ }, { passive: true });
+      maskCanvas.addEventListener('touchmove', (e) => { /* let panStage handle */ }, { passive: true });
+      maskCanvas.addEventListener('touchend', (e) => { /* let panStage handle */ }, { passive: true });
       window.addEventListener('mousemove', (e) => { if (draggingMask) handlePaint(e); });
-      window.addEventListener('mouseup', () => { if (draggingMask) { draggingMask = false; saveBotSettings(); }});
+      window.addEventListener('mouseup', () => { if (draggingMask) { draggingMask = false; saveBotSettings(); } });
 
       if (clearIgnoredBtnEl) clearIgnoredBtnEl.addEventListener('click', () => {
         const w = baseCanvas.width, h = baseCanvas.height;
@@ -6671,15 +6671,15 @@
         tempCanvas.width = newWidth;
         tempCanvas.height = newHeight;
         tempCtx.imageSmoothingEnabled = false;
-  if (baseProcessor !== processor && (!baseProcessor.img || !baseProcessor.canvas)) {
+        if (baseProcessor !== processor && (!baseProcessor.img || !baseProcessor.canvas)) {
           await baseProcessor.load();
         }
         tempCtx.drawImage(baseProcessor.img, 0, 0, newWidth, newHeight);
-  const imgData = tempCtx.getImageData(0, 0, newWidth, newHeight);
+        const imgData = tempCtx.getImageData(0, 0, newWidth, newHeight);
         const data = imgData.data;
         const tThresh2 = state.customTransparencyThreshold || CONFIG.TRANSPARENCY_THRESHOLD;
         let totalValidPixels = 0;
-  const mask = (state.resizeIgnoreMask && state.resizeIgnoreMask.length === newWidth * newHeight) ? state.resizeIgnoreMask : null;
+        const mask = (state.resizeIgnoreMask && state.resizeIgnoreMask.length === newWidth * newHeight) ? state.resizeIgnoreMask : null;
 
         const applyFSDitherFinal = async () => {
           const w = newWidth, h = newHeight;
@@ -6747,7 +6747,7 @@
         } else {
           for (let i = 0; i < data.length; i += 4) {
             const r = data[i], g = data[i + 1], b = data[i + 2], a = data[i + 3];
-            const masked = mask && mask[(i>>2)];
+            const masked = mask && mask[(i >> 2)];
             const isTransparent = a < tThresh2 || masked;
             const isWhiteAndSkipped = !state.paintWhitePixels && Utils.isWhitePixel(r, g, b);
             if (isTransparent || isWhiteAndSkipped) {
@@ -6774,16 +6774,16 @@
         state.totalPixels = totalValidPixels;
         state.paintedPixels = 0;
 
-  state.resizeSettings = { baseWidth: width, baseHeight: height, width: newWidth, height: newHeight };
+        state.resizeSettings = { baseWidth: width, baseHeight: height, width: newWidth, height: newHeight };
         saveBotSettings();
 
         const finalImageBitmap = await createImageBitmap(tempCanvas);
         await overlayManager.setImage(finalImageBitmap);
-  overlayManager.enable();
-  toggleOverlayBtn.classList.add('active');
-  toggleOverlayBtn.setAttribute('aria-pressed', 'true');
+        overlayManager.enable();
+        toggleOverlayBtn.classList.add('active');
+        toggleOverlayBtn.setAttribute('aria-pressed', 'true');
 
-  // Keep state.imageData.processor as the original-based source; painting uses paletted pixels already stored
+        // Keep state.imageData.processor as the original-based source; painting uses paletted pixels already stored
 
         updateStats();
         updateUI("resizeSuccess", "success", { width: newWidth, height: newHeight });
@@ -6816,9 +6816,9 @@
 
       _updateResizePreview();
       _resizeDialogCleanup = () => {
-        try { zoomSlider.replaceWith(zoomSlider.cloneNode(true)); } catch {}
-        try { if (zoomInBtn) zoomInBtn.replaceWith(zoomInBtn.cloneNode(true)); } catch {}
-        try { if (zoomOutBtn) zoomOutBtn.replaceWith(zoomOutBtn.cloneNode(true)); } catch {}
+        try { zoomSlider.replaceWith(zoomSlider.cloneNode(true)); } catch { }
+        try { if (zoomInBtn) zoomInBtn.replaceWith(zoomInBtn.cloneNode(true)); } catch { }
+        try { if (zoomOutBtn) zoomOutBtn.replaceWith(zoomOutBtn.cloneNode(true)); } catch { }
       };
       setTimeout(() => {
         if (typeof computeFitZoom === 'function') {
@@ -6834,15 +6834,15 @@
     }
 
     function closeResizeDialog() {
-  try { if (typeof _resizeDialogCleanup === 'function') { _resizeDialogCleanup(); } } catch {}
+      try { if (typeof _resizeDialogCleanup === 'function') { _resizeDialogCleanup(); } } catch { }
       resizeOverlay.style.display = "none";
       resizeContainer.style.display = "none";
       _updateResizePreview = () => { };
-      try { if (typeof cancelAnimationFrame === 'function' && _panRaf) { cancelAnimationFrame(_panRaf); } } catch {}
-      try { if (_previewTimer) { clearTimeout(_previewTimer); _previewTimer = null; } } catch {}
+      try { if (typeof cancelAnimationFrame === 'function' && _panRaf) { cancelAnimationFrame(_panRaf); } } catch { }
+      try { if (_previewTimer) { clearTimeout(_previewTimer); _previewTimer = null; } } catch { }
       _maskImageData = null; _maskData = null; _dirty = null;
       _ditherWorkBuf = null; _ditherEligibleBuf = null;
-  _resizeDialogCleanup = null;
+      _resizeDialogCleanup = null;
     }
 
     if (uploadBtn) {
@@ -6901,10 +6901,10 @@
           state.paintedPixels = 0
           state.imageLoaded = true
           state.lastPosition = { x: 0, y: 0 }
-          
+
           // Initialize painted map for tracking
           Utils.initializePaintedMap(width, height);
-          
+
           // New image: clear previous resize settings
           state.resizeSettings = null;
           // Also clear any previous ignore mask
@@ -7167,7 +7167,7 @@
             break outerLoop
           }
 
-          
+
           const idx = (y * width + x) * 4
           const r = pixels[idx]
           const g = pixels[idx + 1]
@@ -7208,9 +7208,9 @@
             if (pixelBatch && pixelBatch.pixels.length > 0) {
               console.log(`🌍 Sending region-change batch with ${pixelBatch.pixels.length} pixels (switching to region ${regionX + adderX},${regionY + adderY})`);
               const success = await sendBatchWithRetry(pixelBatch.pixels, pixelBatch.regionX, pixelBatch.regionY);
-              
+
               if (success) {
-                pixelBatch.pixels.forEach((p) => { 
+                pixelBatch.pixels.forEach((p) => {
                   state.paintedPixels++;
                   // Mark pixel as painted in map
                   Utils.markPixelPainted(p.x, p.y, pixelBatch.regionX, pixelBatch.regionY);
@@ -7246,7 +7246,7 @@
             };
           }
 
-          
+
           try {
             const tileRegionX = pixelBatch ? (pixelBatch.regionX) : (regionX + adderX);
             const tileRegionY = pixelBatch ? (pixelBatch.regionY) : (regionY + adderY);
@@ -7334,13 +7334,13 @@
               current: state.currentCharges
             });
             await updateStats();
-            
+
             // Allow auto save during cooldown
             Utils.performSmartSave();
-            
+
             await Utils.sleep(state.cooldown);
           }
-          
+
           // Disable save button again after exiting wait loop (back to normal painting)
           if (!state.stopFlag) {
             saveBtn.disabled = true;
@@ -7362,7 +7362,7 @@
           state.currentCharges -= pixelBatch.pixels.length;
           // Final save with painted map
           Utils.saveProgress();
-          
+
           if (CONFIG.PAINTING_SPEED_ENABLED && state.paintingSpeed > 0 && pixelBatch.pixels.length > 0) {
             const delayPerPixel = 1000 / state.paintingSpeed // ms per pixel
             const totalDelay = Math.max(100, delayPerPixel * pixelBatch.pixels.length) // minimum 100ms
@@ -7410,7 +7410,7 @@
   // Helper function to calculate batch size based on mode
   function calculateBatchSize() {
     let targetBatchSize;
-    
+
     if (state.batchMode === 'random') {
       // Generate random batch size within the specified range
       const min = Math.max(1, state.randomBatchMin);
@@ -7421,11 +7421,11 @@
       // Normal mode - use the fixed paintingSpeed value
       targetBatchSize = state.paintingSpeed;
     }
-    
+
     // Always limit by available charges
     const maxAllowed = Math.floor(state.currentCharges);
     const finalBatchSize = Math.min(targetBatchSize, maxAllowed);
-    
+
     return finalBatchSize;
   }
 
@@ -7435,9 +7435,9 @@
     while (attempt < maxRetries && !state.stopFlag) {
       attempt++;
       console.log(`🔄 Attempting to send batch (attempt ${attempt}/${maxRetries}) for region ${regionX},${regionY} with ${pixels.length} pixels`);
-      
+
       const result = await sendPixelBatch(pixels, regionX, regionY);
-      
+
       if (result === true) {
         console.log(`✅ Batch succeeded on attempt ${attempt}`);
         return true;
@@ -7463,19 +7463,19 @@
         await Utils.sleep(baseDelay + jitter);
       }
     }
-    
+
     if (attempt >= maxRetries) {
       console.error(`❌ Batch failed after ${maxRetries} attempts (MAX_BATCH_RETRIES=${MAX_BATCH_RETRIES}). This will stop painting to prevent infinite loops.`);
       updateUI("paintingError", "error");
       return false;
     }
-    
+
     return false;
   }
 
   async function sendPixelBatch(pixelBatch, regionX, regionY) {
     let token = turnstileToken;
-    
+
     // Generate new token if we don't have one
     if (!token) {
       try {
@@ -7512,13 +7512,13 @@
         let data = null
         try { data = await res.json() } catch (_) { }
         console.error("❌ 403 Forbidden. Turnstile token might be invalid or expired.")
-        
+
         // Try to generate a new token and retry once
         try {
           console.log("🔄 Regenerating Turnstile token after 403...");
           token = await handleCaptcha();
           turnstileToken = token;
-          
+
           // Retry the request with new token
           const retryPayload = { coords, colors, t: token };
           const retryRes = await fetch(`https://backend.wplace.live/s0/pixel/${regionX}/${regionY}`, {
@@ -7527,16 +7527,16 @@
             credentials: "include",
             body: JSON.stringify(retryPayload),
           });
-          
+
           if (retryRes.status === 403) {
             turnstileToken = null;
             tokenPromise = new Promise((resolve) => { _resolveToken = resolve });
             return "token_error";
           }
-          
+
           const retryData = await retryRes.json();
           return retryData?.painted === pixelBatch.length;
-          
+
         } catch (retryError) {
           console.error("❌ Token regeneration failed:", retryError);
           turnstileToken = null;
@@ -7544,7 +7544,7 @@
           return "token_error";
         }
       }
-      
+
       const data = await res.json()
       return data?.painted === pixelBatch.length
     } catch (e) {
@@ -7566,19 +7566,19 @@
         minimized: state.minimized,
         overlayOpacity: state.overlayOpacity,
         blueMarbleEnabled: document.getElementById('enableBlueMarbleToggle')?.checked,
-  ditheringEnabled: state.ditheringEnabled,
-  colorMatchingAlgorithm: state.colorMatchingAlgorithm,
-  enableChromaPenalty: state.enableChromaPenalty,
-  chromaPenaltyWeight: state.chromaPenaltyWeight,
-  customTransparencyThreshold: state.customTransparencyThreshold,
-  customWhiteThreshold: state.customWhiteThreshold,
-  paintWhitePixels: state.paintWhitePixels,
-  resizeSettings: state.resizeSettings,
-  originalImage: state.originalImage,
-  // Save ignore mask (as base64) with its dimensions
-  resizeIgnoreMask: (state.resizeIgnoreMask && state.resizeSettings && state.resizeSettings.width * state.resizeSettings.height === state.resizeIgnoreMask.length)
-    ? { w: state.resizeSettings.width, h: state.resizeSettings.height, data: btoa(String.fromCharCode(...state.resizeIgnoreMask)) }
-    : null,
+        ditheringEnabled: state.ditheringEnabled,
+        colorMatchingAlgorithm: state.colorMatchingAlgorithm,
+        enableChromaPenalty: state.enableChromaPenalty,
+        chromaPenaltyWeight: state.chromaPenaltyWeight,
+        customTransparencyThreshold: state.customTransparencyThreshold,
+        customWhiteThreshold: state.customWhiteThreshold,
+        paintWhitePixels: state.paintWhitePixels,
+        resizeSettings: state.resizeSettings,
+        originalImage: state.originalImage,
+        // Save ignore mask (as base64) with its dimensions
+        resizeIgnoreMask: (state.resizeIgnoreMask && state.resizeSettings && state.resizeSettings.width * state.resizeSettings.height === state.resizeIgnoreMask.length)
+          ? { w: state.resizeSettings.width, h: state.resizeSettings.height, data: btoa(String.fromCharCode(...state.resizeIgnoreMask)) }
+          : null,
         // Notifications
         notificationsEnabled: state.notificationsEnabled,
         notifyOnChargesReached: state.notifyOnChargesReached,
@@ -7611,31 +7611,31 @@
       CONFIG.AUTO_CAPTCHA_ENABLED = settings.autoCaptchaEnabled ?? false;
       state.overlayOpacity = settings.overlayOpacity ?? CONFIG.OVERLAY.OPACITY_DEFAULT;
       state.blueMarbleEnabled = settings.blueMarbleEnabled ?? CONFIG.OVERLAY.BLUE_MARBLE_DEFAULT;
-  state.ditheringEnabled = settings.ditheringEnabled ?? false;
-  state.colorMatchingAlgorithm = settings.colorMatchingAlgorithm || 'lab';
-  state.enableChromaPenalty = settings.enableChromaPenalty ?? true;
-  state.chromaPenaltyWeight = settings.chromaPenaltyWeight ?? 0.15;
-  state.customTransparencyThreshold = settings.customTransparencyThreshold ?? CONFIG.TRANSPARENCY_THRESHOLD;
-  state.customWhiteThreshold = settings.customWhiteThreshold ?? CONFIG.WHITE_THRESHOLD;
-  state.paintWhitePixels = settings.paintWhitePixels ?? true;
-  state.resizeSettings = settings.resizeSettings ?? null;
-  state.originalImage = settings.originalImage ?? null;
+      state.ditheringEnabled = settings.ditheringEnabled ?? false;
+      state.colorMatchingAlgorithm = settings.colorMatchingAlgorithm || 'lab';
+      state.enableChromaPenalty = settings.enableChromaPenalty ?? true;
+      state.chromaPenaltyWeight = settings.chromaPenaltyWeight ?? 0.15;
+      state.customTransparencyThreshold = settings.customTransparencyThreshold ?? CONFIG.TRANSPARENCY_THRESHOLD;
+      state.customWhiteThreshold = settings.customWhiteThreshold ?? CONFIG.WHITE_THRESHOLD;
+      state.paintWhitePixels = settings.paintWhitePixels ?? true;
+      state.resizeSettings = settings.resizeSettings ?? null;
+      state.originalImage = settings.originalImage ?? null;
       // Notifications
       state.notificationsEnabled = settings.notificationsEnabled ?? CONFIG.NOTIFICATIONS.ENABLED;
       state.notifyOnChargesReached = settings.notifyOnChargesReached ?? CONFIG.NOTIFICATIONS.ON_CHARGES_REACHED;
       state.notifyOnlyWhenUnfocused = settings.notifyOnlyWhenUnfocused ?? CONFIG.NOTIFICATIONS.ONLY_WHEN_UNFOCUSED;
       state.notificationIntervalMinutes = settings.notificationIntervalMinutes ?? CONFIG.NOTIFICATIONS.REPEAT_MINUTES;
-  // Restore ignore mask if dims match current resizeSettings
-  if (settings.resizeIgnoreMask && settings.resizeIgnoreMask.data && state.resizeSettings && settings.resizeIgnoreMask.w === state.resizeSettings.width && settings.resizeIgnoreMask.h === state.resizeSettings.height) {
-    try {
-      const bin = atob(settings.resizeIgnoreMask.data);
-      const arr = new Uint8Array(bin.length);
-      for (let i=0;i<bin.length;i++) arr[i] = bin.charCodeAt(i);
-      state.resizeIgnoreMask = arr;
-    } catch { state.resizeIgnoreMask = null; }
-  } else {
-    state.resizeIgnoreMask = null;
-  }
+      // Restore ignore mask if dims match current resizeSettings
+      if (settings.resizeIgnoreMask && settings.resizeIgnoreMask.data && state.resizeSettings && settings.resizeIgnoreMask.w === state.resizeSettings.width && settings.resizeIgnoreMask.h === state.resizeSettings.height) {
+        try {
+          const bin = atob(settings.resizeIgnoreMask.data);
+          const arr = new Uint8Array(bin.length);
+          for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+          state.resizeIgnoreMask = arr;
+        } catch { state.resizeIgnoreMask = null; }
+      } else {
+        state.resizeIgnoreMask = null;
+      }
 
       const speedSlider = document.getElementById('speedSlider');
       if (speedSlider) speedSlider.value = state.paintingSpeed;
@@ -7648,10 +7648,10 @@
       // Batch mode UI initialization
       const batchModeSelect = document.getElementById('batchModeSelect');
       if (batchModeSelect) batchModeSelect.value = state.batchMode;
-      
+
       const normalBatchControls = document.getElementById('normalBatchControls');
       const randomBatchControls = document.getElementById('randomBatchControls');
-      
+
       // Show/hide appropriate controls based on batch mode
       if (normalBatchControls && randomBatchControls) {
         if (state.batchMode === 'random') {
@@ -7662,10 +7662,10 @@
           randomBatchControls.style.display = 'none';
         }
       }
-      
+
       const randomBatchMin = document.getElementById('randomBatchMin');
       if (randomBatchMin) randomBatchMin.value = state.randomBatchMin;
-      
+
       const randomBatchMax = document.getElementById('randomBatchMax');
       if (randomBatchMax) randomBatchMax.value = state.randomBatchMax;
 
@@ -7673,7 +7673,7 @@
 
       const cooldownSlider = document.getElementById('cooldownSlider');
       if (cooldownSlider) cooldownSlider.value = state.cooldownChargeThreshold;
-      const cooldownValue = document.getElementById('cooldownValue'); 
+      const cooldownValue = document.getElementById('cooldownValue');
       if (cooldownValue) cooldownValue.textContent = state.cooldownChargeThreshold;
 
       const overlayOpacitySlider = document.getElementById('overlayOpacitySlider');
@@ -7682,21 +7682,21 @@
       if (overlayOpacityValue) overlayOpacityValue.textContent = `${Math.round(state.overlayOpacity * 100)}%`;
       const enableBlueMarbleToggle = document.getElementById('enableBlueMarbleToggle');
       if (enableBlueMarbleToggle) enableBlueMarbleToggle.checked = state.blueMarbleEnabled;
-  
+
       const tokenSourceSelect = document.getElementById('tokenSourceSelect');
       if (tokenSourceSelect) tokenSourceSelect.value = state.tokenSource;
-  
-  const colorAlgorithmSelect = document.getElementById('colorAlgorithmSelect');
-  if (colorAlgorithmSelect) colorAlgorithmSelect.value = state.colorMatchingAlgorithm;
-  const enableChromaPenaltyToggle = document.getElementById('enableChromaPenaltyToggle');
-  if (enableChromaPenaltyToggle) enableChromaPenaltyToggle.checked = state.enableChromaPenalty;
-  const chromaPenaltyWeightSlider = document.getElementById('chromaPenaltyWeightSlider');
-  if (chromaPenaltyWeightSlider) chromaPenaltyWeightSlider.value = state.chromaPenaltyWeight;
-  const chromaWeightValue = document.getElementById('chromaWeightValue');
-  if (chromaWeightValue) chromaWeightValue.textContent = state.chromaPenaltyWeight;
-  const transparencyThresholdInput = document.getElementById('transparencyThresholdInput');
-  if (transparencyThresholdInput) transparencyThresholdInput.value = state.customTransparencyThreshold;
-  const whiteThresholdInput = document.getElementById('whiteThresholdInput');
+
+      const colorAlgorithmSelect = document.getElementById('colorAlgorithmSelect');
+      if (colorAlgorithmSelect) colorAlgorithmSelect.value = state.colorMatchingAlgorithm;
+      const enableChromaPenaltyToggle = document.getElementById('enableChromaPenaltyToggle');
+      if (enableChromaPenaltyToggle) enableChromaPenaltyToggle.checked = state.enableChromaPenalty;
+      const chromaPenaltyWeightSlider = document.getElementById('chromaPenaltyWeightSlider');
+      if (chromaPenaltyWeightSlider) chromaPenaltyWeightSlider.value = state.chromaPenaltyWeight;
+      const chromaWeightValue = document.getElementById('chromaWeightValue');
+      if (chromaWeightValue) chromaWeightValue.textContent = state.chromaPenaltyWeight;
+      const transparencyThresholdInput = document.getElementById('transparencyThresholdInput');
+      if (transparencyThresholdInput) transparencyThresholdInput.value = state.customTransparencyThreshold;
+      const whiteThresholdInput = document.getElementById('whiteThresholdInput');
       if (whiteThresholdInput) whiteThresholdInput.value = state.customWhiteThreshold;
       // Notifications UI
       const notifEnabledToggle = document.getElementById('notifEnabledToggle');
@@ -7723,11 +7723,11 @@
   // Function to enable file operations after initial startup setup is complete
   function enableFileOperations() {
     state.initialSetupComplete = true;
-    
+
     const loadBtn = document.querySelector("#loadBtn");
     const loadFromFileBtn = document.querySelector("#loadFromFileBtn");
     const uploadBtn = document.querySelector("#uploadBtn");
-    
+
     if (loadBtn) {
       loadBtn.disabled = false;
       loadBtn.title = "";
@@ -7738,7 +7738,7 @@
       }, 600);
       console.log("✅ Load Progress button enabled after initial setup");
     }
-    
+
     if (loadFromFileBtn) {
       loadFromFileBtn.disabled = false;
       loadFromFileBtn.title = "";
@@ -7749,7 +7749,7 @@
       }, 600);
       console.log("✅ Load from File button enabled after initial setup");
     }
-    
+
     if (uploadBtn) {
       uploadBtn.disabled = false;
       uploadBtn.title = "";
@@ -7760,7 +7760,7 @@
       }, 600);
       console.log("✅ Upload Image button enabled after initial setup");
     }
-    
+
     // Show a notification that file operations are now available
     Utils.showAlert("📂 File operations (Load/Upload) are now available!", "success");
   }
@@ -7778,10 +7778,10 @@
     try {
       console.log("🔧 Initializing Turnstile token generator...");
       updateUI("initializingToken", "default");
-      
+
       // Pre-load Turnstile script first to avoid delays later
       await Utils.loadTurnstile();
-      
+
       const token = await handleCaptchaWithRetry();
       if (token) {
         setTurnstileToken(token);
@@ -7820,21 +7820,22 @@
       const resetBtn = document.getElementById('resetAdvancedColorBtn');
       const algoSelect = document.getElementById('colorAlgorithmSelect');
       const chromaToggle = document.getElementById('enableChromaPenaltyToggle');
-  const transInput = document.getElementById('transparencyThresholdInput');
+      const transInput = document.getElementById('transparencyThresholdInput');
       const whiteInput = document.getElementById('whiteThresholdInput');
-  const ditherToggle = document.getElementById('enableDitheringToggle');
+      const ditherToggle = document.getElementById('enableDitheringToggle');
       if (algoSelect) algoSelect.addEventListener('change', e => { state.colorMatchingAlgorithm = e.target.value; saveBotSettings(); _updateResizePreview(); });
       if (chromaToggle) chromaToggle.addEventListener('change', e => { state.enableChromaPenalty = e.target.checked; saveBotSettings(); _updateResizePreview(); });
-      if (chromaSlider && chromaValue) chromaSlider.addEventListener('input', e => { state.chromaPenaltyWeight = parseFloat(e.target.value)||0.15; chromaValue.textContent = state.chromaPenaltyWeight.toFixed(2); saveBotSettings(); _updateResizePreview(); });
-      if (transInput) transInput.addEventListener('change', e => { const v=parseInt(e.target.value,10); if(!isNaN(v)&&v>=0&&v<=255){ state.customTransparencyThreshold=v; CONFIG.TRANSPARENCY_THRESHOLD=v; saveBotSettings(); _updateResizePreview(); }});
-      if (whiteInput) whiteInput.addEventListener('change', e => { const v=parseInt(e.target.value,10); if(!isNaN(v)&&v>=200&&v<=255){ state.customWhiteThreshold=v; CONFIG.WHITE_THRESHOLD=v; saveBotSettings(); _updateResizePreview(); }});
-  if (ditherToggle) ditherToggle.addEventListener('change', e => { state.ditheringEnabled = e.target.checked; saveBotSettings(); _updateResizePreview(); });
+      if (chromaSlider && chromaValue) chromaSlider.addEventListener('input', e => { state.chromaPenaltyWeight = parseFloat(e.target.value) || 0.15; chromaValue.textContent = state.chromaPenaltyWeight.toFixed(2); saveBotSettings(); _updateResizePreview(); });
+      if (transInput) transInput.addEventListener('change', e => { const v = parseInt(e.target.value, 10); if (!isNaN(v) && v >= 0 && v <= 255) { state.customTransparencyThreshold = v; CONFIG.TRANSPARENCY_THRESHOLD = v; saveBotSettings(); _updateResizePreview(); } });
+      if (whiteInput) whiteInput.addEventListener('change', e => { const v = parseInt(e.target.value, 10); if (!isNaN(v) && v >= 200 && v <= 255) { state.customWhiteThreshold = v; CONFIG.WHITE_THRESHOLD = v; saveBotSettings(); _updateResizePreview(); } });
+      if (ditherToggle) ditherToggle.addEventListener('change', e => { state.ditheringEnabled = e.target.checked; saveBotSettings(); _updateResizePreview(); });
       if (resetBtn) resetBtn.addEventListener('click', () => {
-        state.colorMatchingAlgorithm='lab'; state.enableChromaPenalty=true; state.chromaPenaltyWeight=0.15; state.customTransparencyThreshold=CONFIG.TRANSPARENCY_THRESHOLD=100; state.customWhiteThreshold=CONFIG.WHITE_THRESHOLD=250; saveBotSettings(); const a=document.getElementById('colorAlgorithmSelect'); if(a) a.value='lab'; const ct=document.getElementById('enableChromaPenaltyToggle'); if(ct) ct.checked=true; if(chromaSlider) chromaSlider.value=0.15; if(chromaValue) chromaValue.textContent='0.15'; if(transInput) transInput.value=100; if(whiteInput) whiteInput.value=250; _updateResizePreview(); Utils.showAlert('Advanced color settings reset.', 'success'); });
+        state.colorMatchingAlgorithm = 'lab'; state.enableChromaPenalty = true; state.chromaPenaltyWeight = 0.15; state.customTransparencyThreshold = CONFIG.TRANSPARENCY_THRESHOLD = 100; state.customWhiteThreshold = CONFIG.WHITE_THRESHOLD = 250; saveBotSettings(); const a = document.getElementById('colorAlgorithmSelect'); if (a) a.value = 'lab'; const ct = document.getElementById('enableChromaPenaltyToggle'); if (ct) ct.checked = true; if (chromaSlider) chromaSlider.value = 0.15; if (chromaValue) chromaValue.textContent = '0.15'; if (transInput) transInput.value = 100; if (whiteInput) whiteInput.value = 250; _updateResizePreview(); Utils.showAlert('Advanced color settings reset.', 'success');
+      });
     };
     // Delay to ensure resize UI built
     setTimeout(advancedInit, 500);
-    
+
     // Add cleanup on page unload
     window.addEventListener('beforeunload', () => {
       Utils.cleanupTurnstile();

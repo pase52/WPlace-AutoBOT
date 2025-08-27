@@ -140,9 +140,9 @@
   const paintLoop = async () => {
     while (state.running) {
       const { count, cooldownMs } = state.charges;
-      
+
       if (count < 1) {
-        updateUI(state.language === 'pt' ? `⌛ Sem cargas. Esperando ${Math.ceil(cooldownMs/1000)}s...` : `⌛ No charges. Waiting ${Math.ceil(cooldownMs/1000)}s...`, 'status');
+        updateUI(state.language === 'pt' ? `⌛ Sem cargas. Esperando ${Math.ceil(cooldownMs / 1000)}s...` : `⌛ No charges. Waiting ${Math.ceil(cooldownMs / 1000)}s...`, 'status');
         await sleep(cooldownMs);
         await getCharge();
         continue;
@@ -242,21 +242,21 @@
         await sleep(1000);
         continue;
       }
-      
+
       if (paintResult?.painted === 1) {
         state.paintedCount++;
-        state.lastPixel = { 
+        state.lastPixel = {
           x: CONFIG.START_X + randomPos.x,
           y: CONFIG.START_Y + randomPos.y,
-          time: new Date() 
+          time: new Date()
         };
         state.charges.count--;
-        
+
         document.getElementById('paintEffect').style.animation = 'pulse 0.5s';
         setTimeout(() => {
           document.getElementById('paintEffect').style.animation = '';
         }, 500);
-        
+
         updateUI(state.language === 'pt' ? '✅ Pixel pintado!' : '✅ Pixel painted!', 'success');
       } else {
         updateUI(state.language === 'pt' ? '❌ Falha ao pintar' : '❌ Failed to paint', 'error');
@@ -480,17 +480,17 @@
         </div>
       </div>
     `;
-    
+
     document.body.appendChild(panel);
-    
+
     const header = panel.querySelector('.wplace-header');
     let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-    
+
     header.onmousedown = dragMouseDown;
-    
+
     function dragMouseDown(e) {
       if (e.target.closest('.wplace-header-btn')) return;
-      
+
       e = e || window.event;
       e.preventDefault();
       pos3 = e.clientX;
@@ -498,7 +498,7 @@
       document.onmouseup = closeDragElement;
       document.onmousemove = elementDrag;
     }
-    
+
     function elementDrag(e) {
       e = e || window.event;
       e.preventDefault();
@@ -509,27 +509,27 @@
       panel.style.top = (panel.offsetTop - pos2) + "px";
       panel.style.left = (panel.offsetLeft - pos1) + "px";
     }
-    
+
     function closeDragElement() {
       document.onmouseup = null;
       document.onmousemove = null;
     }
-    
+
     const toggleBtn = panel.querySelector('#toggleBtn');
     const minimizeBtn = panel.querySelector('#minimizeBtn');
     const statusText = panel.querySelector('#statusText');
     const content = panel.querySelector('.wplace-content');
     const statsArea = panel.querySelector('#statsArea');
-    
+
     toggleBtn.addEventListener('click', () => {
       state.running = !state.running;
-      
+
       if (state.running && !capturedCaptchaToken) {
         updateUI(state.language === 'pt' ? '❌ Token não capturado. Clique em qualquer pixel primeiro.' : '❌ CAPTCHA token not captured. Please click any pixel manually first.', 'error');
         state.running = false;
         return;
       }
-  
+
       if (state.running) {
         toggleBtn.innerHTML = `<i class="fas fa-stop"></i> <span>${t.stop}</span>`;
         toggleBtn.classList.remove('wplace-btn-primary');
@@ -544,18 +544,18 @@
         updateUI(state.language === 'pt' ? '⏹️ Parado' : '⏹️ Stopped', 'default');
       }
     });
-    
+
     minimizeBtn.addEventListener('click', () => {
       state.minimized = !state.minimized;
       content.style.display = state.minimized ? 'none' : 'block';
       minimizeBtn.innerHTML = `<i class="fas fa-${state.minimized ? 'expand' : 'minus'}"></i>`;
     });
-    
+
     const autoRefreshCheckbox = panel.querySelector('#autoRefreshCheckbox');
     autoRefreshCheckbox.addEventListener('change', () => {
       state.autoRefresh = autoRefreshCheckbox.checked;
     });
-    
+
     window.addEventListener('beforeunload', () => {
       state.menuOpen = false;
     });
