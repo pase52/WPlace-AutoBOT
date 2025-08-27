@@ -1,0 +1,30 @@
+{
+  "name": "wplace-autobot-server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "node src/index.js",
+    "start": "node src/index.js",
+    "test": "mocha --timeout 15000 \"test/**/*.test.js\"",
+    "test:real": "cross-env TEST_USE_REAL_REDIS='1' mocha --timeout 15000 \"test/**/*.test.js\"",
+    "check:redis": "node scripts/check-redis.mjs"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "ioredis": "^5.4.1",
+    "socket.io": "^4.7.5",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "chai": "^5.1.1",
+    "cross-env": "^10.0.0",
+    "ioredis-mock": "^8.9.0",
+    "mocha": "^10.8.2",
+    "socket.io-client": "^4.8.1",
+    "supertest": "^7.0.0"
+  }
+}
