@@ -239,7 +239,7 @@
     const setVar = (k, v) => {
       try {
         root.style.setProperty(k, v);
-      } catch {}
+      } catch { }
     };
 
     setVar('--wplace-primary', theme.primary);
@@ -333,8 +333,7 @@
         ) {
           loadedTranslations[language] = translations;
           console.log(
-            `📚 Loaded ${language} translations successfully from CDN (${
-              Object.keys(translations).length
+            `📚 Loaded ${language} translations successfully from CDN (${Object.keys(translations).length
             } keys)`
           );
           return translations;
@@ -597,7 +596,7 @@
     paintedMap: null,
   };
 
-  let _updateResizePreview = () => {};
+  let _updateResizePreview = () => { };
   let _resizeDialogCleanup = null;
 
   // --- OVERLAY UPDATE: Optimized OverlayManager class with performance improvements ---
@@ -1230,14 +1229,13 @@
             if (payload.t) {
               // 📊 Debug log
               console.log(
-                `🔍✅ Turnstile Token Captured - Type: ${typeof payload.t}, Value: ${
-                  payload.t
-                    ? typeof payload.t === 'string'
-                      ? payload.t.length > 50
-                        ? payload.t.substring(0, 50) + '...'
-                        : payload.t
-                      : JSON.stringify(payload.t)
-                    : 'null/undefined'
+                `🔍✅ Turnstile Token Captured - Type: ${typeof payload.t}, Value: ${payload.t
+                  ? typeof payload.t === 'string'
+                    ? payload.t.length > 50
+                      ? payload.t.substring(0, 50) + '...'
+                      : payload.t
+                    : JSON.stringify(payload.t)
+                  : 'null/undefined'
                 }, Length: ${payload.t?.length || 0}`
               );
               window.postMessage({ source: 'turnstile-capture', token: payload.t }, '*');
@@ -1708,9 +1706,9 @@
 
         return isTokenValid()
           ? {
-              sitekey: this._cachedSitekey,
-              token: turnstileToken,
-            }
+            sitekey: this._cachedSitekey,
+            token: turnstileToken,
+          }
           : { sitekey: this._cachedSitekey, token: null };
       }
 
@@ -1972,8 +1970,8 @@
           const bdiff = pb - b;
           const dist = Math.sqrt(
             (((512 + rmean) * rdiff * rdiff) >> 8) +
-              4 * gdiff * gdiff +
-              (((767 - rmean) * bdiff * bdiff) >> 8)
+            4 * gdiff * gdiff +
+            (((767 - rmean) * bdiff * bdiff) >> 8)
           );
           if (dist < menorDist) {
             menorDist = dist;
@@ -2023,9 +2021,8 @@
         };
       }
 
-      const cacheKey = `${targetRgb[0]},${targetRgb[1]},${targetRgb[2]}|${state.colorMatchingAlgorithm}|${
-        state.enableChromaPenalty ? 'c' : 'nc'
-      }|${state.chromaPenaltyWeight}|${exactMatch ? 'exact' : 'closest'}`;
+      const cacheKey = `${targetRgb[0]},${targetRgb[1]},${targetRgb[2]}|${state.colorMatchingAlgorithm}|${state.enableChromaPenalty ? 'c' : 'nc'
+        }|${state.chromaPenaltyWeight}|${exactMatch ? 'exact' : 'closest'}`;
 
       if (colorCache.has(cacheKey)) return colorCache.get(cacheKey);
 
@@ -2075,8 +2072,8 @@
           const bdiff = b - targetRgb[2];
           const dist = Math.sqrt(
             (((512 + rmean) * rdiff * rdiff) >> 8) +
-              4 * gdiff * gdiff +
-              (((767 - rmean) * bdiff * bdiff) >> 8)
+            4 * gdiff * gdiff +
+            (((767 - rmean) * bdiff * bdiff) >> 8)
           );
           if (dist < bestScore) {
             bestScore = dist;
@@ -2224,8 +2221,7 @@
         console.log('\n--- AVAILABLE COLORS ---');
         availableColors.forEach((color, index) => {
           console.log(
-            `${
-              index + 1
+            `${index + 1
             }. ID: ${color.id}, Name: "${color.name}", RGB: (${color.rgb[0]}, ${color.rgb[1]}, ${color.rgb[2]})`
           );
         });
@@ -2235,8 +2231,7 @@
         console.log('\n--- UNAVAILABLE COLORS ---');
         unavailableColors.forEach((color, index) => {
           console.log(
-            `${
-              index + 1
+            `${index + 1
             }. ID: ${color.id}, Name: "${color.name}", RGB: (${color.rgb[0]}, ${color.rgb[1]}, ${color.rgb[2]}) [LOCKED]`
           );
         });
@@ -2517,11 +2512,11 @@
         },
         imageData: state.imageData
           ? {
-              width: state.imageData.width,
-              height: state.imageData.height,
-              pixels: Array.from(state.imageData.pixels),
-              totalPixels: state.imageData.totalPixels,
-            }
+            width: state.imageData.width,
+            height: state.imageData.height,
+            pixels: Array.from(state.imageData.pixels),
+            totalPixels: state.imageData.totalPixels,
+          }
           : null,
         paintedMapPacked: Utils.buildPaintedMapPacked(),
       };
@@ -2574,7 +2569,7 @@
         if (migrated && migrated !== data) {
           try {
             localStorage.setItem('wplace-bot-progress', JSON.stringify(migrated));
-          } catch {}
+          } catch { }
         }
         return migrated;
       } catch (error) {
@@ -2986,9 +2981,9 @@
   const colorCache = new Map();
 
   // UI UPDATE FUNCTIONS (declared early to avoid reference errors)
-  let updateUI = () => {};
-  let updateStats = (isManualRefresh) => {};
-  let updateDataButtons = () => {};
+  let updateUI = () => { };
+  let updateStats = (isManualRefresh) => { };
+  let updateDataButtons = () => { };
 
   function updateActiveColorPalette() {
     state.activeColorPalette = [];
@@ -3202,14 +3197,13 @@
 
       // 📊 Debug log
       console.log(
-        `🔍 Token received - Type: ${typeof token}, Value: ${
-          token
-            ? typeof token === 'string'
-              ? token.length > 50
-                ? token.substring(0, 50) + '...'
-                : token
-              : JSON.stringify(token)
-            : 'null/undefined'
+        `🔍 Token received - Type: ${typeof token}, Value: ${token
+          ? typeof token === 'string'
+            ? token.length > 50
+              ? token.substring(0, 50) + '...'
+              : token
+            : JSON.stringify(token)
+          : 'null/undefined'
         }, Length: ${token?.length || 0}`
       );
 
@@ -3433,8 +3427,8 @@
           <div class="wplace-controls">
             <div class="wplace-row">
               <button id="uploadBtn" class="wplace-btn wplace-btn-upload" disabled title="${Utils.t(
-                'waitingSetupComplete'
-              )}">
+      'waitingSetupComplete'
+    )}">
                 <i class="fas fa-upload"></i>
                 <span>${Utils.t('uploadImage')}</span>
               </button>
@@ -3504,8 +3498,8 @@
                 <span>${Utils.t('saveData')}</span>
               </button>
               <button id="loadBtn" class="wplace-btn wplace-btn-primary" disabled title="${Utils.t(
-                'waitingTokenGenerator'
-              )}">
+      'waitingTokenGenerator'
+    )}">
                 <i class="fas fa-folder-open"></i>
                 <span>${Utils.t('loadData')}</span>
               </button>
@@ -3516,8 +3510,8 @@
                 <span>${Utils.t('saveToFile')}</span>
               </button>
               <button id="loadFromFileBtn" class="wplace-btn wplace-btn-file" disabled title="${Utils.t(
-                'waitingTokenGenerator'
-              )}">
+      'waitingTokenGenerator'
+    )}">
                 <i class="fas fa-upload"></i>
                 <span>${Utils.t('loadFromFile')}</span>
               </button>
@@ -3539,8 +3533,8 @@
         </div>
         <div class="wplace-header-controls">
           <button id="refreshChargesBtn" class="wplace-header-btn" title="${Utils.t(
-            'refreshCharges'
-          )}">
+      'refreshCharges'
+    )}">
             <i class="fas fa-sync"></i>
           </button>
           <button id="closeStatsBtn" class="wplace-header-btn" title="${Utils.t('closeStats')}">
@@ -3553,8 +3547,8 @@
           <div id="statsArea">
             <div class="wplace-stat-item">
               <div class="wplace-stat-label"><i class="fas fa-info-circle"></i> ${Utils.t(
-                'initMessage'
-              )}</div>
+      'initMessage'
+    )}</div>
             </div>
           </div>
         </div>
@@ -3580,19 +3574,17 @@
       z-index: 99999;
       color: ${theme.text || 'white'};
       font-family: ${theme.fontFamily || "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"};
-      box-shadow: ${
-        theme.boxShadow || '0 20px 40px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1)'
+      box-shadow: ${theme.boxShadow || '0 20px 40px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1)'
       };
       backdrop-filter: ${theme.backdropFilter || 'blur(10px)'};
       overflow: hidden;
       animation: settings-slide-in 0.4s ease-out;
-      ${
-        theme.animations?.glow
-          ? `
+      ${theme.animations?.glow
+        ? `
         box-shadow: ${theme.boxShadow || '0 20px 40px rgba(0,0,0,0.3)'}, 
                    0 0 30px ${theme.highlight || theme.neon || '#00ffff'};
       `
-          : ''
+        : ''
       }
     `;
 
@@ -3618,15 +3610,12 @@
           </label>
           <div class="wplace-settings-section-wrapper">
             <select id="tokenSourceSelect" class="wplace-settings-select">
-              <option value="generator" ${
-                state.tokenSource === 'generator' ? 'selected' : ''
-              } class="wplace-settings-option">🤖 Automatic Token Generator (Recommended)</option>
-              <option value="hybrid" ${
-                state.tokenSource === 'hybrid' ? 'selected' : ''
-              } class="wplace-settings-option">🔄 Generator + Auto Fallback</option>
-              <option value="manual" ${
-                state.tokenSource === 'manual' ? 'selected' : ''
-              } class="wplace-settings-option">🎯 Manual Pixel Placement</option>
+              <option value="generator" ${state.tokenSource === 'generator' ? 'selected' : ''
+      } class="wplace-settings-option">🤖 Automatic Token Generator (Recommended)</option>
+              <option value="hybrid" ${state.tokenSource === 'hybrid' ? 'selected' : ''
+      } class="wplace-settings-option">🔄 Generator + Auto Fallback</option>
+              <option value="manual" ${state.tokenSource === 'manual' ? 'selected' : ''
+      } class="wplace-settings-option">🎯 Manual Pixel Placement</option>
             </select>
             <p class="wplace-settings-description">
               Generator mode creates tokens automatically. Hybrid mode falls back to manual when generator fails. Manual mode only uses pixel placement.
@@ -3646,9 +3635,8 @@
         <!-- Overlay Settings Section -->
         <div class="wplace-settings-section">
           <label class="wplace-settings-section-label" style="color: ${theme.text || 'white'};">
-            <i class="fas fa-eye wplace-icon-eye" style="color: ${
-              theme.highlight || '#48dbfb'
-            };"></i>
+            <i class="fas fa-eye wplace-icon-eye" style="color: ${theme.highlight || '#48dbfb'
+      };"></i>
             Overlay Settings
           </label>
           <div class="wplace-settings-section-wrapper wplace-overlay-wrapper" style="
@@ -3656,20 +3644,18 @@
             border-radius: ${theme.borderRadius || '12px'}; 
             padding: 18px; 
             border: 1px solid ${theme.accent || 'rgba(255,255,255,0.1)'};
-            ${
-              theme.animations?.glow
-                ? `
+            ${theme.animations?.glow
+        ? `
               box-shadow: 0 0 15px ${theme.accent || 'rgba(255,255,255,0.1)'}33;
             `
-                : ''
-            }
+        : ''
+      }
           ">
               <!-- Opacity Slider -->
               <div class="wplace-overlay-opacity-control">
                 <div class="wplace-overlay-opacity-header">
-                   <span class="wplace-overlay-opacity-label" style="color: ${
-                     theme.text || 'white'
-                   };">Overlay Opacity</span>
+                   <span class="wplace-overlay-opacity-label" style="color: ${theme.text || 'white'
+      };">Overlay Opacity</span>
                    <div id="overlayOpacityValue" class="wplace-overlay-opacity-value" style="
                      background: ${theme.secondary || 'rgba(0,0,0,0.2)'}; 
                      color: ${theme.text || 'white'};
@@ -3680,25 +3666,21 @@
                    ">${Math.round(state.overlayOpacity * 100)}%</div>
                 </div>
                 <input type="range" id="overlayOpacitySlider" min="0.1" max="1" step="0.05" value="${state.overlayOpacity}" class="wplace-overlay-opacity-slider" style="
-                  background: linear-gradient(to right, ${
-                    theme.highlight || '#48dbfb'
-                  } 0%, ${theme.purple || theme.neon || '#d3a4ff'} 100%); 
+                  background: linear-gradient(to right, ${theme.highlight || '#48dbfb'
+      } 0%, ${theme.purple || theme.neon || '#d3a4ff'} 100%); 
                   border-radius: ${theme.borderRadius === '0' ? '0' : '4px'}; 
                 ">
               </div>
               <!-- Blue Marble Toggle -->
               <label for="enableBlueMarbleToggle" class="wplace-settings-toggle">
                   <div>
-                      <span class="wplace-settings-toggle-title" style="color: ${
-                        theme.text || 'white'
-                      };">Blue Marble Effect</span>
-                      <p class="wplace-settings-toggle-description" style="color: ${
-                        theme.text ? `${theme.text}BB` : 'rgba(255,255,255,0.7)'
-                      };">Renders a dithered "shredded" overlay.</p>
+                      <span class="wplace-settings-toggle-title" style="color: ${theme.text || 'white'
+      };">Blue Marble Effect</span>
+                      <p class="wplace-settings-toggle-description" style="color: ${theme.text ? `${theme.text}BB` : 'rgba(255,255,255,0.7)'
+      };">Renders a dithered "shredded" overlay.</p>
                   </div>
-                  <input type="checkbox" id="enableBlueMarbleToggle" ${
-                    state.blueMarbleEnabled ? 'checked' : ''
-                  } class="wplace-settings-checkbox" style="
+                  <input type="checkbox" id="enableBlueMarbleToggle" ${state.blueMarbleEnabled ? 'checked' : ''
+      } class="wplace-settings-checkbox" style="
                     accent-color: ${theme.highlight || '#48dbfb'};
                   "/>
               </label>
@@ -3719,9 +3701,8 @@
                 <span class="wplace-settings-toggle-title" style="color: ${theme.text || 'white'};">
                   ${Utils.t('paintWhitePixels')}
                 </span>
-                <p class="wplace-settings-toggle-description" style="color: ${
-                  theme.text ? `${theme.text}BB` : 'rgba(255,255,255,0.7)'
-                };">
+                <p class="wplace-settings-toggle-description" style="color: ${theme.text ? `${theme.text}BB` : 'rgba(255,255,255,0.7)'
+      };">
                   ${Utils.t('paintWhitePixelsDescription')}
                 </p>
               </div>
@@ -3736,9 +3717,8 @@
                 <span class="wplace-settings-toggle-title" style="color: ${theme.text || 'white'};">
                   ${Utils.t('paintTransparentPixels')}
                 </span>
-                <p class="wplace-settings-toggle-description" style="color: ${
-                  theme.text ? `${theme.text}BB` : 'rgba(255,255,255,0.7)'
-                };">
+                <p class="wplace-settings-toggle-description" style="color: ${theme.text ? `${theme.text}BB` : 'rgba(255,255,255,0.7)'
+      };">
                   ${Utils.t('paintTransparentPixelsDescription')}
                 </p>
               </div>
@@ -3748,16 +3728,13 @@
             </label>
             <label class="wplace-settings-toggle">
               <div>
-                <span class="wplace-settings-toggle-title" style="color: ${
-                  theme.text || 'white'
-                };">${Utils.t('paintUnavailablePixels')}</span>
-                <p class="wplace-settings-toggle-description" style="color: ${
-                  theme.text ? `${theme.text}BB` : 'rgba(255,255,255,0.7)'
-                };">${Utils.t('paintUnavailablePixelsDescription')}</p>
+                <span class="wplace-settings-toggle-title" style="color: ${theme.text || 'white'
+      };">${Utils.t('paintUnavailablePixels')}</span>
+                <p class="wplace-settings-toggle-description" style="color: ${theme.text ? `${theme.text}BB` : 'rgba(255,255,255,0.7)'
+      };">${Utils.t('paintUnavailablePixelsDescription')}</p>
               </div>
-              <input type="checkbox" id="paintUnavailablePixelsToggle" ${
-                state.paintUnavailablePixels ? 'checked' : ''
-              } class="wplace-settings-checkbox" style="
+              <input type="checkbox" id="paintUnavailablePixelsToggle" ${state.paintUnavailablePixels ? 'checked' : ''
+      } class="wplace-settings-checkbox" style="
                     accent-color: ${theme.highlight || '#48dbfb'};
                   "/>
             </label>
@@ -3832,9 +3809,8 @@
           
           <!-- Speed Control Toggle -->
           <label class="wplace-speed-control-toggle">
-            <input type="checkbox" id="enableSpeedToggle" ${
-              CONFIG.PAINTING_SPEED_ENABLED ? 'checked' : ''
-            } class="wplace-speed-checkbox"/>
+            <input type="checkbox" id="enableSpeedToggle" ${CONFIG.PAINTING_SPEED_ENABLED ? 'checked' : ''
+      } class="wplace-speed-checkbox"/>
             <span>${Utils.t('enablePaintingSpeedLimit')}</span>
           </label>
         </div>
@@ -3880,16 +3856,13 @@
           <div id="snakeControls" class="wplace-snake-pattern-controls wplace-settings-section-wrapper">
             <label class="wplace-settings-toggle">
               <div>
-                <span class="wplace-settings-toggle-title" style="color: ${
-                  theme.text || 'white'
-                };">Snake Pattern</span>
-                <p class="wplace-settings-toggle-description" style="color: ${
-                  theme.text ? `${theme.text}BB` : 'rgba(255,255,255,0.7)'
-                };">Alternate direction for each row/column (zigzag pattern)</p>
+                <span class="wplace-settings-toggle-title" style="color: ${theme.text || 'white'
+      };">Snake Pattern</span>
+                <p class="wplace-settings-toggle-description" style="color: ${theme.text ? `${theme.text}BB` : 'rgba(255,255,255,0.7)'
+      };">Alternate direction for each row/column (zigzag pattern)</p>
               </div>
-              <input type="checkbox" id="coordinateSnakeToggle" ${
-                state.coordinateSnake ? 'checked' : ''
-              } class="wplace-settings-checkbox" style="
+              <input type="checkbox" id="coordinateSnakeToggle" ${state.coordinateSnake ? 'checked' : ''
+      } class="wplace-settings-checkbox" style="
                     accent-color: ${theme.highlight || '#48dbfb'};
                   "/>
             </label>
@@ -3928,21 +3901,18 @@
           <div class="wplace-settings-section-wrapper wplace-notifications-wrapper">
             <label class="wplace-notification-toggle">
               <span>${Utils.t('enableNotifications')}</span>
-              <input type="checkbox" id="notifEnabledToggle" ${
-                state.notificationsEnabled ? 'checked' : ''
-              } class="wplace-notification-checkbox" />
+              <input type="checkbox" id="notifEnabledToggle" ${state.notificationsEnabled ? 'checked' : ''
+      } class="wplace-notification-checkbox" />
             </label>
             <label class="wplace-notification-toggle">
               <span>${Utils.t('notifyOnChargesThreshold')}</span>
-              <input type="checkbox" id="notifOnChargesToggle" ${
-                state.notifyOnChargesReached ? 'checked' : ''
-              } class="wplace-notification-checkbox" />
+              <input type="checkbox" id="notifOnChargesToggle" ${state.notifyOnChargesReached ? 'checked' : ''
+      } class="wplace-notification-checkbox" />
             </label>
             <label class="wplace-notification-toggle">
               <span>${Utils.t('onlyWhenNotFocused')}</span>
-              <input type="checkbox" id="notifOnlyUnfocusedToggle" ${
-                state.notifyOnlyWhenUnfocused ? 'checked' : ''
-              } class="wplace-notification-checkbox" />
+              <input type="checkbox" id="notifOnlyUnfocusedToggle" ${state.notifyOnlyWhenUnfocused ? 'checked' : ''
+      } class="wplace-notification-checkbox" />
             </label>
             <div class="wplace-notification-interval">
               <span>${Utils.t('repeatEvery')}</span>
@@ -3951,11 +3921,11 @@
             </div>
             <div class="wplace-notification-buttons">
               <button id="notifRequestPermBtn" class="wplace-btn wplace-btn-secondary wplace-notification-perm-btn"><i class="fas fa-unlock"></i><span>${Utils.t(
-                'grantPermission'
-              )}</span></button>
+        'grantPermission'
+      )}</span></button>
               <button id="notifTestBtn" class="wplace-btn wplace-notification-test-btn"><i class="fas fa-bell"></i><span>${Utils.t(
-                'test'
-              )}</span></button>
+        'test'
+      )}</span></button>
             </div>
           </div>
         </div>
@@ -3969,13 +3939,12 @@
           <div class="wplace-settings-section-wrapper">
             <select id="themeSelect" class="wplace-settings-select">
               ${Object.keys(CONFIG.THEMES)
-                .map(
-                  (themeName) =>
-                    `<option value="${themeName}" ${
-                      CONFIG.currentTheme === themeName ? 'selected' : ''
-                    } class="wplace-settings-option">${themeName}</option>`
-                )
-                .join('')}
+        .map(
+          (themeName) =>
+            `<option value="${themeName}" ${CONFIG.currentTheme === themeName ? 'selected' : ''
+            } class="wplace-settings-option">${themeName}</option>`
+        )
+        .join('')}
             </select>
           </div>
         </div>
@@ -4151,18 +4120,18 @@
         </label>
         <div class="resize-zoom-controls">
           <button id="zoomOutBtn" class="wplace-btn resize-zoom-btn" title="${Utils.t(
-            'zoomOut'
-          )}"><i class="fas fa-search-minus"></i></button>
+      'zoomOut'
+    )}"><i class="fas fa-search-minus"></i></button>
           <input type="range" id="zoomSlider" class="resize-slider resize-zoom-slider" min="0.1" max="20" value="1" step="0.05">
           <button id="zoomInBtn" class="wplace-btn resize-zoom-btn" title="${Utils.t(
-            'zoomIn'
-          )}"><i class="fas fa-search-plus"></i></button>
+      'zoomIn'
+    )}"><i class="fas fa-search-plus"></i></button>
           <button id="zoomFitBtn" class="wplace-btn resize-zoom-btn" title="${Utils.t(
-            'fitToView'
-          )}">${Utils.t('fit')}</button>
+      'fitToView'
+    )}">${Utils.t('fit')}</button>
           <button id="zoomActualBtn" class="wplace-btn resize-zoom-btn" title="${Utils.t(
-            'actualSize'
-          )}">${Utils.t('hundred')}</button>
+      'actualSize'
+    )}">${Utils.t('hundred')}</button>
           <button id="panModeBtn" class="wplace-btn resize-zoom-btn" title="${Utils.t('panMode')}">
             <i class="fas fa-hand-paper"></i>
           </button>
@@ -4241,12 +4210,10 @@
           <label class="resize-advanced-label">
             <span class="resize-advanced-label-text">Algorithm</span>
             <select id="colorAlgorithmSelect" class="resize-advanced-select">
-              <option value="lab" ${
-                state.colorMatchingAlgorithm === 'lab' ? 'selected' : ''
-              }>Perceptual (Lab)</option>
-            <option value="legacy" ${
-              state.colorMatchingAlgorithm === 'legacy' ? 'selected' : ''
-            }>Legacy (RGB)</option>
+              <option value="lab" ${state.colorMatchingAlgorithm === 'lab' ? 'selected' : ''
+      }>Perceptual (Lab)</option>
+            <option value="legacy" ${state.colorMatchingAlgorithm === 'legacy' ? 'selected' : ''
+      }>Legacy (RGB)</option>
             </select>
           </label>
           <label class="resize-advanced-toggle">
@@ -4254,9 +4221,8 @@
               <span class="resize-advanced-label-text">Chroma Penalty</span>
               <div class="resize-advanced-description">Preserve vivid colors (Lab only)</div>
             </div>
-            <input type="checkbox" id="enableChromaPenaltyToggle" ${
-              state.enableChromaPenalty ? 'checked' : ''
-            } class="resize-advanced-checkbox" />
+            <input type="checkbox" id="enableChromaPenaltyToggle" ${state.enableChromaPenalty ? 'checked' : ''
+      } class="resize-advanced-checkbox" />
           </label>
           <div class="resize-chroma-weight-control">
             <div class="resize-chroma-weight-header">
@@ -4270,9 +4236,8 @@
               <span class="resize-advanced-label-text">Enable Dithering</span>
               <div class="resize-advanced-description">Floyd–Steinberg error diffusion in preview and applied output</div>
             </div>
-            <input type="checkbox" id="enableDitheringToggle" ${
-              state.ditheringEnabled ? 'checked' : ''
-            } class="resize-advanced-checkbox" />
+            <input type="checkbox" id="enableDitheringToggle" ${state.ditheringEnabled ? 'checked' : ''
+      } class="resize-advanced-checkbox" />
           </label>
           <div class="resize-threshold-controls">
             <label class="resize-threshold-label">
@@ -5026,8 +4991,8 @@
 
         const confirmLoad = confirm(
           `${Utils.t('savedDataFound')}\n\n` +
-            `Saved: ${new Date(savedData.timestamp).toLocaleString()}\n` +
-            `Progress: ${savedData.state.paintedPixels}/${savedData.state.totalPixels} pixels`
+          `Saved: ${new Date(savedData.timestamp).toLocaleString()}\n` +
+          `Progress: ${savedData.state.paintedPixels}/${savedData.state.totalPixels} pixels`
         );
 
         if (confirmLoad) {
@@ -5252,14 +5217,14 @@
           </div>
           <div class="wplace-stat-item">
             <div class="wplace-stat-label"><i class="fas fa-paint-brush"></i> ${Utils.t(
-              'pixels'
-            )}</div>
+          'pixels'
+        )}</div>
             <div class="wplace-stat-value">${state.paintedPixels}/${state.totalPixels}</div>
           </div>
           <div class="wplace-stat-item">
             <div class="wplace-stat-label"><i class="fas fa-clock"></i> ${Utils.t(
-              'estimatedTime'
-            )}</div>
+          'estimatedTime'
+        )}</div>
             <div class="wplace-stat-value">${Utils.formatTime(state.estimatedTime)}</div>
           </div>
         `;
@@ -5316,21 +5281,20 @@
               </div>
               <div class="wplace-stat-value" id="wplace-stat-fullcharge-value">--:--:--</div>
             </div>
-            ${
-              state.colorsChecked
-                ? `
+            ${state.colorsChecked
+          ? `
             <div class="wplace-colors-section">
                 <div class="wplace-stat-label"><i class="fas fa-palette"></i> ${Utils.t(
-                  'availableColors',
-                  { count: state.availableColors.length }
-                )}</div>
+            'availableColors',
+            { count: state.availableColors.length }
+          )}</div>
                 <div class="wplace-stat-colors-grid">
                     ${colorSwatchesHTML}
                 </div>
             </div>
             `
-                : ''
-            }
+          : ''
+        }
         `;
 
       // should be after statsArea.innerHTML = '...'. todo make full stats ui update partial
@@ -6403,13 +6367,13 @@
       _resizeDialogCleanup = () => {
         try {
           zoomSlider.replaceWith(zoomSlider.cloneNode(true));
-        } catch {}
+        } catch { }
         try {
           if (zoomInBtn) zoomInBtn.replaceWith(zoomInBtn.cloneNode(true));
-        } catch {}
+        } catch { }
         try {
           if (zoomOutBtn) zoomOutBtn.replaceWith(zoomOutBtn.cloneNode(true));
-        } catch {}
+        } catch { }
       };
       setTimeout(() => {
         if (typeof computeFitZoom === 'function') {
@@ -6429,21 +6393,21 @@
         if (typeof _resizeDialogCleanup === 'function') {
           _resizeDialogCleanup();
         }
-      } catch {}
+      } catch { }
       resizeOverlay.style.display = 'none';
       resizeContainer.style.display = 'none';
-      _updateResizePreview = () => {};
+      _updateResizePreview = () => { };
       try {
         if (typeof cancelAnimationFrame === 'function' && _panRaf) {
           cancelAnimationFrame(_panRaf);
         }
-      } catch {}
+      } catch { }
       try {
         if (_previewTimer) {
           clearTimeout(_previewTimer);
           _previewTimer = null;
         }
-      } catch {}
+      } catch { }
       _maskImageData = null;
       _maskData = null;
       _dirty = null;
@@ -6707,9 +6671,9 @@
 
         Utils.showAlert(
           `${Utils.t('savedDataFound')}\n\n` +
-            `Saved: ${savedDate}\n` +
-            `Progress: ${savedData.state.paintedPixels}/${savedData.state.totalPixels} pixels (${progress}%)\n` +
-            `${Utils.t('clickLoadToContinue')}`,
+          `Saved: ${savedDate}\n` +
+          `Progress: ${savedData.state.paintedPixels}/${savedData.state.totalPixels} pixels (${progress}%)\n` +
+          `${Utils.t('clickLoadToContinue')}`,
           'info'
         );
       }
@@ -7140,8 +7104,7 @@
         ) {
           if (pixelBatch && pixelBatch.pixels.length > 0) {
             console.log(
-              `🌍 Sending region-change batch with ${pixelBatch.pixels.length} pixels (switching to region ${
-                regionX + adderX
+              `🌍 Sending region-change batch with ${pixelBatch.pixels.length} pixels (switching to region ${regionX + adderX
               },${regionY + adderY})`
             );
             const success = await flushPixelBatch(pixelBatch);
@@ -7203,14 +7166,12 @@
               continue;
             }
             console.debug(
-              `[COMPARE] Pixel at 📍 (${pixelX}, ${pixelY}) in region (${
-                regionX + adderX
+              `[COMPARE] Pixel at 📍 (${pixelX}, ${pixelY}) in region (${regionX + adderX
               }, ${regionY + adderY})\n` +
-                `  ├── Current color: rgb(${tilePixelRGBA.slice(0, 3).join(', ')}) (id: ${mappedCanvasColor.id})\n` +
-                `  ├── Target color:  rgb(${targetPixelInfo.r}, ${targetPixelInfo.g}, ${targetPixelInfo.b}) (id: ${targetMappedColorId})\n` +
-                `  └── Status: ${
-                  isMatch ? '✅ Already painted → SKIP' : '🔴 Needs paint → PAINT'
-                }\n`
+              `  ├── Current color: rgb(${tilePixelRGBA.slice(0, 3).join(', ')}) (id: ${mappedCanvasColor.id})\n` +
+              `  ├── Target color:  rgb(${targetPixelInfo.r}, ${targetPixelInfo.g}, ${targetPixelInfo.b}) (id: ${targetMappedColorId})\n` +
+              `  └── Status: ${isMatch ? '✅ Already painted → SKIP' : '🔴 Needs paint → PAINT'
+              }\n`
             );
           }
         } catch (e) {
@@ -7310,12 +7271,11 @@
     console.log(`   Skipped - Already painted: ${skippedPixels.alreadyPainted}`);
     console.log(`   Skipped - Color Unavailable: ${skippedPixels.colorUnavailable}`);
     console.log(
-      `   Total processed: ${
-        state.paintedPixels +
-        skippedPixels.transparent +
-        skippedPixels.white +
-        skippedPixels.alreadyPainted +
-        skippedPixels.colorUnavailable
+      `   Total processed: ${state.paintedPixels +
+      skippedPixels.transparent +
+      skippedPixels.white +
+      skippedPixels.alreadyPainted +
+      skippedPixels.colorUnavailable
       }`
     );
 
@@ -7433,7 +7393,7 @@
         let data = null;
         try {
           data = await res.json();
-        } catch (_) {}
+        } catch (_) { }
         console.error('❌ 403 Forbidden. Turnstile token might be invalid or expired.');
 
         // Try to generate a new token and retry once
@@ -7512,13 +7472,13 @@
         blockHeight: state.blockHeight, // Save ignore mask (as base64) with its dimensions
         resizeIgnoreMask:
           state.resizeIgnoreMask &&
-          state.resizeSettings &&
-          state.resizeSettings.width * state.resizeSettings.height === state.resizeIgnoreMask.length
+            state.resizeSettings &&
+            state.resizeSettings.width * state.resizeSettings.height === state.resizeIgnoreMask.length
             ? {
-                w: state.resizeSettings.width,
-                h: state.resizeSettings.height,
-                data: btoa(String.fromCharCode(...state.resizeIgnoreMask)),
-              }
+              w: state.resizeSettings.width,
+              h: state.resizeSettings.height,
+              data: btoa(String.fromCharCode(...state.resizeIgnoreMask)),
+            }
             : null, // Notifications
         notificationsEnabled: state.notificationsEnabled,
         notifyOnChargesReached: state.notifyOnChargesReached,

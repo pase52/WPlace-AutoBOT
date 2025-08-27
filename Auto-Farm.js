@@ -59,7 +59,7 @@
             paintLoop();
           }
         }
-      } catch (e) {}
+      } catch (e) { }
     }
     return originalFetch(url, options);
   };
