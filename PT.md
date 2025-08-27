@@ -1,4 +1,3 @@
-
 <p align="center"><strong>WPlace AutoBOT</strong></p>
 <p align="center">
 Este projeto foi bifurcado de https://github.com/DarkModde/WPlace-AutoBOT
@@ -30,13 +29,21 @@ Junte-se ao nosso discord: https://discord.gg/CBB4abRmGM
 ### 🎯┃Auto-Farm (NÃO FUNCIONANDO 🚫)
 
 ```js
-javascript:fetch("https://raw.githubusercontent.com/Wplace-AutoBot/WPlace-AutoBOT/refs/heads/main/Auto-Farm.js").then(t=>t.text()).then(eval);
+javascript: fetch(
+  "https://raw.githubusercontent.com/Wplace-AutoBot/WPlace-AutoBOT/refs/heads/main/Auto-Farm.js"
+)
+  .then((t) => t.text())
+  .then(eval);
 ```
 
 ### 🖼️┃Auto-Image
 
 ```js
-javascript:fetch("https://raw.githubusercontent.com/Wplace-AutoBot/WPlace-AutoBOT/refs/heads/main/Auto-Image.js").then(t=>t.text()).then(eval);
+javascript: fetch(
+  "https://raw.githubusercontent.com/Wplace-AutoBot/WPlace-AutoBOT/refs/heads/main/Auto-Image.js"
+)
+  .then((t) => t.text())
+  .then(eval);
 ```
 
 <details>
@@ -56,11 +63,10 @@ javascript:fetch("https://raw.githubusercontent.com/Wplace-AutoBot/WPlace-AutoBO
 
 </details>
 
-
-
 <br>
 
 > [!IMPORTANTE]
+>
 > <p><sub><strong>1.</strong> Nenhum dos scripts funcionará se você fechar a aba do navegador. Você deve manter a aba do WPlace aberta, mesmo que esteja em segundo plano.</sub></p>
 > <p><sub><strong>2.</strong> Nunca execute ambos os scripts na mesma página — isso pode bugar seu WPlace. Se acontecer, basta atualizar a página!</sub></p>
 > <p><sub><strong>3.</strong> Se o script não detectar as cores disponíveis, basta clicar no botão "Pintar" para mostrá-las — só então inicie o Auto-Imager.</sub></p>
@@ -78,8 +84,8 @@ javascript:fetch("https://raw.githubusercontent.com/Wplace-AutoBot/WPlace-AutoBO
 ### 📋┃A fazer
 
 - [x] Fazer o AutoFarm funcionar
-- [ ] Unir ambos os scripts em um só  
-- [x] Corrigir bugs do script  
+- [ ] Unir ambos os scripts em um só
+- [x] Corrigir bugs do script
 - [] Adicionar novas opções
 
 ---

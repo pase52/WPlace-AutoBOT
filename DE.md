@@ -1,4 +1,3 @@
-
 <p align="center"><strong>WPlace AutoBOT</strong></p>
 <p align="center">
 Dieses Projekt ist ein Fork von https://github.com/DarkModde/WPlace-AutoBOT  
@@ -29,16 +28,25 @@ und führe ihn aus, während du auf wplace.live bist.
 </p>
 
 ### 🎯┃Auto-Farm
+
 **Auto-Farm verwendet Ladungen, um Levels zu Farmen. Es zeichnet keine Bilder! Nutze dafür Auto-Image.**
 
 ```js
-javascript:fetch("https://raw.githubusercontent.com/Wplace-AutoBot/WPlace-AutoBOT/refs/heads/main/Auto-Farm.js").then(t=>t.text()).then(eval);
-````
+javascript: fetch(
+  "https://raw.githubusercontent.com/Wplace-AutoBot/WPlace-AutoBOT/refs/heads/main/Auto-Farm.js"
+)
+  .then((t) => t.text())
+  .then(eval);
+```
 
 ### 🖼️┃Auto-Image
 
 ```js
-javascript:fetch("https://raw.githubusercontent.com/Wplace-AutoBot/WPlace-AutoBOT/refs/heads/main/Auto-Image.js").then(t=>t.text()).then(eval);
+javascript: fetch(
+  "https://raw.githubusercontent.com/Wplace-AutoBot/WPlace-AutoBOT/refs/heads/main/Auto-Image.js"
+)
+  .then((t) => t.text())
+  .then(eval);
 ```
 
 <details>
@@ -62,29 +70,29 @@ javascript:fetch("https://raw.githubusercontent.com/Wplace-AutoBot/WPlace-AutoBO
 
 ### ✨┃Features
 
-* Automatisches Farmen von Drops/Levels
-* Korrektes Überspringen von Pixeln mit falscher Farbe
-* Overlay (BlueMarble nicht mehr nötig)
-* Malen über mehrere Tiles
-* AutoCaptcha-Solver mit Turnstile Token Generator
-* Erweiterte Farbverarbeitung
-* Mehrsprachige Unterstützung
-* Multi-Account über Speicher- und Ladefunktion
-* Funktioniert auch auf Mobilgeräten \:P
+- Automatisches Farmen von Drops/Levels
+- Korrektes Überspringen von Pixeln mit falscher Farbe
+- Overlay (BlueMarble nicht mehr nötig)
+- Malen über mehrere Tiles
+- AutoCaptcha-Solver mit Turnstile Token Generator
+- Erweiterte Farbverarbeitung
+- Mehrsprachige Unterstützung
+- Multi-Account über Speicher- und Ladefunktion
+- Funktioniert auch auf Mobilgeräten \:P
 
 ---
 
 ### 📋┃To-Do
 
-* [x] AutoFarm zum Laufen bringen
-* [ ] Beide Scripts zu einem zusammenführen
-* [ ] Multi-Account-Switcher (in Entwicklung)
-* [ ] Multi-Account-Warteschlange
-* [ ] Overlay-System hinzufügen
-* [ ] Unterstützung über mehrere Tiles
-* [ ] AutoCaptcha-Solver hinzufügen
-* [ ] Korrektes Überspringen von Pixeln
-* [ ] Separate CSS-Dateien
+- [x] AutoFarm zum Laufen bringen
+- [ ] Beide Scripts zu einem zusammenführen
+- [ ] Multi-Account-Switcher (in Entwicklung)
+- [ ] Multi-Account-Warteschlange
+- [ ] Overlay-System hinzufügen
+- [ ] Unterstützung über mehrere Tiles
+- [ ] AutoCaptcha-Solver hinzufügen
+- [ ] Korrektes Überspringen von Pixeln
+- [ ] Separate CSS-Dateien
 
 ---
 
