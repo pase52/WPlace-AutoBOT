@@ -1,0 +1,18 @@
+{
+  "name": "wplace-autobot",
+  "version": "1.0.0",
+  "description": "<p align=\"center\">\r   <img width=\"300\" height=\"300\" alt=\"image\" src=\"https://github.com/user-attachments/assets/92c38d55-37ef-4e88-bf24-9dba693fa0ab\" />\r </p>",
+  "scripts": {
+    "start": "npx http-server -p 8000 --cors -c-1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pase52/WPlace-AutoBOT.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pase52/WPlace-AutoBOT/issues"
+  },
+  "homepage": "https://github.com/pase52/WPlace-AutoBOT#readme"
+}
