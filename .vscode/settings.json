@@ -1,0 +1,15 @@
+{
+  "chat.agent.maxRequests": 100,
+  "chat.tools.terminal.autoApprove": {
+    "rm": true,
+    "rmdir": true,
+    "del": true,
+    "kill": true,
+    "curl": true,
+    "wget": true,
+    "eval": true,
+    "chmod": true,
+    "chown": true,
+    "/^Remove-Item\\b/i": true
+  }
+}
