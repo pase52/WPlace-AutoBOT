@@ -1,0 +1,484 @@
+🚀 WPlace Auto-Image with Turnstile Token Generator loaded
+VM2580:7993 🔑 Turnstile token generator: ALWAYS ENABLED (Background mode)
+VM2580:7994 🎯 Manual pixel captcha solving: Available as fallback/alternative
+VM2580:7995 📱 Turnstile widgets: DISABLED - pure background token generation only!
+VM2580:8053 🔧 Initializing Turnstile token generator...
+VM2580:2111 🔍 No sitekey detected, trying known working sitekeys...
+VM2580:2113 🔍 Trying sitekey: 0x4AAAAAABpqJe8FO0N84q0F
+VM2580:1615 🔑 Generating Turnstile token for sitekey: 0x4AAAAAABpqJe8FO0N84q0F
+VM2580:1618 🧭 UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Platform: Win32
+VM2580:1913 🔧 Creating invisible Turnstile widget...
+api.js?render=explicit:1 [Cloudflare Turnstile] Call to execute() on a widget that is already executing (cf-chl-widget-tzz7n), consider using reset() before execute().
+x @ api.js?render=explicit:1
+execute @ api.js?render=explicit:1
+eval @ VM2580:1937
+createTurnstileWidget @ VM2580:1891
+executeTurnstile @ VM2580:1881
+await in executeTurnstile
+generatePaintToken @ VM2580:2019
+handleCaptchaWithRetry @ VM2580:1621
+initializeTokenGenerator @ VM2580:8059
+setTimeout
+eval @ VM2580:8088
+Promise.then
+eval @ VM2580:8086
+eval @ VM2580:8118
+Promise.then
+(anonymous) @ VM2579:1Understand this warning
+VM2580:1886 � Falling back to interactive Turnstile (visible).
+VM2580:1949 🔄 Creating interactive Turnstile widget (visible)
+VM2580:2009 ✅ Interactive Turnstile widget created, waiting for user interaction...
+content_script_bundle.js:1 Attempting initialization Thu Aug 28 2025 00:02:22 GMT+0200 (heure d’été d’Europe centrale)
+v1?ray=975eda55fa9be1a4&lang=auto:1 
+v1?ray=975eda55fa9be1a4&lang=auto:1 Request for the Private Access Token challenge.
+VM2580:1983 ✅ Interactive Turnstile completed successfully
+VM2580:1624 ✅ Turnstile token generated successfully in 3830ms
+VM2580:1556 ✅ Turnstile token set successfully
+VM2580:8062 ✅ Startup token generated successfully
+VM2580:8013 ✅ Load Progress button enabled after initial setup
+VM2580:8024 ✅ Load from File button enabled after initial setup
+VM2580:8035 ✅ Upload Image button enabled after initial setup
+VM2580:2394 === CAPTURED COLORS STATUS ===
+VM2580:2395 Total available colors: 1
+VM2580:2396 Total unavailable colors: 0
+VM2580:2397 Total colors scanned: 1
+VM2580:2400 
+--- AVAILABLE COLORS ---
+VM2580:2402 1. ID: NaN, Name: "Unknown Color NaN", RGB: (0, 0, 0)
+VM2580:2413 === END COLOR STATUS ===
+VM2580:2394 === CAPTURED COLORS STATUS ===
+VM2580:2395 Total available colors: 1
+VM2580:2396 Total unavailable colors: 0
+VM2580:2397 Total colors scanned: 1
+VM2580:2400 
+--- AVAILABLE COLORS ---
+VM2580:2402 1. ID: NaN, Name: "Unknown Color NaN", RGB: (0, 0, 0)
+VM2580:2413 === END COLOR STATUS ===
+16The resource <URL> was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.Understand this warning
+VM2580:2394 === CAPTURED COLORS STATUS ===
+VM2580:2395 Total available colors: 32
+VM2580:2396 Total unavailable colors: 0
+VM2580:2397 Total colors scanned: 32
+VM2580:2400 
+--- AVAILABLE COLORS ---
+VM2580:2402 1. ID: 1, Name: "Black", RGB: (0, 0, 0)
+VM2580:2402 2. ID: 2, Name: "Dark Gray", RGB: (60, 60, 60)
+VM2580:2402 3. ID: 3, Name: "Gray", RGB: (120, 120, 120)
+VM2580:2402 4. ID: 4, Name: "Light Gray", RGB: (210, 210, 210)
+VM2580:2402 5. ID: 5, Name: "White", RGB: (255, 255, 255)
+VM2580:2402 6. ID: 6, Name: "Deep Red", RGB: (96, 0, 24)
+VM2580:2402 7. ID: 7, Name: "Red", RGB: (237, 28, 36)
+VM2580:2402 8. ID: 8, Name: "Orange", RGB: (255, 127, 39)
+VM2580:2402 9. ID: 9, Name: "Gold", RGB: (246, 170, 9)
+VM2580:2402 10. ID: 10, Name: "Yellow", RGB: (249, 221, 59)
+VM2580:2402 11. ID: 11, Name: "Light Yellow", RGB: (255, 250, 188)
+VM2580:2402 12. ID: 12, Name: "Dark Green", RGB: (14, 185, 104)
+VM2580:2402 13. ID: 13, Name: "Green", RGB: (19, 230, 123)
+VM2580:2402 14. ID: 14, Name: "Light Green", RGB: (135, 255, 94)
+VM2580:2402 15. ID: 15, Name: "Dark Teal", RGB: (12, 129, 110)
+VM2580:2402 16. ID: 16, Name: "Teal", RGB: (16, 174, 166)
+VM2580:2402 17. ID: 17, Name: "Light Teal", RGB: (19, 225, 190)
+VM2580:2402 18. ID: 18, Name: "Dark Blue", RGB: (40, 80, 158)
+VM2580:2402 19. ID: 19, Name: "Blue", RGB: (64, 147, 228)
+VM2580:2402 20. ID: 20, Name: "Cyan", RGB: (96, 247, 242)
+VM2580:2402 21. ID: 21, Name: "Indigo", RGB: (107, 80, 246)
+VM2580:2402 22. ID: 22, Name: "Light Indigo", RGB: (153, 177, 251)
+VM2580:2402 23. ID: 23, Name: "Dark Purple", RGB: (120, 12, 153)
+VM2580:2402 24. ID: 24, Name: "Purple", RGB: (170, 56, 185)
+VM2580:2402 25. ID: 25, Name: "Light Purple", RGB: (224, 159, 249)
+VM2580:2402 26. ID: 26, Name: "Dark Pink", RGB: (203, 0, 122)
+VM2580:2402 27. ID: 27, Name: "Pink", RGB: (236, 31, 128)
+VM2580:2402 28. ID: 28, Name: "Light Pink", RGB: (243, 141, 169)
+VM2580:2402 29. ID: 29, Name: "Dark Brown", RGB: (104, 70, 52)
+VM2580:2402 30. ID: 30, Name: "Brown", RGB: (149, 104, 42)
+VM2580:2402 31. ID: 31, Name: "Beige", RGB: (248, 178, 119)
+VM2580:2402 32. ID: NaN, Name: "Unknown Color NaN", RGB: (0, 0, 0)
+VM2580:2413 === END COLOR STATUS ===
+VM2580:2449 📋 Initialized painted map: 1255x711
+VM2580:6252 Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently
+_updateResizePreview @ VM2580:6252
+await in _updateResizePreview
+showResizeDialog @ VM2580:6925
+eval @ VM2580:7054Understand this warning
+VM2581:25 ✅ Turnstile Token Captured: 0.s5RfThUZimve9dWxuo7w8dfClYCYkvCfivGJ3t2IXU3081bLnEYYZtolAzA2espeFIKkgTYShLCbVlsAZ7ec8vRt06PWq2Ukj8f1B6HdbyMJMJe33U9tQ79UqzHQwE8A3j9IQ066YA-VmD80RNjhenMABzY2QFycFzH1nchVA8KvDSfkG4u3dCUZTfIz7g7pXprajNAEFTbYCvAAdIS8RBKofUCKqi82Nma-Mr53vmVzqlvbolfdna6qiDBaXfTxyHa7dSdssJhm6W_V6r14T3ERtACgdZGsVHAbF8D07afM-jWKdjAhcypRP50QHw4KIT6xrhSuVnolB_AXVQqqJaIB6FfD8sN6ljfNwVpS9I2pOP1mzxM-BQreGtV_MMfUNIvawDRLL9LOR5bdwRMZRTBwX7cOEUoTs4m3bHMAYoFrzAcBbhGNikAL0zyaCwMJvdNzVDrS6u-KQZzRuE1xxN3qt99VU68-ybz9IBuiXkv9r3PrWTFWjefY4Sws98UMV9dNTzWqRwvmC1rpeeJmGKPwRZsobXmuUPxoZmIuBHCRAvT7aQ1CU6gnBMjezxEkvjNzPWwYIK9qCwHURJp2tq_ig13d36QOjW24M88NiCPq1YKsUxWfHGIqn4ZTOiXbJaXKfGelydWDGrYP3i0pLCj4suaSvyKTPqJsrxK0GrKV9u4hVUDZhv_1liaXVKNGc_IPwC0edMZ52FwRoQ2kxVMgZCHWKEmtshix9lqG2sA7nRFBypmEAfvLDrRjQItTmXFrRIFfh4EUJT5stv0S3d96U2I7n5cn4kq2k_NjAxmsweO4HCdeLLiv-luOJB6INruiEYkCdCXi3xoxKU8ag9wJeZYXvEpMDzSxkHw8bZYDkx2QAoUdq2O7krZxCiz_2aNZ4lTH0Ynd038Ur5JIc0g5VEBjpap-xbdvKeNuH61qPyPTwku209BHWtxy6lHM.8vgHTrJw8LwRHOemc06auQ.d2b04ac761c75c87d1f668916f52fbebbcdfd48a16d68510ec73da91a7d7fa82
+VM2580:1556 ✅ Turnstile token set successfully
+VM2580:1313 🔄 Processing 1 overlay tiles...
+VM2580:1344 ✅ Overlay processed 1 tiles in 0ms
+content_script_bundle.js:1 Attempting initialization Thu Aug 28 2025 00:02:59 GMT+0200 (heure d’été d’Europe centrale)
+v1?ray=975edb3dee0ce281&lang=auto:1 
+v1?ray=975edb3dee0ce281&lang=auto:1 Request for the Private Access Token challenge.
+VM2580:7158 🚀 Speed Print Zone enabled: 4 pixel skip interval
+VM2580:7283 🚀 Speed Print Zone: Pass 1, Offset 0, Pixels in this pass: 17
+VM2580:7457 📦 Sending batch with 1 pixels (mode: normal, target: 1)
+VM2580:7692 🔄 Attempting to send batch (attempt 1/10) for region 1336,1620 with 1 pixels
+DFksdMaI.js:1  POST https://backend.wplace.live/s0/pixel/1336/1620 403 (Forbidden)
+window.fetch @ DFksdMaI.js:1
+window.fetch @ VM2581:17
+sendPixelBatch @ VM2580:7759
+sendBatchWithRetry @ VM2580:7694
+processImage @ VM2580:7458
+await in processImage
+startPainting @ VM2580:7169Understand this error
+VM2581:25 ✅ Turnstile Token Captured: 0.s5RfThUZimve9dWxuo7w8dfClYCYkvCfivGJ3t2IXU3081bLnEYYZtolAzA2espeFIKkgTYShLCbVlsAZ7ec8vRt06PWq2Ukj8f1B6HdbyMJMJe33U9tQ79UqzHQwE8A3j9IQ066YA-VmD80RNjhenMABzY2QFycFzH1nchVA8KvDSfkG4u3dCUZTfIz7g7pXprajNAEFTbYCvAAdIS8RBKofUCKqi82Nma-Mr53vmVzqlvbolfdna6qiDBaXfTxyHa7dSdssJhm6W_V6r14T3ERtACgdZGsVHAbF8D07afM-jWKdjAhcypRP50QHw4KIT6xrhSuVnolB_AXVQqqJaIB6FfD8sN6ljfNwVpS9I2pOP1mzxM-BQreGtV_MMfUNIvawDRLL9LOR5bdwRMZRTBwX7cOEUoTs4m3bHMAYoFrzAcBbhGNikAL0zyaCwMJvdNzVDrS6u-KQZzRuE1xxN3qt99VU68-ybz9IBuiXkv9r3PrWTFWjefY4Sws98UMV9dNTzWqRwvmC1rpeeJmGKPwRZsobXmuUPxoZmIuBHCRAvT7aQ1CU6gnBMjezxEkvjNzPWwYIK9qCwHURJp2tq_ig13d36QOjW24M88NiCPq1YKsUxWfHGIqn4ZTOiXbJaXKfGelydWDGrYP3i0pLCj4suaSvyKTPqJsrxK0GrKV9u4hVUDZhv_1liaXVKNGc_IPwC0edMZ52FwRoQ2kxVMgZCHWKEmtshix9lqG2sA7nRFBypmEAfvLDrRjQItTmXFrRIFfh4EUJT5stv0S3d96U2I7n5cn4kq2k_NjAxmsweO4HCdeLLiv-luOJB6INruiEYkCdCXi3xoxKU8ag9wJeZYXvEpMDzSxkHw8bZYDkx2QAoUdq2O7krZxCiz_2aNZ4lTH0Ynd038Ur5JIc0g5VEBjpap-xbdvKeNuH61qPyPTwku209BHWtxy6lHM.8vgHTrJw8LwRHOemc06auQ.d2b04ac761c75c87d1f668916f52fbebbcdfd48a16d68510ec73da91a7d7fa82
+VM2580:1556 ✅ Turnstile token set successfully
+VM2580:7769 ❌ 403 Forbidden. Turnstile token might be invalid or expired.
+sendPixelBatch @ VM2580:7769
+await in sendPixelBatch
+sendBatchWithRetry @ VM2580:7694
+processImage @ VM2580:7458
+await in processImage
+startPainting @ VM2580:7169
+VM2580:7773 🔄 Regenerating Turnstile token after 403...
+VM2580:2049 🔍 Using cached sitekey: 0x4AAAAAABpqJe8FO0N84q0F
+VM2580:3247 🔑 Generating Turnstile token for sitekey: 0x4AAAAAABpqJe8FO0N84q0F
+VM2580:3248 🧭 UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb... Platform: Win32
+VM2580:1866 🔄 Reusing existing Turnstile widget...
+api.js?render=explicit:1 [Cloudflare Turnstile] Call to execute() on a widget that was already executed (cf-chl-widget-x21l9), execute() will return the previous token obtained. Consider using reset() before execute() to obtain a fresh token.
+x @ api.js?render=explicit:1
+execute @ api.js?render=explicit:1
+executeTurnstile @ VM2580:1868
+await in executeTurnstile
+generatePaintToken @ VM2580:2019
+handleCaptcha @ VM2580:3255
+sendPixelBatch @ VM2580:7774
+await in sendPixelBatch
+sendBatchWithRetry @ VM2580:7694
+processImage @ VM2580:7458
+await in processImage
+startPainting @ VM2580:7169Understand this warning
+VM2580:1983 ✅ Interactive Turnstile completed successfully
+VM2580:1897 🧹 Cleaned up existing Turnstile widget
+VM2580:1913 🔧 Creating invisible Turnstile widget...
+api.js?render=explicit:1 [Cloudflare Turnstile] Call to execute() on a widget that is already executing (cf-chl-widget-uplb4), consider using reset() before execute().
+x @ api.js?render=explicit:1
+execute @ api.js?render=explicit:1
+eval @ VM2580:1937
+createTurnstileWidget @ VM2580:1891
+executeTurnstile @ VM2580:1881
+await in executeTurnstile
+generatePaintToken @ VM2580:2019
+handleCaptcha @ VM2580:3255
+sendPixelBatch @ VM2580:7774
+await in sendPixelBatch
+sendBatchWithRetry @ VM2580:7694
+processImage @ VM2580:7458
+await in processImage
+startPainting @ VM2580:7169Understand this warning
+VM2580:1886 � Falling back to interactive Turnstile (visible).
+VM2580:1949 🔄 Creating interactive Turnstile widget (visible)
+VM2580:2009 ✅ Interactive Turnstile widget created, waiting for user interaction...
+content_script_bundle.js:1 Attempting initialization Thu Aug 28 2025 00:03:04 GMT+0200 (heure d’été d’Europe centrale)
+v1?ray=975edb603a50e281&lang=auto:1 
+v1?ray=975edb603a50e281&lang=auto:1 Request for the Private Access Token challenge.
+VM2580:1983 ✅ Interactive Turnstile completed successfully
+VM2580:3257 🔍 Token received - Type: string, Value: 0.285Q2DTjuzhbMbSlqbvdxRK30CE_0LjXFyGbxKcXc5Q0PwuV..., Length: 1050
+VM2580:3261 ✅ Turnstile token generated successfully in 4961ms
+VM2581:25 ✅ Turnstile Token Captured: 0.285Q2DTjuzhbMbSlqbvdxRK30CE_0LjXFyGbxKcXc5Q0PwuVTigLMGHb3fG7WUghYJSl50dVv4A5_ah1QjW8pWhqTTDvriMpG7AFmu1k2hVqeCboP8w4d-8XdFOuxXcinckaE6G90vTZHj1cKpxYIoddraBMwSLaQWLBOuKIVTcqoGOX7gsZKV6e7feYVjD0JCirayDZ_aWO5q1Zgj3lR8LCUwpdmtdF_fUTWQ9_bwOkcXwEDH3L7lBACKHx2ts8NMFObu_OBXLcMhoKePVU7prhwt-74aAQGR9tLKPA2vrz28rdGNKCso-71yLii3o_KjhDk6VwrIa2nxPOrhTH2kk5R5nmlfrNj5N9XqJfaijMU6Guya70XJqpFidcbgiyU9_Wbc1dPvbl6GcNxzVlleFS5kvcBk2-ushAU1rttw4Q6SY2si_kA2nnDxvy2W1f9qPQrRNCNuY9F4v65sbGDT1RvEJDqyrf98eL8naO9kUJCb_-JVSHYSoNikW5XbTn6KWDSsRAU5w2e3PBkQDMnPQ-EYAtw7ZiLpeDkMN90IGTyttaep3BXgfhIzhXVFub8HIfZQs9WxRpGG3WnEAGyJ9SGhVeCJA5nny8p1lT9NbEtZY-nYQrkK4eMw0I0vswQOvcBDAWyAMbOPj3XtmtRkUIirlO1MRaaPf4p82QdLt-VBM35Lwhu_XLk4703CRhfUmjC0UIL1_1ZjmMM-rFkdPAW33qAS2FFlE63TrDoPY0P8mPGzItSDlXNDZQM2FFW6E5duHCAOru4Gk8zqSmgWCIDhYf-YbBbAIxF6QwsVzTWOOw6XRHJzg2HBB4MU8N4XHiCIfJy6R2M3JXgP0-0mOzuA05R3ezmvgrPwpMF_kqPqpDP5mz5-bIOVmcs4zsvyeDxoMlNLl3pox1T8YbcGMzT4ss31hdLOQZHSWqsEd43PqrJ32UT2FfXBNVFV6X.kE105DLCJ6xHy4Bpo60rKQ.5bc800b2d8e880d0c12f54014fa7315f2ac746501be5fe8fdffba6bb3235cfff
+VM2580:1556 ✅ Turnstile token set successfully
+VM2580:7697 ✅ Batch succeeded on attempt 1
+VM2580:7457 📦 Sending batch with 1 pixels (mode: normal, target: 1)
+VM2580:7692 🔄 Attempting to send batch (attempt 1/10) for region 1336,1620 with 1 pixels
+VM2581:25 ✅ Turnstile Token Captured: 0.285Q2DTjuzhbMbSlqbvdxRK30CE_0LjXFyGbxKcXc5Q0PwuVTigLMGHb3fG7WUghYJSl50dVv4A5_ah1QjW8pWhqTTDvriMpG7AFmu1k2hVqeCboP8w4d-8XdFOuxXcinckaE6G90vTZHj1cKpxYIoddraBMwSLaQWLBOuKIVTcqoGOX7gsZKV6e7feYVjD0JCirayDZ_aWO5q1Zgj3lR8LCUwpdmtdF_fUTWQ9_bwOkcXwEDH3L7lBACKHx2ts8NMFObu_OBXLcMhoKePVU7prhwt-74aAQGR9tLKPA2vrz28rdGNKCso-71yLii3o_KjhDk6VwrIa2nxPOrhTH2kk5R5nmlfrNj5N9XqJfaijMU6Guya70XJqpFidcbgiyU9_Wbc1dPvbl6GcNxzVlleFS5kvcBk2-ushAU1rttw4Q6SY2si_kA2nnDxvy2W1f9qPQrRNCNuY9F4v65sbGDT1RvEJDqyrf98eL8naO9kUJCb_-JVSHYSoNikW5XbTn6KWDSsRAU5w2e3PBkQDMnPQ-EYAtw7ZiLpeDkMN90IGTyttaep3BXgfhIzhXVFub8HIfZQs9WxRpGG3WnEAGyJ9SGhVeCJA5nny8p1lT9NbEtZY-nYQrkK4eMw0I0vswQOvcBDAWyAMbOPj3XtmtRkUIirlO1MRaaPf4p82QdLt-VBM35Lwhu_XLk4703CRhfUmjC0UIL1_1ZjmMM-rFkdPAW33qAS2FFlE63TrDoPY0P8mPGzItSDlXNDZQM2FFW6E5duHCAOru4Gk8zqSmgWCIDhYf-YbBbAIxF6QwsVzTWOOw6XRHJzg2HBB4MU8N4XHiCIfJy6R2M3JXgP0-0mOzuA05R3ezmvgrPwpMF_kqPqpDP5mz5-bIOVmcs4zsvyeDxoMlNLl3pox1T8YbcGMzT4ss31hdLOQZHSWqsEd43PqrJ32UT2FfXBNVFV6X.kE105DLCJ6xHy4Bpo60rKQ.5bc800b2d8e880d0c12f54014fa7315f2ac746501be5fe8fdffba6bb3235cfff
+VM2580:1556 ✅ Turnstile token set successfully
+VM2580:7697 ✅ Batch succeeded on attempt 1
+VM2580:7457 📦 Sending batch with 1 pixels (mode: normal, target: 1)
+VM2580:7692 🔄 Attempting to send batch (attempt 1/10) for region 1336,1620 with 1 pixels
+VM2581:25 ✅ Turnstile Token Captured: 0.285Q2DTjuzhbMbSlqbvdxRK30CE_0LjXFyGbxKcXc5Q0PwuVTigLMGHb3fG7WUghYJSl50dVv4A5_ah1QjW8pWhqTTDvriMpG7AFmu1k2hVqeCboP8w4d-8XdFOuxXcinckaE6G90vTZHj1cKpxYIoddraBMwSLaQWLBOuKIVTcqoGOX7gsZKV6e7feYVjD0JCirayDZ_aWO5q1Zgj3lR8LCUwpdmtdF_fUTWQ9_bwOkcXwEDH3L7lBACKHx2ts8NMFObu_OBXLcMhoKePVU7prhwt-74aAQGR9tLKPA2vrz28rdGNKCso-71yLii3o_KjhDk6VwrIa2nxPOrhTH2kk5R5nmlfrNj5N9XqJfaijMU6Guya70XJqpFidcbgiyU9_Wbc1dPvbl6GcNxzVlleFS5kvcBk2-ushAU1rttw4Q6SY2si_kA2nnDxvy2W1f9qPQrRNCNuY9F4v65sbGDT1RvEJDqyrf98eL8naO9kUJCb_-JVSHYSoNikW5XbTn6KWDSsRAU5w2e3PBkQDMnPQ-EYAtw7ZiLpeDkMN90IGTyttaep3BXgfhIzhXVFub8HIfZQs9WxRpGG3WnEAGyJ9SGhVeCJA5nny8p1lT9NbEtZY-nYQrkK4eMw0I0vswQOvcBDAWyAMbOPj3XtmtRkUIirlO1MRaaPf4p82QdLt-VBM35Lwhu_XLk4703CRhfUmjC0UIL1_1ZjmMM-rFkdPAW33qAS2FFlE63TrDoPY0P8mPGzItSDlXNDZQM2FFW6E5duHCAOru4Gk8zqSmgWCIDhYf-YbBbAIxF6QwsVzTWOOw6XRHJzg2HBB4MU8N4XHiCIfJy6R2M3JXgP0-0mOzuA05R3ezmvgrPwpMF_kqPqpDP5mz5-bIOVmcs4zsvyeDxoMlNLl3pox1T8YbcGMzT4ss31hdLOQZHSWqsEd43PqrJ32UT2FfXBNVFV6X.kE105DLCJ6xHy4Bpo60rKQ.5bc800b2d8e880d0c12f54014fa7315f2ac746501be5fe8fdffba6bb3235cfff
+VM2580:1556 ✅ Turnstile token set successfully
+VM2580:7697 ✅ Batch succeeded on attempt 1
+VM2580:7457 📦 Sending batch with 1 pixels (mode: normal, target: 1)
+VM2580:7692 🔄 Attempting to send batch (attempt 1/10) for region 1336,1620 with 1 pixels
+VM2581:25 ✅ Turnstile Token Captured: 0.285Q2DTjuzhbMbSlqbvdxRK30CE_0LjXFyGbxKcXc5Q0PwuVTigLMGHb3fG7WUghYJSl50dVv4A5_ah1QjW8pWhqTTDvriMpG7AFmu1k2hVqeCboP8w4d-8XdFOuxXcinckaE6G90vTZHj1cKpxYIoddraBMwSLaQWLBOuKIVTcqoGOX7gsZKV6e7feYVjD0JCirayDZ_aWO5q1Zgj3lR8LCUwpdmtdF_fUTWQ9_bwOkcXwEDH3L7lBACKHx2ts8NMFObu_OBXLcMhoKePVU7prhwt-74aAQGR9tLKPA2vrz28rdGNKCso-71yLii3o_KjhDk6VwrIa2nxPOrhTH2kk5R5nmlfrNj5N9XqJfaijMU6Guya70XJqpFidcbgiyU9_Wbc1dPvbl6GcNxzVlleFS5kvcBk2-ushAU1rttw4Q6SY2si_kA2nnDxvy2W1f9qPQrRNCNuY9F4v65sbGDT1RvEJDqyrf98eL8naO9kUJCb_-JVSHYSoNikW5XbTn6KWDSsRAU5w2e3PBkQDMnPQ-EYAtw7ZiLpeDkMN90IGTyttaep3BXgfhIzhXVFub8HIfZQs9WxRpGG3WnEAGyJ9SGhVeCJA5nny8p1lT9NbEtZY-nYQrkK4eMw0I0vswQOvcBDAWyAMbOPj3XtmtRkUIirlO1MRaaPf4p82QdLt-VBM35Lwhu_XLk4703CRhfUmjC0UIL1_1ZjmMM-rFkdPAW33qAS2FFlE63TrDoPY0P8mPGzItSDlXNDZQM2FFW6E5duHCAOru4Gk8zqSmgWCIDhYf-YbBbAIxF6QwsVzTWOOw6XRHJzg2HBB4MU8N4XHiCIfJy6R2M3JXgP0-0mOzuA05R3ezmvgrPwpMF_kqPqpDP5mz5-bIOVmcs4zsvyeDxoMlNLl3pox1T8YbcGMzT4ss31hdLOQZHSWqsEd43PqrJ32UT2FfXBNVFV6X.kE105DLCJ6xHy4Bpo60rKQ.5bc800b2d8e880d0c12f54014fa7315f2ac746501be5fe8fdffba6bb3235cfff
+VM2580:1556 ✅ Turnstile token set successfully
+VM2580:7697 ✅ Batch succeeded on attempt 1
+VM2580:7457 📦 Sending batch with 1 pixels (mode: normal, target: 1)
+VM2580:7692 🔄 Attempting to send batch (attempt 1/10) for region 1336,1620 with 1 pixels
+VM2581:25 ✅ Turnstile Token Captured: 0.285Q2DTjuzhbMbSlqbvdxRK30CE_0LjXFyGbxKcXc5Q0PwuVTigLMGHb3fG7WUghYJSl50dVv4A5_ah1QjW8pWhqTTDvriMpG7AFmu1k2hVqeCboP8w4d-8XdFOuxXcinckaE6G90vTZHj1cKpxYIoddraBMwSLaQWLBOuKIVTcqoGOX7gsZKV6e7feYVjD0JCirayDZ_aWO5q1Zgj3lR8LCUwpdmtdF_fUTWQ9_bwOkcXwEDH3L7lBACKHx2ts8NMFObu_OBXLcMhoKePVU7prhwt-74aAQGR9tLKPA2vrz28rdGNKCso-71yLii3o_KjhDk6VwrIa2nxPOrhTH2kk5R5nmlfrNj5N9XqJfaijMU6Guya70XJqpFidcbgiyU9_Wbc1dPvbl6GcNxzVlleFS5kvcBk2-ushAU1rttw4Q6SY2si_kA2nnDxvy2W1f9qPQrRNCNuY9F4v65sbGDT1RvEJDqyrf98eL8naO9kUJCb_-JVSHYSoNikW5XbTn6KWDSsRAU5w2e3PBkQDMnPQ-EYAtw7ZiLpeDkMN90IGTyttaep3BXgfhIzhXVFub8HIfZQs9WxRpGG3WnEAGyJ9SGhVeCJA5nny8p1lT9NbEtZY-nYQrkK4eMw0I0vswQOvcBDAWyAMbOPj3XtmtRkUIirlO1MRaaPf4p82QdLt-VBM35Lwhu_XLk4703CRhfUmjC0UIL1_1ZjmMM-rFkdPAW33qAS2FFlE63TrDoPY0P8mPGzItSDlXNDZQM2FFW6E5duHCAOru4Gk8zqSmgWCIDhYf-YbBbAIxF6QwsVzTWOOw6XRHJzg2HBB4MU8N4XHiCIfJy6R2M3JXgP0-0mOzuA05R3ezmvgrPwpMF_kqPqpDP5mz5-bIOVmcs4zsvyeDxoMlNLl3pox1T8YbcGMzT4ss31hdLOQZHSWqsEd43PqrJ32UT2FfXBNVFV6X.kE105DLCJ6xHy4Bpo60rKQ.5bc800b2d8e880d0c12f54014fa7315f2ac746501be5fe8fdffba6bb3235cfff
+VM2580:1556 ✅ Turnstile token set successfully
+VM2580:7697 ✅ Batch succeeded on attempt 1
+VM2580:7457 📦 Sending batch with 1 pixels (mode: normal, target: 1)
+VM2580:7692 🔄 Attempting to send batch (attempt 1/10) for region 1336,1620 with 1 pixels
+DFksdMaI.js:1  POST https://backend.wplace.live/s0/pixel/1336/1620 403 (Forbidden)
+window.fetch @ DFksdMaI.js:1
+window.fetch @ VM2581:17
+sendPixelBatch @ VM2580:7759
+sendBatchWithRetry @ VM2580:7694
+processImage @ VM2580:7458
+await in processImage
+startPainting @ VM2580:7169Understand this error
+VM2581:25 ✅ Turnstile Token Captured: 0.285Q2DTjuzhbMbSlqbvdxRK30CE_0LjXFyGbxKcXc5Q0PwuVTigLMGHb3fG7WUghYJSl50dVv4A5_ah1QjW8pWhqTTDvriMpG7AFmu1k2hVqeCboP8w4d-8XdFOuxXcinckaE6G90vTZHj1cKpxYIoddraBMwSLaQWLBOuKIVTcqoGOX7gsZKV6e7feYVjD0JCirayDZ_aWO5q1Zgj3lR8LCUwpdmtdF_fUTWQ9_bwOkcXwEDH3L7lBACKHx2ts8NMFObu_OBXLcMhoKePVU7prhwt-74aAQGR9tLKPA2vrz28rdGNKCso-71yLii3o_KjhDk6VwrIa2nxPOrhTH2kk5R5nmlfrNj5N9XqJfaijMU6Guya70XJqpFidcbgiyU9_Wbc1dPvbl6GcNxzVlleFS5kvcBk2-ushAU1rttw4Q6SY2si_kA2nnDxvy2W1f9qPQrRNCNuY9F4v65sbGDT1RvEJDqyrf98eL8naO9kUJCb_-JVSHYSoNikW5XbTn6KWDSsRAU5w2e3PBkQDMnPQ-EYAtw7ZiLpeDkMN90IGTyttaep3BXgfhIzhXVFub8HIfZQs9WxRpGG3WnEAGyJ9SGhVeCJA5nny8p1lT9NbEtZY-nYQrkK4eMw0I0vswQOvcBDAWyAMbOPj3XtmtRkUIirlO1MRaaPf4p82QdLt-VBM35Lwhu_XLk4703CRhfUmjC0UIL1_1ZjmMM-rFkdPAW33qAS2FFlE63TrDoPY0P8mPGzItSDlXNDZQM2FFW6E5duHCAOru4Gk8zqSmgWCIDhYf-YbBbAIxF6QwsVzTWOOw6XRHJzg2HBB4MU8N4XHiCIfJy6R2M3JXgP0-0mOzuA05R3ezmvgrPwpMF_kqPqpDP5mz5-bIOVmcs4zsvyeDxoMlNLl3pox1T8YbcGMzT4ss31hdLOQZHSWqsEd43PqrJ32UT2FfXBNVFV6X.kE105DLCJ6xHy4Bpo60rKQ.5bc800b2d8e880d0c12f54014fa7315f2ac746501be5fe8fdffba6bb3235cfff
+VM2580:1556 ✅ Turnstile token set successfully
+VM2580:7769 ❌ 403 Forbidden. Turnstile token might be invalid or expired.
+sendPixelBatch @ VM2580:7769
+await in sendPixelBatch
+sendBatchWithRetry @ VM2580:7694
+processImage @ VM2580:7458
+await in processImage
+startPainting @ VM2580:7169
+VM2580:7773 🔄 Regenerating Turnstile token after 403...
+VM2580:2049 🔍 Using cached sitekey: 0x4AAAAAABpqJe8FO0N84q0F
+VM2580:3247 🔑 Generating Turnstile token for sitekey: 0x4AAAAAABpqJe8FO0N84q0F
+VM2580:3248 🧭 UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb... Platform: Win32
+VM2580:1866 🔄 Reusing existing Turnstile widget...
+api.js?render=explicit:1 [Cloudflare Turnstile] Call to execute() on a widget that was already executed (cf-chl-widget-iew6t), execute() will return the previous token obtained. Consider using reset() before execute() to obtain a fresh token.
+x @ api.js?render=explicit:1
+execute @ api.js?render=explicit:1
+executeTurnstile @ VM2580:1868
+await in executeTurnstile
+generatePaintToken @ VM2580:2019
+handleCaptcha @ VM2580:3255
+sendPixelBatch @ VM2580:7774
+await in sendPixelBatch
+sendBatchWithRetry @ VM2580:7694
+processImage @ VM2580:7458
+await in processImage
+startPainting @ VM2580:7169Understand this warning
+VM2580:1983 ✅ Interactive Turnstile completed successfully
+VM2580:1897 🧹 Cleaned up existing Turnstile widget
+VM2580:1913 🔧 Creating invisible Turnstile widget...
+api.js?render=explicit:1 [Cloudflare Turnstile] Call to execute() on a widget that is already executing (cf-chl-widget-oqahc), consider using reset() before execute().
+x @ api.js?render=explicit:1
+execute @ api.js?render=explicit:1
+eval @ VM2580:1937
+createTurnstileWidget @ VM2580:1891
+executeTurnstile @ VM2580:1881
+await in executeTurnstile
+generatePaintToken @ VM2580:2019
+handleCaptcha @ VM2580:3255
+sendPixelBatch @ VM2580:7774
+await in sendPixelBatch
+sendBatchWithRetry @ VM2580:7694
+processImage @ VM2580:7458
+await in processImage
+startPainting @ VM2580:7169Understand this warning
+VM2580:1886 � Falling back to interactive Turnstile (visible).
+VM2580:1949 🔄 Creating interactive Turnstile widget (visible)
+VM2580:2009 ✅ Interactive Turnstile widget created, waiting for user interaction...
+content_script_bundle.js:1 Attempting initialization Thu Aug 28 2025 00:03:16 GMT+0200 (heure d’été d’Europe centrale)
+v1?ray=975edba8cb18e281&lang=auto:1 Request for the Private Access Token challenge.
+v1?ray=975edba8cb18e281&lang=auto:1 
+VM2580:1983 ✅ Interactive Turnstile completed successfully
+VM2580:3257 🔍 Token received - Type: string, Value: 0.c3A7Zl_U5w6aSpRKb3oZzDltwaCGNgOdp4I6Re7IuemnhKkH..., Length: 1050
+VM2580:3261 ✅ Turnstile token generated successfully in 5744ms
+VM2581:25 ✅ Turnstile Token Captured: 0.c3A7Zl_U5w6aSpRKb3oZzDltwaCGNgOdp4I6Re7IuemnhKkHsTwhTVPOveih4nXLWf9amg3ed7qx4P6hF7Op9zhTwbI17wzAo0LSUG36hNCFCHeYQIOHM9g3C10neXquiwnRv6qe3XOmXl9DJ-9HibLRsbGclDHbq2fdLFCD2VwZv8r9X9-_BYgtdD0wSThRbPAYmAWlbunXDaUykUbc6XN7f2GJd8ZdlhF3i3ciH7149B25pqbw9M367yIfmErrt53lcBS4nUN2l8giM1N7TFgsTapqajqhEQPVbz2ecbKaHw_XljJkNeiUWdOZRa6aLtO_EbdomH_tf3U_mFTfmGA84io_nq3TTJqGqp0mlSbKtRtUFlxH4IwSbW5zg55u4niTkJmxvbtNT4u7hHkwRzg89AsOZ6db5nwL7kvk7jChHZUm0i8xiorCcrri1OLYzht0V3cqtNbsN_mSdk2OZDfF9Re3QKBjslTaDURzTvYO22_XxHOXcGXnKNX-ni3T_NWhbZMFWRr4twzUUM9qEuZ3j3Ss_B3iVwfTJBW6Z199nPBpMEYZOQP4IN4v9Y4a5DG9NL37Onlb9FKHE5fPHrCC1oxjlD9wJDiozT4FcS6qkfWPxk_vOAqZOilftfJppMBiAsp7USSZEAqh493rABnCNxoe_4OAgb9MCPbfURT8Ubfs2NkdIJPPDeYl750y9Z8FCgLpH75CP6DtZVo8a30ql7m3YWysNAsSysG1loyEmxeb2AyiaULxBs7mTh7jL-kjBSDTm9qj0OaLrAeSMekckCDlaMZXXEJTXODbQWz7H2zF6HULp8WpU9z62GjykGUfFBDpfRjt-6K3E6xK38tgec4mNw_3Q3wWxy-pmeoFviNV63MJZHLZDxCamk5S00HkMWA35YcXKTa6A_rztK-MxwHOmtjLTiSviFcTtH0ZoSui-cyQx0O04u29dMNU.mBGH2VoQMyPmYLO3SU4f-w.229e6bf2d7f52512ac99fa0215ef772d295f70781389c8a15d83d63923f942de
+VM2580:1556 ✅ Turnstile token set successfully
+VM2580:7697 ✅ Batch succeeded on attempt 1
+VM2580:7457 📦 Sending batch with 1 pixels (mode: normal, target: 1)
+VM2580:7692 🔄 Attempting to send batch (attempt 1/10) for region 1336,1620 with 1 pixels
+VM2581:25 ✅ Turnstile Token Captured: 0.c3A7Zl_U5w6aSpRKb3oZzDltwaCGNgOdp4I6Re7IuemnhKkHsTwhTVPOveih4nXLWf9amg3ed7qx4P6hF7Op9zhTwbI17wzAo0LSUG36hNCFCHeYQIOHM9g3C10neXquiwnRv6qe3XOmXl9DJ-9HibLRsbGclDHbq2fdLFCD2VwZv8r9X9-_BYgtdD0wSThRbPAYmAWlbunXDaUykUbc6XN7f2GJd8ZdlhF3i3ciH7149B25pqbw9M367yIfmErrt53lcBS4nUN2l8giM1N7TFgsTapqajqhEQPVbz2ecbKaHw_XljJkNeiUWdOZRa6aLtO_EbdomH_tf3U_mFTfmGA84io_nq3TTJqGqp0mlSbKtRtUFlxH4IwSbW5zg55u4niTkJmxvbtNT4u7hHkwRzg89AsOZ6db5nwL7kvk7jChHZUm0i8xiorCcrri1OLYzht0V3cqtNbsN_mSdk2OZDfF9Re3QKBjslTaDURzTvYO22_XxHOXcGXnKNX-ni3T_NWhbZMFWRr4twzUUM9qEuZ3j3Ss_B3iVwfTJBW6Z199nPBpMEYZOQP4IN4v9Y4a5DG9NL37Onlb9FKHE5fPHrCC1oxjlD9wJDiozT4FcS6qkfWPxk_vOAqZOilftfJppMBiAsp7USSZEAqh493rABnCNxoe_4OAgb9MCPbfURT8Ubfs2NkdIJPPDeYl750y9Z8FCgLpH75CP6DtZVo8a30ql7m3YWysNAsSysG1loyEmxeb2AyiaULxBs7mTh7jL-kjBSDTm9qj0OaLrAeSMekckCDlaMZXXEJTXODbQWz7H2zF6HULp8WpU9z62GjykGUfFBDpfRjt-6K3E6xK38tgec4mNw_3Q3wWxy-pmeoFviNV63MJZHLZDxCamk5S00HkMWA35YcXKTa6A_rztK-MxwHOmtjLTiSviFcTtH0ZoSui-cyQx0O04u29dMNU.mBGH2VoQMyPmYLO3SU4f-w.229e6bf2d7f52512ac99fa0215ef772d295f70781389c8a15d83d63923f942de
+VM2580:1556 ✅ Turnstile token set successfully
+VM2580:7697 ✅ Batch succeeded on attempt 1
+VM2580:7457 📦 Sending batch with 1 pixels (mode: normal, target: 1)
+VM2580:7692 🔄 Attempting to send batch (attempt 1/10) for region 1336,1620 with 1 pixels
+VM2581:25 ✅ Turnstile Token Captured: 0.c3A7Zl_U5w6aSpRKb3oZzDltwaCGNgOdp4I6Re7IuemnhKkHsTwhTVPOveih4nXLWf9amg3ed7qx4P6hF7Op9zhTwbI17wzAo0LSUG36hNCFCHeYQIOHM9g3C10neXquiwnRv6qe3XOmXl9DJ-9HibLRsbGclDHbq2fdLFCD2VwZv8r9X9-_BYgtdD0wSThRbPAYmAWlbunXDaUykUbc6XN7f2GJd8ZdlhF3i3ciH7149B25pqbw9M367yIfmErrt53lcBS4nUN2l8giM1N7TFgsTapqajqhEQPVbz2ecbKaHw_XljJkNeiUWdOZRa6aLtO_EbdomH_tf3U_mFTfmGA84io_nq3TTJqGqp0mlSbKtRtUFlxH4IwSbW5zg55u4niTkJmxvbtNT4u7hHkwRzg89AsOZ6db5nwL7kvk7jChHZUm0i8xiorCcrri1OLYzht0V3cqtNbsN_mSdk2OZDfF9Re3QKBjslTaDURzTvYO22_XxHOXcGXnKNX-ni3T_NWhbZMFWRr4twzUUM9qEuZ3j3Ss_B3iVwfTJBW6Z199nPBpMEYZOQP4IN4v9Y4a5DG9NL37Onlb9FKHE5fPHrCC1oxjlD9wJDiozT4FcS6qkfWPxk_vOAqZOilftfJppMBiAsp7USSZEAqh493rABnCNxoe_4OAgb9MCPbfURT8Ubfs2NkdIJPPDeYl750y9Z8FCgLpH75CP6DtZVo8a30ql7m3YWysNAsSysG1loyEmxeb2AyiaULxBs7mTh7jL-kjBSDTm9qj0OaLrAeSMekckCDlaMZXXEJTXODbQWz7H2zF6HULp8WpU9z62GjykGUfFBDpfRjt-6K3E6xK38tgec4mNw_3Q3wWxy-pmeoFviNV63MJZHLZDxCamk5S00HkMWA35YcXKTa6A_rztK-MxwHOmtjLTiSviFcTtH0ZoSui-cyQx0O04u29dMNU.mBGH2VoQMyPmYLO3SU4f-w.229e6bf2d7f52512ac99fa0215ef772d295f70781389c8a15d83d63923f942de
+VM2580:1556 ✅ Turnstile token set successfully
+VM2580:7697 ✅ Batch succeeded on attempt 1
+VM2580:7457 📦 Sending batch with 1 pixels (mode: normal, target: 1)
+VM2580:7692 🔄 Attempting to send batch (attempt 1/10) for region 1336,1620 with 1 pixels
+VM2581:25 ✅ Turnstile Token Captured: 0.c3A7Zl_U5w6aSpRKb3oZzDltwaCGNgOdp4I6Re7IuemnhKkHsTwhTVPOveih4nXLWf9amg3ed7qx4P6hF7Op9zhTwbI17wzAo0LSUG36hNCFCHeYQIOHM9g3C10neXquiwnRv6qe3XOmXl9DJ-9HibLRsbGclDHbq2fdLFCD2VwZv8r9X9-_BYgtdD0wSThRbPAYmAWlbunXDaUykUbc6XN7f2GJd8ZdlhF3i3ciH7149B25pqbw9M367yIfmErrt53lcBS4nUN2l8giM1N7TFgsTapqajqhEQPVbz2ecbKaHw_XljJkNeiUWdOZRa6aLtO_EbdomH_tf3U_mFTfmGA84io_nq3TTJqGqp0mlSbKtRtUFlxH4IwSbW5zg55u4niTkJmxvbtNT4u7hHkwRzg89AsOZ6db5nwL7kvk7jChHZUm0i8xiorCcrri1OLYzht0V3cqtNbsN_mSdk2OZDfF9Re3QKBjslTaDURzTvYO22_XxHOXcGXnKNX-ni3T_NWhbZMFWRr4twzUUM9qEuZ3j3Ss_B3iVwfTJBW6Z199nPBpMEYZOQP4IN4v9Y4a5DG9NL37Onlb9FKHE5fPHrCC1oxjlD9wJDiozT4FcS6qkfWPxk_vOAqZOilftfJppMBiAsp7USSZEAqh493rABnCNxoe_4OAgb9MCPbfURT8Ubfs2NkdIJPPDeYl750y9Z8FCgLpH75CP6DtZVo8a30ql7m3YWysNAsSysG1loyEmxeb2AyiaULxBs7mTh7jL-kjBSDTm9qj0OaLrAeSMekckCDlaMZXXEJTXODbQWz7H2zF6HULp8WpU9z62GjykGUfFBDpfRjt-6K3E6xK38tgec4mNw_3Q3wWxy-pmeoFviNV63MJZHLZDxCamk5S00HkMWA35YcXKTa6A_rztK-MxwHOmtjLTiSviFcTtH0ZoSui-cyQx0O04u29dMNU.mBGH2VoQMyPmYLO3SU4f-w.229e6bf2d7f52512ac99fa0215ef772d295f70781389c8a15d83d63923f942de
+VM2580:1556 ✅ Turnstile token set successfully
+VM2580:7697 ✅ Batch succeeded on attempt 1
+VM2580:7457 📦 Sending batch with 1 pixels (mode: normal, target: 1)
+VM2580:7692 🔄 Attempting to send batch (attempt 1/10) for region 1336,1620 with 1 pixels
+VM2581:25 ✅ Turnstile Token Captured: 0.c3A7Zl_U5w6aSpRKb3oZzDltwaCGNgOdp4I6Re7IuemnhKkHsTwhTVPOveih4nXLWf9amg3ed7qx4P6hF7Op9zhTwbI17wzAo0LSUG36hNCFCHeYQIOHM9g3C10neXquiwnRv6qe3XOmXl9DJ-9HibLRsbGclDHbq2fdLFCD2VwZv8r9X9-_BYgtdD0wSThRbPAYmAWlbunXDaUykUbc6XN7f2GJd8ZdlhF3i3ciH7149B25pqbw9M367yIfmErrt53lcBS4nUN2l8giM1N7TFgsTapqajqhEQPVbz2ecbKaHw_XljJkNeiUWdOZRa6aLtO_EbdomH_tf3U_mFTfmGA84io_nq3TTJqGqp0mlSbKtRtUFlxH4IwSbW5zg55u4niTkJmxvbtNT4u7hHkwRzg89AsOZ6db5nwL7kvk7jChHZUm0i8xiorCcrri1OLYzht0V3cqtNbsN_mSdk2OZDfF9Re3QKBjslTaDURzTvYO22_XxHOXcGXnKNX-ni3T_NWhbZMFWRr4twzUUM9qEuZ3j3Ss_B3iVwfTJBW6Z199nPBpMEYZOQP4IN4v9Y4a5DG9NL37Onlb9FKHE5fPHrCC1oxjlD9wJDiozT4FcS6qkfWPxk_vOAqZOilftfJppMBiAsp7USSZEAqh493rABnCNxoe_4OAgb9MCPbfURT8Ubfs2NkdIJPPDeYl750y9Z8FCgLpH75CP6DtZVo8a30ql7m3YWysNAsSysG1loyEmxeb2AyiaULxBs7mTh7jL-kjBSDTm9qj0OaLrAeSMekckCDlaMZXXEJTXODbQWz7H2zF6HULp8WpU9z62GjykGUfFBDpfRjt-6K3E6xK38tgec4mNw_3Q3wWxy-pmeoFviNV63MJZHLZDxCamk5S00HkMWA35YcXKTa6A_rztK-MxwHOmtjLTiSviFcTtH0ZoSui-cyQx0O04u29dMNU.mBGH2VoQMyPmYLO3SU4f-w.229e6bf2d7f52512ac99fa0215ef772d295f70781389c8a15d83d63923f942de
+VM2580:1556 ✅ Turnstile token set successfully
+VM2580:7697 ✅ Batch succeeded on attempt 1
+VM2580:7457 📦 Sending batch with 1 pixels (mode: normal, target: 1)
+VM2580:7692 🔄 Attempting to send batch (attempt 1/10) for region 1336,1620 with 1 pixels
+DFksdMaI.js:1  POST https://backend.wplace.live/s0/pixel/1336/1620 403 (Forbidden)
+window.fetch @ DFksdMaI.js:1
+window.fetch @ VM2581:17
+sendPixelBatch @ VM2580:7759
+sendBatchWithRetry @ VM2580:7694
+processImage @ VM2580:7458
+await in processImage
+startPainting @ VM2580:7169Understand this error
+VM2581:25 ✅ Turnstile Token Captured: 0.c3A7Zl_U5w6aSpRKb3oZzDltwaCGNgOdp4I6Re7IuemnhKkHsTwhTVPOveih4nXLWf9amg3ed7qx4P6hF7Op9zhTwbI17wzAo0LSUG36hNCFCHeYQIOHM9g3C10neXquiwnRv6qe3XOmXl9DJ-9HibLRsbGclDHbq2fdLFCD2VwZv8r9X9-_BYgtdD0wSThRbPAYmAWlbunXDaUykUbc6XN7f2GJd8ZdlhF3i3ciH7149B25pqbw9M367yIfmErrt53lcBS4nUN2l8giM1N7TFgsTapqajqhEQPVbz2ecbKaHw_XljJkNeiUWdOZRa6aLtO_EbdomH_tf3U_mFTfmGA84io_nq3TTJqGqp0mlSbKtRtUFlxH4IwSbW5zg55u4niTkJmxvbtNT4u7hHkwRzg89AsOZ6db5nwL7kvk7jChHZUm0i8xiorCcrri1OLYzht0V3cqtNbsN_mSdk2OZDfF9Re3QKBjslTaDURzTvYO22_XxHOXcGXnKNX-ni3T_NWhbZMFWRr4twzUUM9qEuZ3j3Ss_B3iVwfTJBW6Z199nPBpMEYZOQP4IN4v9Y4a5DG9NL37Onlb9FKHE5fPHrCC1oxjlD9wJDiozT4FcS6qkfWPxk_vOAqZOilftfJppMBiAsp7USSZEAqh493rABnCNxoe_4OAgb9MCPbfURT8Ubfs2NkdIJPPDeYl750y9Z8FCgLpH75CP6DtZVo8a30ql7m3YWysNAsSysG1loyEmxeb2AyiaULxBs7mTh7jL-kjBSDTm9qj0OaLrAeSMekckCDlaMZXXEJTXODbQWz7H2zF6HULp8WpU9z62GjykGUfFBDpfRjt-6K3E6xK38tgec4mNw_3Q3wWxy-pmeoFviNV63MJZHLZDxCamk5S00HkMWA35YcXKTa6A_rztK-MxwHOmtjLTiSviFcTtH0ZoSui-cyQx0O04u29dMNU.mBGH2VoQMyPmYLO3SU4f-w.229e6bf2d7f52512ac99fa0215ef772d295f70781389c8a15d83d63923f942de
+VM2580:1556 ✅ Turnstile token set successfully
+VM2580:7769 ❌ 403 Forbidden. Turnstile token might be invalid or expired.
+sendPixelBatch @ VM2580:7769
+await in sendPixelBatch
+sendBatchWithRetry @ VM2580:7694
+processImage @ VM2580:7458
+await in processImage
+startPainting @ VM2580:7169
+VM2580:7773 🔄 Regenerating Turnstile token after 403...
+VM2580:2049 🔍 Using cached sitekey: 0x4AAAAAABpqJe8FO0N84q0F
+VM2580:3247 🔑 Generating Turnstile token for sitekey: 0x4AAAAAABpqJe8FO0N84q0F
+VM2580:3248 🧭 UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb... Platform: Win32
+VM2580:1866 🔄 Reusing existing Turnstile widget...
+api.js?render=explicit:1 [Cloudflare Turnstile] Call to execute() on a widget that was already executed (cf-chl-widget-lfmbf), execute() will return the previous token obtained. Consider using reset() before execute() to obtain a fresh token.
+x @ api.js?render=explicit:1
+execute @ api.js?render=explicit:1
+executeTurnstile @ VM2580:1868
+await in executeTurnstile
+generatePaintToken @ VM2580:2019
+handleCaptcha @ VM2580:3255
+sendPixelBatch @ VM2580:7774
+await in sendPixelBatch
+sendBatchWithRetry @ VM2580:7694
+processImage @ VM2580:7458
+await in processImage
+startPainting @ VM2580:7169Understand this warning
+VM2580:1983 ✅ Interactive Turnstile completed successfully
+VM2580:1897 🧹 Cleaned up existing Turnstile widget
+VM2580:1913 🔧 Creating invisible Turnstile widget...
+api.js?render=explicit:1 [Cloudflare Turnstile] Call to execute() on a widget that is already executing (cf-chl-widget-no4ub), consider using reset() before execute().
+x @ api.js?render=explicit:1
+execute @ api.js?render=explicit:1
+eval @ VM2580:1937
+createTurnstileWidget @ VM2580:1891
+executeTurnstile @ VM2580:1881
+await in executeTurnstile
+generatePaintToken @ VM2580:2019
+handleCaptcha @ VM2580:3255
+sendPixelBatch @ VM2580:7774
+await in sendPixelBatch
+sendBatchWithRetry @ VM2580:7694
+processImage @ VM2580:7458
+await in processImage
+startPainting @ VM2580:7169Understand this warning
+VM2580:1886 � Falling back to interactive Turnstile (visible).
+VM2580:1949 🔄 Creating interactive Turnstile widget (visible)
+VM2580:2009 ✅ Interactive Turnstile widget created, waiting for user interaction...
+content_script_bundle.js:1 Attempting initialization Thu Aug 28 2025 00:03:28 GMT+0200 (heure d’été d’Europe centrale)
+v1?ray=975edbf10d7fe281&lang=auto:1 
+v1?ray=975edbf10d7fe281&lang=auto:1 Request for the Private Access Token challenge.
+VM2580:1983 ✅ Interactive Turnstile completed successfully
+VM2580:3257 🔍 Token received - Type: string, Value: 0.0SYZJUUp8jU_oJE8TrdN_XPFlpLgb5kzmk_N1NoKzPNLGrpS..., Length: 1050
+VM2580:3261 ✅ Turnstile token generated successfully in 3892ms
+VM2581:25 ✅ Turnstile Token Captured: 0.0SYZJUUp8jU_oJE8TrdN_XPFlpLgb5kzmk_N1NoKzPNLGrpSygwQFeceWAHerEJn4lJsRUJj9yem272JYL3NMZBCHJ-L1Af_1P3hg_KxnkyuusV0yrXCcB8068WQAlcWE_DCTF0h9sFzU7ZERQajhMfWmPltjzw6iLdP7Sxb6GqCgz8mzN_P8AmDAIbHN6U1ag52OGJS2V5JnOZ6JR3V5XtUOnnRFHACQ1_BE9DgTfAwULl0pScZu4vWoPI6iWae-bUncfT7n6UJBxCViJE90hMdfYuSRVuletGB9io9Mb7UpTQfPP2D9e0qLhfuEib5xK82Xp8zuAsLEnsolArIhlyps8fuwtIywmbZxKx-b6XGycsz9EXgqQkzN1ngUjx2WwckTUuTcpab3kEUOKlDK7PfIHRfHC7_3NNX7a4Iu88UX0_xoP6b3j1R49PWE-uRd3_E4QefMrD3HVd4iqX2ZupQKntVXaPwDWdf59MuicExB8atsb5g7GRcDSdq9hjAI8q2LE61rSSUWcrodOH_qGPI2_wifrVzTW5bG3jb15Jdh8Wcx3EZMXmxOiJMrI9e1ITbqGXIhhw3UWOIl0FUtCBX_2zzfaQXfBH8zxGQbXSdD7WvJVhQDWALFc2ZPF0PLT-lb7OxucEySs9_Oa5ySUsufvB7gsrd-eW1wHDUN4n-Cb5SOVek4710GVTuDeMmDbjqDKCfj9w7ZLHwj0N2wfP_F-6ORo5Ym2VzYB8E4Kx1GdmTeM1BlsREjtn_o5EBrX-n_25379fiuopAMdwoVo30B2BAbx0MoTc7sRJ5VO3qscwd3Kng4cSym_c5G3ISAf57BPnLClIIMk0xN4ETMog8uQzhXYRPh984MQjD0mp25_H3toJLOhgudq2oebMJ3SZ3HiX5P-e3f6-xbjDbLIOys6PxF-1aKXPJ5D0djrr_jLtQr1ogTk6TUrikOpQ5.wnpziPOES7G1x63NsrIi3A.56a685a56db6e12aa0ca8cd91460f1a0157356993367bc469a498f9b588c6f83
+VM2580:1556 ✅ Turnstile token set successfully
+VM2580:7697 ✅ Batch succeeded on attempt 1
+VM2580:7457 📦 Sending batch with 1 pixels (mode: normal, target: 1)
+VM2580:7692 🔄 Attempting to send batch (attempt 1/10) for region 1336,1620 with 1 pixels
+VM2581:25 ✅ Turnstile Token Captured: 0.0SYZJUUp8jU_oJE8TrdN_XPFlpLgb5kzmk_N1NoKzPNLGrpSygwQFeceWAHerEJn4lJsRUJj9yem272JYL3NMZBCHJ-L1Af_1P3hg_KxnkyuusV0yrXCcB8068WQAlcWE_DCTF0h9sFzU7ZERQajhMfWmPltjzw6iLdP7Sxb6GqCgz8mzN_P8AmDAIbHN6U1ag52OGJS2V5JnOZ6JR3V5XtUOnnRFHACQ1_BE9DgTfAwULl0pScZu4vWoPI6iWae-bUncfT7n6UJBxCViJE90hMdfYuSRVuletGB9io9Mb7UpTQfPP2D9e0qLhfuEib5xK82Xp8zuAsLEnsolArIhlyps8fuwtIywmbZxKx-b6XGycsz9EXgqQkzN1ngUjx2WwckTUuTcpab3kEUOKlDK7PfIHRfHC7_3NNX7a4Iu88UX0_xoP6b3j1R49PWE-uRd3_E4QefMrD3HVd4iqX2ZupQKntVXaPwDWdf59MuicExB8atsb5g7GRcDSdq9hjAI8q2LE61rSSUWcrodOH_qGPI2_wifrVzTW5bG3jb15Jdh8Wcx3EZMXmxOiJMrI9e1ITbqGXIhhw3UWOIl0FUtCBX_2zzfaQXfBH8zxGQbXSdD7WvJVhQDWALFc2ZPF0PLT-lb7OxucEySs9_Oa5ySUsufvB7gsrd-eW1wHDUN4n-Cb5SOVek4710GVTuDeMmDbjqDKCfj9w7ZLHwj0N2wfP_F-6ORo5Ym2VzYB8E4Kx1GdmTeM1BlsREjtn_o5EBrX-n_25379fiuopAMdwoVo30B2BAbx0MoTc7sRJ5VO3qscwd3Kng4cSym_c5G3ISAf57BPnLClIIMk0xN4ETMog8uQzhXYRPh984MQjD0mp25_H3toJLOhgudq2oebMJ3SZ3HiX5P-e3f6-xbjDbLIOys6PxF-1aKXPJ5D0djrr_jLtQr1ogTk6TUrikOpQ5.wnpziPOES7G1x63NsrIi3A.56a685a56db6e12aa0ca8cd91460f1a0157356993367bc469a498f9b588c6f83
+VM2580:1556 ✅ Turnstile token set successfully
+VM2580:7697 ✅ Batch succeeded on attempt 1
+VM2580:7457 📦 Sending batch with 1 pixels (mode: normal, target: 1)
+VM2580:7692 🔄 Attempting to send batch (attempt 1/10) for region 1336,1620 with 1 pixels
+VM2581:25 ✅ Turnstile Token Captured: 0.0SYZJUUp8jU_oJE8TrdN_XPFlpLgb5kzmk_N1NoKzPNLGrpSygwQFeceWAHerEJn4lJsRUJj9yem272JYL3NMZBCHJ-L1Af_1P3hg_KxnkyuusV0yrXCcB8068WQAlcWE_DCTF0h9sFzU7ZERQajhMfWmPltjzw6iLdP7Sxb6GqCgz8mzN_P8AmDAIbHN6U1ag52OGJS2V5JnOZ6JR3V5XtUOnnRFHACQ1_BE9DgTfAwULl0pScZu4vWoPI6iWae-bUncfT7n6UJBxCViJE90hMdfYuSRVuletGB9io9Mb7UpTQfPP2D9e0qLhfuEib5xK82Xp8zuAsLEnsolArIhlyps8fuwtIywmbZxKx-b6XGycsz9EXgqQkzN1ngUjx2WwckTUuTcpab3kEUOKlDK7PfIHRfHC7_3NNX7a4Iu88UX0_xoP6b3j1R49PWE-uRd3_E4QefMrD3HVd4iqX2ZupQKntVXaPwDWdf59MuicExB8atsb5g7GRcDSdq9hjAI8q2LE61rSSUWcrodOH_qGPI2_wifrVzTW5bG3jb15Jdh8Wcx3EZMXmxOiJMrI9e1ITbqGXIhhw3UWOIl0FUtCBX_2zzfaQXfBH8zxGQbXSdD7WvJVhQDWALFc2ZPF0PLT-lb7OxucEySs9_Oa5ySUsufvB7gsrd-eW1wHDUN4n-Cb5SOVek4710GVTuDeMmDbjqDKCfj9w7ZLHwj0N2wfP_F-6ORo5Ym2VzYB8E4Kx1GdmTeM1BlsREjtn_o5EBrX-n_25379fiuopAMdwoVo30B2BAbx0MoTc7sRJ5VO3qscwd3Kng4cSym_c5G3ISAf57BPnLClIIMk0xN4ETMog8uQzhXYRPh984MQjD0mp25_H3toJLOhgudq2oebMJ3SZ3HiX5P-e3f6-xbjDbLIOys6PxF-1aKXPJ5D0djrr_jLtQr1ogTk6TUrikOpQ5.wnpziPOES7G1x63NsrIi3A.56a685a56db6e12aa0ca8cd91460f1a0157356993367bc469a498f9b588c6f83
+VM2580:1556 ✅ Turnstile token set successfully
+VM2580:7697 ✅ Batch succeeded on attempt 1
+VM2580:7457 📦 Sending batch with 1 pixels (mode: normal, target: 1)
+VM2580:7692 🔄 Attempting to send batch (attempt 1/10) for region 1336,1620 with 1 pixels
+VM2581:25 ✅ Turnstile Token Captured: 0.0SYZJUUp8jU_oJE8TrdN_XPFlpLgb5kzmk_N1NoKzPNLGrpSygwQFeceWAHerEJn4lJsRUJj9yem272JYL3NMZBCHJ-L1Af_1P3hg_KxnkyuusV0yrXCcB8068WQAlcWE_DCTF0h9sFzU7ZERQajhMfWmPltjzw6iLdP7Sxb6GqCgz8mzN_P8AmDAIbHN6U1ag52OGJS2V5JnOZ6JR3V5XtUOnnRFHACQ1_BE9DgTfAwULl0pScZu4vWoPI6iWae-bUncfT7n6UJBxCViJE90hMdfYuSRVuletGB9io9Mb7UpTQfPP2D9e0qLhfuEib5xK82Xp8zuAsLEnsolArIhlyps8fuwtIywmbZxKx-b6XGycsz9EXgqQkzN1ngUjx2WwckTUuTcpab3kEUOKlDK7PfIHRfHC7_3NNX7a4Iu88UX0_xoP6b3j1R49PWE-uRd3_E4QefMrD3HVd4iqX2ZupQKntVXaPwDWdf59MuicExB8atsb5g7GRcDSdq9hjAI8q2LE61rSSUWcrodOH_qGPI2_wifrVzTW5bG3jb15Jdh8Wcx3EZMXmxOiJMrI9e1ITbqGXIhhw3UWOIl0FUtCBX_2zzfaQXfBH8zxGQbXSdD7WvJVhQDWALFc2ZPF0PLT-lb7OxucEySs9_Oa5ySUsufvB7gsrd-eW1wHDUN4n-Cb5SOVek4710GVTuDeMmDbjqDKCfj9w7ZLHwj0N2wfP_F-6ORo5Ym2VzYB8E4Kx1GdmTeM1BlsREjtn_o5EBrX-n_25379fiuopAMdwoVo30B2BAbx0MoTc7sRJ5VO3qscwd3Kng4cSym_c5G3ISAf57BPnLClIIMk0xN4ETMog8uQzhXYRPh984MQjD0mp25_H3toJLOhgudq2oebMJ3SZ3HiX5P-e3f6-xbjDbLIOys6PxF-1aKXPJ5D0djrr_jLtQr1ogTk6TUrikOpQ5.wnpziPOES7G1x63NsrIi3A.56a685a56db6e12aa0ca8cd91460f1a0157356993367bc469a498f9b588c6f83
+VM2580:1556 ✅ Turnstile token set successfully
+VM2580:7697 ✅ Batch succeeded on attempt 1
+VM2580:7457 📦 Sending batch with 1 pixels (mode: normal, target: 1)
+VM2580:7692 🔄 Attempting to send batch (attempt 1/10) for region 1336,1620 with 1 pixels
+VM2581:25 ✅ Turnstile Token Captured: 0.0SYZJUUp8jU_oJE8TrdN_XPFlpLgb5kzmk_N1NoKzPNLGrpSygwQFeceWAHerEJn4lJsRUJj9yem272JYL3NMZBCHJ-L1Af_1P3hg_KxnkyuusV0yrXCcB8068WQAlcWE_DCTF0h9sFzU7ZERQajhMfWmPltjzw6iLdP7Sxb6GqCgz8mzN_P8AmDAIbHN6U1ag52OGJS2V5JnOZ6JR3V5XtUOnnRFHACQ1_BE9DgTfAwULl0pScZu4vWoPI6iWae-bUncfT7n6UJBxCViJE90hMdfYuSRVuletGB9io9Mb7UpTQfPP2D9e0qLhfuEib5xK82Xp8zuAsLEnsolArIhlyps8fuwtIywmbZxKx-b6XGycsz9EXgqQkzN1ngUjx2WwckTUuTcpab3kEUOKlDK7PfIHRfHC7_3NNX7a4Iu88UX0_xoP6b3j1R49PWE-uRd3_E4QefMrD3HVd4iqX2ZupQKntVXaPwDWdf59MuicExB8atsb5g7GRcDSdq9hjAI8q2LE61rSSUWcrodOH_qGPI2_wifrVzTW5bG3jb15Jdh8Wcx3EZMXmxOiJMrI9e1ITbqGXIhhw3UWOIl0FUtCBX_2zzfaQXfBH8zxGQbXSdD7WvJVhQDWALFc2ZPF0PLT-lb7OxucEySs9_Oa5ySUsufvB7gsrd-eW1wHDUN4n-Cb5SOVek4710GVTuDeMmDbjqDKCfj9w7ZLHwj0N2wfP_F-6ORo5Ym2VzYB8E4Kx1GdmTeM1BlsREjtn_o5EBrX-n_25379fiuopAMdwoVo30B2BAbx0MoTc7sRJ5VO3qscwd3Kng4cSym_c5G3ISAf57BPnLClIIMk0xN4ETMog8uQzhXYRPh984MQjD0mp25_H3toJLOhgudq2oebMJ3SZ3HiX5P-e3f6-xbjDbLIOys6PxF-1aKXPJ5D0djrr_jLtQr1ogTk6TUrikOpQ5.wnpziPOES7G1x63NsrIi3A.56a685a56db6e12aa0ca8cd91460f1a0157356993367bc469a498f9b588c6f83
+VM2580:1556 ✅ Turnstile token set successfully
+VM2580:7697 ✅ Batch succeeded on attempt 1
+VM2580:7457 📦 Sending batch with 1 pixels (mode: normal, target: 1)
+VM2580:7692 🔄 Attempting to send batch (attempt 1/10) for region 1336,1620 with 1 pixels
+DFksdMaI.js:1  POST https://backend.wplace.live/s0/pixel/1336/1620 403 (Forbidden)
+window.fetch @ DFksdMaI.js:1
+window.fetch @ VM2581:17
+sendPixelBatch @ VM2580:7759
+sendBatchWithRetry @ VM2580:7694
+processImage @ VM2580:7458
+await in processImage
+startPainting @ VM2580:7169Understand this error
+VM2581:25 ✅ Turnstile Token Captured: 0.0SYZJUUp8jU_oJE8TrdN_XPFlpLgb5kzmk_N1NoKzPNLGrpSygwQFeceWAHerEJn4lJsRUJj9yem272JYL3NMZBCHJ-L1Af_1P3hg_KxnkyuusV0yrXCcB8068WQAlcWE_DCTF0h9sFzU7ZERQajhMfWmPltjzw6iLdP7Sxb6GqCgz8mzN_P8AmDAIbHN6U1ag52OGJS2V5JnOZ6JR3V5XtUOnnRFHACQ1_BE9DgTfAwULl0pScZu4vWoPI6iWae-bUncfT7n6UJBxCViJE90hMdfYuSRVuletGB9io9Mb7UpTQfPP2D9e0qLhfuEib5xK82Xp8zuAsLEnsolArIhlyps8fuwtIywmbZxKx-b6XGycsz9EXgqQkzN1ngUjx2WwckTUuTcpab3kEUOKlDK7PfIHRfHC7_3NNX7a4Iu88UX0_xoP6b3j1R49PWE-uRd3_E4QefMrD3HVd4iqX2ZupQKntVXaPwDWdf59MuicExB8atsb5g7GRcDSdq9hjAI8q2LE61rSSUWcrodOH_qGPI2_wifrVzTW5bG3jb15Jdh8Wcx3EZMXmxOiJMrI9e1ITbqGXIhhw3UWOIl0FUtCBX_2zzfaQXfBH8zxGQbXSdD7WvJVhQDWALFc2ZPF0PLT-lb7OxucEySs9_Oa5ySUsufvB7gsrd-eW1wHDUN4n-Cb5SOVek4710GVTuDeMmDbjqDKCfj9w7ZLHwj0N2wfP_F-6ORo5Ym2VzYB8E4Kx1GdmTeM1BlsREjtn_o5EBrX-n_25379fiuopAMdwoVo30B2BAbx0MoTc7sRJ5VO3qscwd3Kng4cSym_c5G3ISAf57BPnLClIIMk0xN4ETMog8uQzhXYRPh984MQjD0mp25_H3toJLOhgudq2oebMJ3SZ3HiX5P-e3f6-xbjDbLIOys6PxF-1aKXPJ5D0djrr_jLtQr1ogTk6TUrikOpQ5.wnpziPOES7G1x63NsrIi3A.56a685a56db6e12aa0ca8cd91460f1a0157356993367bc469a498f9b588c6f83
+VM2580:1556 ✅ Turnstile token set successfully
+VM2580:7769 ❌ 403 Forbidden. Turnstile token might be invalid or expired.
+sendPixelBatch @ VM2580:7769
+await in sendPixelBatch
+sendBatchWithRetry @ VM2580:7694
+processImage @ VM2580:7458
+await in processImage
+startPainting @ VM2580:7169
+VM2580:7773 🔄 Regenerating Turnstile token after 403...
+VM2580:2049 🔍 Using cached sitekey: 0x4AAAAAABpqJe8FO0N84q0F
+VM2580:3247 🔑 Generating Turnstile token for sitekey: 0x4AAAAAABpqJe8FO0N84q0F
+VM2580:3248 🧭 UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb... Platform: Win32
+VM2580:1866 🔄 Reusing existing Turnstile widget...
+api.js?render=explicit:1 [Cloudflare Turnstile] Call to execute() on a widget that was already executed (cf-chl-widget-u6asq), execute() will return the previous token obtained. Consider using reset() before execute() to obtain a fresh token.
+x @ api.js?render=explicit:1
+execute @ api.js?render=explicit:1
+executeTurnstile @ VM2580:1868
+await in executeTurnstile
+generatePaintToken @ VM2580:2019
+handleCaptcha @ VM2580:3255
+sendPixelBatch @ VM2580:7774
+await in sendPixelBatch
+sendBatchWithRetry @ VM2580:7694
+processImage @ VM2580:7458
+await in processImage
+startPainting @ VM2580:7169Understand this warning
+VM2580:1983 ✅ Interactive Turnstile completed successfully
+VM2580:1897 🧹 Cleaned up existing Turnstile widget
+VM2580:1913 🔧 Creating invisible Turnstile widget...
+api.js?render=explicit:1 [Cloudflare Turnstile] Call to execute() on a widget that is already executing (cf-chl-widget-htn08), consider using reset() before execute().
+x @ api.js?render=explicit:1
+execute @ api.js?render=explicit:1
+eval @ VM2580:1937
+createTurnstileWidget @ VM2580:1891
+executeTurnstile @ VM2580:1881
+await in executeTurnstile
+generatePaintToken @ VM2580:2019
+handleCaptcha @ VM2580:3255
+sendPixelBatch @ VM2580:7774
+await in sendPixelBatch
+sendBatchWithRetry @ VM2580:7694
+processImage @ VM2580:7458
+await in processImage
+startPainting @ VM2580:7169Understand this warning
+VM2580:1886 � Falling back to interactive Turnstile (visible).
+VM2580:1949 🔄 Creating interactive Turnstile widget (visible)
+VM2580:2009 ✅ Interactive Turnstile widget created, waiting for user interaction...
+content_script_bundle.js:1 Attempting initialization Thu Aug 28 2025 00:03:38 GMT+0200 (heure d’été d’Europe centrale)
+v1?ray=975edc2f7cdee281&lang=auto:1 Request for the Private Access Token challenge.
+v1?ray=975edc2f7cdee281&lang=auto:1 
+VM2580:1983 ✅ Interactive Turnstile completed successfully
+VM2580:3257 🔍 Token received - Type: string, Value: 0.x9tTDi-87kqN3NhgyK2eQSkruanb0M7NhoZPJEV4hzyzPpuF..., Length: 1050
+VM2580:3261 ✅ Turnstile token generated successfully in 4145ms
+VM2581:25 ✅ Turnstile Token Captured: 0.x9tTDi-87kqN3NhgyK2eQSkruanb0M7NhoZPJEV4hzyzPpuF0blrHw2xFKzysOSBwxozTPOF_WapuNbjNAIsIKWNMgYlBSBwi5HYeEoe8C0B3V-XWJptJ-lzFfnZCG9saj0ytEVED2awdrA7kxrRP7A-CG_z1QVDv5zFRzOxJpnQJ9IR86Bjfi9v9jN8NoD2TkdNY-_INpz3LL_a9NdglQV8-pOpl0w-oZceDCati7cEHxVUGXAAo3oFHSCdGUIuMQtP1AIE70eDdgwGnRgAN4begEWeuIytY_aco29SN5HbsqD3lsgmPUDTda1wmYR9U2mmohLIK4hZFIwvI_mOXdrKlCyagRz6_sHBsxh_dWprCfoU6IcBEwmrst1WF0qtHZyD1lEKR5xg9yXhgJyrhMZKuITfz9TEfjmFdZiu7tu5EZEKBbK-GZ4bBfFxFAMT54stR3gmvdP5gK_LImwna98IPE5ZhCfr4SZcQbl4bH-Nizca_9hDYZYne9jrgKnpkOyqIAkGZv1pTCw5QXVhcY-Q-kTJgLy7fq6nW-MHfy9czfjvnTbPhduWO29D_D6PLeed2wtNIW0ExbNOV06ZSToxpITK0bv7ZqekCGR-1nojc5B5RplCmF2Js0zFYLjWreoDPUDNpJF4iOERRgp5E25vqAyj1n19oyojqaxs5zSTi-KXYNIYuEa232KSf63yQHp4uswU-hRhB4_QBjtPBGr973TktK2WhEb3Rz378vZn3r2BV6sgA-FESicQ7FQo5SPiOPyEG4Ks1Eqgjqugk-mCCvtYd4PdKbTiCcSUV87jbXTXnmM4h0P9tEN8XTBQaHfdaiAcBRl4SviNlnHCUMGCcRjgizYr5RLmrvwIjfvnO_H9Jo7uOwu6h_CkyAVayYt6WOy5X12J9MiHPtNAJnVjkxBLyZ71L_sNourd6BEIt26XaIPsDYwbb6HQYdd1.yc74hmH_Jw6sotqiDOgkbA.ff7b22d4efc94a0cdc95250e5dacec0dc3c66217c2f4fbcc58978e2190e32df6
+VM2580:1556 ✅ Turnstile token set successfully
+VM2580:7697 ✅ Batch succeeded on attempt 1
+VM2580:7457 📦 Sending batch with 1 pixels (mode: normal, target: 1)
+VM2580:7692 🔄 Attempting to send batch (attempt 1/10) for region 1336,1620 with 1 pixels
+VM2581:25 ✅ Turnstile Token Captured: 0.x9tTDi-87kqN3NhgyK2eQSkruanb0M7NhoZPJEV4hzyzPpuF0blrHw2xFKzysOSBwxozTPOF_WapuNbjNAIsIKWNMgYlBSBwi5HYeEoe8C0B3V-XWJptJ-lzFfnZCG9saj0ytEVED2awdrA7kxrRP7A-CG_z1QVDv5zFRzOxJpnQJ9IR86Bjfi9v9jN8NoD2TkdNY-_INpz3LL_a9NdglQV8-pOpl0w-oZceDCati7cEHxVUGXAAo3oFHSCdGUIuMQtP1AIE70eDdgwGnRgAN4begEWeuIytY_aco29SN5HbsqD3lsgmPUDTda1wmYR9U2mmohLIK4hZFIwvI_mOXdrKlCyagRz6_sHBsxh_dWprCfoU6IcBEwmrst1WF0qtHZyD1lEKR5xg9yXhgJyrhMZKuITfz9TEfjmFdZiu7tu5EZEKBbK-GZ4bBfFxFAMT54stR3gmvdP5gK_LImwna98IPE5ZhCfr4SZcQbl4bH-Nizca_9hDYZYne9jrgKnpkOyqIAkGZv1pTCw5QXVhcY-Q-kTJgLy7fq6nW-MHfy9czfjvnTbPhduWO29D_D6PLeed2wtNIW0ExbNOV06ZSToxpITK0bv7ZqekCGR-1nojc5B5RplCmF2Js0zFYLjWreoDPUDNpJF4iOERRgp5E25vqAyj1n19oyojqaxs5zSTi-KXYNIYuEa232KSf63yQHp4uswU-hRhB4_QBjtPBGr973TktK2WhEb3Rz378vZn3r2BV6sgA-FESicQ7FQo5SPiOPyEG4Ks1Eqgjqugk-mCCvtYd4PdKbTiCcSUV87jbXTXnmM4h0P9tEN8XTBQaHfdaiAcBRl4SviNlnHCUMGCcRjgizYr5RLmrvwIjfvnO_H9Jo7uOwu6h_CkyAVayYt6WOy5X12J9MiHPtNAJnVjkxBLyZ71L_sNourd6BEIt26XaIPsDYwbb6HQYdd1.yc74hmH_Jw6sotqiDOgkbA.ff7b22d4efc94a0cdc95250e5dacec0dc3c66217c2f4fbcc58978e2190e32df6
+VM2580:1556 ✅ Turnstile token set successfully
+VM2580:7697 ✅ Batch succeeded on attempt 1
+VM2580:7599 🔍 Speed Print Zone Analysis:
+VM2580:7600    Pass 1 (offset 0)
+VM2580:7601    Total pixels that should be in this pass: 17
+VM2580:7602    Pixels painted in this pass: 17
+VM2580:7609 🚀 Speed Print Zone: Advancing to pass 2 (offset 1)
+VM2580:7623 🔄 Restarting processImage for next pass...
+VM2580:7283 🚀 Speed Print Zone: Pass 2, Offset 1, Pixels in this pass: 17
+VM2580:7599 🔍 Speed Print Zone Analysis:
+VM2580:7600    Pass 2 (offset 1)
+VM2580:7601    Total pixels that should be in this pass: 17
+VM2580:7602    Pixels painted in this pass: 0
+VM2580:7609 🚀 Speed Print Zone: Advancing to pass 3 (offset 2)
+VM2580:7623 🔄 Restarting processImage for next pass...
+VM2580:7283 🚀 Speed Print Zone: Pass 3, Offset 2, Pixels in this pass: 18
+VM2580:7457 📦 Sending batch with 1 pixels (mode: normal, target: 1)
+VM2580:7692 🔄 Attempting to send batch (attempt 1/10) for region 1336,1620 with 1 pixels
+VM2581:25 ✅ Turnstile Token Captured: 0.x9tTDi-87kqN3NhgyK2eQSkruanb0M7NhoZPJEV4hzyzPpuF0blrHw2xFKzysOSBwxozTPOF_WapuNbjNAIsIKWNMgYlBSBwi5HYeEoe8C0B3V-XWJptJ-lzFfnZCG9saj0ytEVED2awdrA7kxrRP7A-CG_z1QVDv5zFRzOxJpnQJ9IR86Bjfi9v9jN8NoD2TkdNY-_INpz3LL_a9NdglQV8-pOpl0w-oZceDCati7cEHxVUGXAAo3oFHSCdGUIuMQtP1AIE70eDdgwGnRgAN4begEWeuIytY_aco29SN5HbsqD3lsgmPUDTda1wmYR9U2mmohLIK4hZFIwvI_mOXdrKlCyagRz6_sHBsxh_dWprCfoU6IcBEwmrst1WF0qtHZyD1lEKR5xg9yXhgJyrhMZKuITfz9TEfjmFdZiu7tu5EZEKBbK-GZ4bBfFxFAMT54stR3gmvdP5gK_LImwna98IPE5ZhCfr4SZcQbl4bH-Nizca_9hDYZYne9jrgKnpkOyqIAkGZv1pTCw5QXVhcY-Q-kTJgLy7fq6nW-MHfy9czfjvnTbPhduWO29D_D6PLeed2wtNIW0ExbNOV06ZSToxpITK0bv7ZqekCGR-1nojc5B5RplCmF2Js0zFYLjWreoDPUDNpJF4iOERRgp5E25vqAyj1n19oyojqaxs5zSTi-KXYNIYuEa232KSf63yQHp4uswU-hRhB4_QBjtPBGr973TktK2WhEb3Rz378vZn3r2BV6sgA-FESicQ7FQo5SPiOPyEG4Ks1Eqgjqugk-mCCvtYd4PdKbTiCcSUV87jbXTXnmM4h0P9tEN8XTBQaHfdaiAcBRl4SviNlnHCUMGCcRjgizYr5RLmrvwIjfvnO_H9Jo7uOwu6h_CkyAVayYt6WOy5X12J9MiHPtNAJnVjkxBLyZ71L_sNourd6BEIt26XaIPsDYwbb6HQYdd1.yc74hmH_Jw6sotqiDOgkbA.ff7b22d4efc94a0cdc95250e5dacec0dc3c66217c2f4fbcc58978e2190e32df6
+VM2580:1556 ✅ Turnstile token set successfully
+VM2580:7697 ✅ Batch succeeded on attempt 1
+VM2580:7599 🔍 Speed Print Zone Analysis:
+VM2580:7600    Pass 3 (offset 2)
+VM2580:7601    Total pixels that should be in this pass: 18
+VM2580:7602    Pixels painted in this pass: 1
+VM2580:7609 🚀 Speed Print Zone: Advancing to pass 4 (offset 3)
+VM2580:7623 🔄 Restarting processImage for next pass...
+VM2580:7283 🚀 Speed Print Zone: Pass 4, Offset 3, Pixels in this pass: 18
+VM2580:7599 🔍 Speed Print Zone Analysis:
+VM2580:7600    Pass 4 (offset 3)
+VM2580:7601    Total pixels that should be in this pass: 18
+VM2580:7602    Pixels painted in this pass: 0
+VM2580:7630 🎉 Speed Print Zone: All 4 passes completed!
+VM2580:7650 📊 Pixel Statistics:
+VM2580:7651    Painted: 18
+VM2580:7652    Skipped - Transparent: 0
+VM2580:7653    Skipped - White (disabled): 0
+VM2580:7654    Skipped - Already painted: 0
+VM2580:7656    Skipped - Speed Print Zone (other passes): 0
+VM2580:7657    Speed Print Zone - Pass: 1, Offset: 0
+VM2580:7658    Speed Print Zone - Pixels painted in current pass: 0
+VM2580:7660    Total processed: 18

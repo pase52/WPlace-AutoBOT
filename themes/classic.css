@@ -723,3 +723,62 @@
   border-radius: 12px;
   box-shadow: 0 0 20px rgb(0 0 0 / 50%);
 }
+
+/* PixelColony Styles */
+.wplace-btn-mode {
+  background: rgba(255,255,255,0.1);
+  color: var(--wplace-text);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.wplace-btn-mode:hover {
+  background: rgba(255,255,255,0.2);
+  border-color: var(--wplace-highlight);
+}
+
+.wplace-btn-mode.wplace-btn-active {
+  background: var(--wplace-highlight);
+  color: white;
+  border-color: var(--wplace-highlight);
+  box-shadow: 0 0 10px var(--wplace-highlight)33;
+}
+
+.wplace-input {
+  font-family: var(--wplace-font-family);
+  transition: all 0.3s ease;
+}
+
+.wplace-input:focus {
+  outline: none;
+  border-color: var(--wplace-highlight);
+  box-shadow: 0 0 0 2px var(--wplace-highlight)33;
+}
+
+#connectionIndicator {
+  transition: all 0.3s ease;
+}
+
+#connectionIndicator.connected {
+  background: #4caf50 !important;
+  box-shadow: 0 0 6px #4caf50;
+}
+
+#connectionIndicator.connecting {
+  background: #ffc107 !important;
+  animation: pulse 1.5s infinite;
+}
+
+#pixelColonySection .wplace-controls > .wplace-row {
+  margin-bottom: 12px;
+}
+
+#pixelColonySection .wplace-controls > .wplace-row:last-child {
+  margin-bottom: 0;
+}
