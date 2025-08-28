@@ -320,6 +320,46 @@
       snapshotTaken: "✅ Canvas snapshot taken for anti-grief protection",
       snapshotFailed: "❌ Failed to take canvas snapshot",
       pixelSkippedAntiGrief: "⚠️ Pixel skipped (protected by anti-grief)",
+      
+      // PixelColony translations
+      pixelColony: "PixelColony",
+      pixelColonyDesc: "Collaborative multi-bot painting system",
+      collaborativeMode: "🤝 Collaborative Mode",
+      soloMode: "Solo Mode",
+      masterMode: "Master Mode",
+      slaveMode: "Slave Mode",
+      createRoom: "Create Room",
+      joinRoom: "Join Room",
+      leaveRoom: "Leave Room",
+      roomId: "Room ID",
+      roomIdPlaceholder: "Enter 8-character room ID",
+      masterName: "Master Name",
+      slaveName: "Slave Name",
+      roomDescription: "Room Description",
+      taskSize: "Task Size",
+      maxSlaves: "Max Slaves",
+      roomSettings: "Room Settings",
+      connectionStatus: "Connection Status",
+      connected: "Connected",
+      disconnected: "Disconnected",
+      connecting: "Connecting...",
+      roomCreated: "✅ Room created successfully",
+      roomJoined: "✅ Joined room successfully",
+      roomLeft: "✅ Left room successfully",
+      connectionFailed: "❌ Connection failed",
+      invalidRoomId: "❌ Invalid room ID format",
+      roomNotFound: "❌ Room not found",
+      roomFull: "❌ Room is full",
+      taskReceived: "📋 Task received",
+      taskCompleted: "✅ Task completed",
+      noTasksAvailable: "⌛ No tasks available",
+      waitingForTasks: "⌛ Waiting for tasks...",
+      connectedSlaves: "Connected Slaves",
+      taskStatistics: "Task Statistics",
+      tasksCompleted: "Tasks Completed",
+      pixelsPlacedTotal: "Total Pixels Placed",
+      serverUrl: "Server URL",
+      serverUrlPlaceholder: "ws://localhost:3001",
     },
     ru: {
       title: "WPlace Авто-Изображение",
@@ -641,6 +681,46 @@
       snapshotTaken: "✅ Instantané du canvas pris pour la protection anti-grief",
       snapshotFailed: "❌ Échec de la prise d'instantané du canvas",
       pixelSkippedAntiGrief: "⚠️ Pixel sauté (protégé par anti-grief)",
+      
+      // PixelColony translations
+      pixelColony: "PixelColony",
+      pixelColonyDesc: "Système de peinture collaborative multi-bots",
+      collaborativeMode: "🤝 Mode Collaboratif",
+      soloMode: "Mode Solo",
+      masterMode: "Mode Maître",
+      slaveMode: "Mode Esclave",
+      createRoom: "Créer une Room",
+      joinRoom: "Rejoindre une Room",
+      leaveRoom: "Quitter la Room",
+      roomId: "ID de Room",
+      roomIdPlaceholder: "Entrez l'ID de room (8 caractères)",
+      masterName: "Nom du Maître",
+      slaveName: "Nom de l'Esclave",
+      roomDescription: "Description de la Room",
+      taskSize: "Taille des Tâches",
+      maxSlaves: "Max d'Esclaves",
+      roomSettings: "Paramètres de Room",
+      connectionStatus: "Statut de Connexion",
+      connected: "Connecté",
+      disconnected: "Déconnecté",
+      connecting: "Connexion...",
+      roomCreated: "✅ Room créée avec succès",
+      roomJoined: "✅ Room rejointe avec succès",
+      roomLeft: "✅ Room quittée avec succès",
+      connectionFailed: "❌ Échec de la connexion",
+      invalidRoomId: "❌ Format d'ID de room invalide",
+      roomNotFound: "❌ Room non trouvée",
+      roomFull: "❌ Room pleine",
+      taskReceived: "📋 Tâche reçue",
+      taskCompleted: "✅ Tâche terminée",
+      noTasksAvailable: "⌛ Aucune tâche disponible",
+      waitingForTasks: "⌛ En attente de tâches...",
+      connectedSlaves: "Esclaves Connectés",
+      taskStatistics: "Statistiques des Tâches",
+      tasksCompleted: "Tâches Terminées",
+      pixelsPlacedTotal: "Total de Pixels Placés",
+      serverUrl: "URL du Serveur",
+      serverUrlPlaceholder: "ws://localhost:3001",
     },
     id: {
       title: "WPlace Auto-Image",
@@ -1272,6 +1352,30 @@
     antiGriefEnabled: false, // Default to OFF for backward compatibility
     canvasSnapshot: null, // Stores the snapshot of existing pixels before painting
     antiGriefSkipped: 0, // Count of pixels skipped due to anti-grief protection
+    
+    // PixelColony collaborative mode settings
+    pixelColonyEnabled: false,
+    pixelColonyMode: "solo", // "solo", "master", "slave"
+    pixelColonyWsUrl: "ws://localhost:3001", // Default backend URL
+    pixelColonyRoomId: null,
+    pixelColonyMasterId: null,
+    pixelColonySlaveId: null,
+    pixelColonyConnected: false,
+    pixelColonyWs: null,
+    pixelColonyCurrentTask: null,
+    pixelColonyTaskStatistics: {
+      tasksCompleted: 0,
+      pixelsPlaced: 0,
+      errorsCount: 0
+    },
+    pixelColonyRoomSettings: {
+      taskSize: "3x3",
+      taskTimeout: 30000,
+      description: "",
+      maxSlaves: 10
+    },
+    pixelColonySlaves: [],
+    pixelColonyLastHeartbeat: 0
   }
 
   let _updateResizePreview = () => { };
@@ -2990,6 +3094,23 @@
 
       return false;
     },
+
+    // Generate a unique ID for PixelColony messages
+    generateId: () => {
+      return 'id-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+    },
+
+    // Paint a single pixel (for PixelColony slave mode)
+    paintPixel: async (x, y, colorId) => {
+      // Calculate region coordinates
+      const regionX = Math.floor(x / 100);
+      const regionY = Math.floor(y / 100);
+      const pixelX = x % 100;
+      const pixelY = y % 100;
+
+      // Use existing paintPixelInRegion function
+      return await Utils.paintPixelInRegion(regionX, regionY, pixelX, pixelY, colorId);
+    },
   }
 
   // IMAGE PROCESSOR CLASS
@@ -3505,6 +3626,449 @@
       }
     });
   }
+
+  // PixelColony Functions
+  const PixelColony = {
+    
+    // Initialize WebSocket connection
+    connect: async (wsUrl) => {
+      return new Promise((resolve, reject) => {
+        try {
+          if (state.pixelColonyWs && state.pixelColonyWs.readyState === WebSocket.OPEN) {
+            state.pixelColonyWs.close();
+          }
+
+          const ws = new WebSocket(wsUrl);
+          
+          ws.onopen = () => {
+            console.log("🔗 PixelColony WebSocket connected");
+            state.pixelColonyConnected = true;
+            state.pixelColonyWs = ws;
+            PixelColony.updateConnectionStatus('connected');
+            
+            // Start heartbeat
+            PixelColony.startHeartbeat();
+            
+            resolve(ws);
+          };
+
+          ws.onclose = () => {
+            console.log("📱 PixelColony WebSocket disconnected");
+            state.pixelColonyConnected = false;
+            state.pixelColonyWs = null;
+            PixelColony.updateConnectionStatus('disconnected');
+            PixelColony.stopHeartbeat();
+          };
+
+          ws.onerror = (error) => {
+            console.error("❌ PixelColony WebSocket error:", error);
+            PixelColony.updateConnectionStatus('disconnected');
+            reject(error);
+          };
+
+          ws.onmessage = (event) => {
+            try {
+              const message = JSON.parse(event.data);
+              PixelColony.handleMessage(message);
+            } catch (error) {
+              console.error("❌ Error parsing WebSocket message:", error);
+            }
+          };
+
+          // Connection timeout
+          setTimeout(() => {
+            if (ws.readyState === WebSocket.CONNECTING) {
+              ws.close();
+              reject(new Error("Connection timeout"));
+            }
+          }, 10000);
+
+        } catch (error) {
+          reject(error);
+        }
+      });
+    },
+
+    // Send message to server
+    sendMessage: (message) => {
+      if (state.pixelColonyWs && state.pixelColonyWs.readyState === WebSocket.OPEN) {
+        state.pixelColonyWs.send(JSON.stringify(message));
+        return true;
+      }
+      console.warn("⚠️ WebSocket not connected, cannot send message");
+      return false;
+    },
+
+    // Handle incoming messages
+    handleMessage: (message) => {
+      console.log("📨 Received message:", message.type, message);
+      
+      switch (message.type) {
+        case 'room_created':
+          PixelColony.handleRoomCreated(message.data);
+          break;
+        case 'room_joined':
+          PixelColony.handleRoomJoined(message.data);
+          break;
+        case 'task_claimed':
+          PixelColony.handleTaskClaimed(message.data);
+          break;
+        case 'no_tasks':
+          PixelColony.handleNoTasks(message.data);
+          break;
+        case 'error':
+          PixelColony.handleError(message.data);
+          break;
+        case 'heartbeat':
+          // Heartbeat response - no action needed
+          break;
+        default:
+          console.log("🔄 Unknown message type:", message.type);
+      }
+    },
+
+    // Handle room created
+    handleRoomCreated: (data) => {
+      state.pixelColonyRoomId = data.roomId;
+      state.pixelColonyMode = "master";
+      
+      const roomIdElement = document.getElementById('createdRoomId');
+      const roomInfoElement = document.getElementById('roomCreatedInfo');
+      const currentRoomIdElement = document.getElementById('currentRoomId');
+      
+      if (roomIdElement) roomIdElement.textContent = data.roomId;
+      if (roomInfoElement) roomInfoElement.style.display = 'block';
+      if (currentRoomIdElement) currentRoomIdElement.textContent = data.roomId;
+      
+      PixelColony.showConnectedRoomInfo();
+      Utils.showAlert(Utils.t("roomCreated"), "success");
+    },
+
+    // Handle room joined
+    handleRoomJoined: (data) => {
+      state.pixelColonyRoomId = data.roomId;
+      state.pixelColonyMode = "slave";
+      
+      const currentRoomIdElement = document.getElementById('currentRoomId');
+      if (currentRoomIdElement) currentRoomIdElement.textContent = data.roomId;
+      
+      PixelColony.showConnectedRoomInfo();
+      Utils.showAlert(Utils.t("roomJoined"), "success");
+    },
+
+    // Handle task claimed
+    handleTaskClaimed: (data) => {
+      state.pixelColonyCurrentTask = data.task;
+      
+      const taskInfoElement = document.getElementById('currentTaskInfo');
+      const taskPixelCountElement = document.getElementById('currentTaskPixelCount');
+      const taskSizeElement = document.getElementById('currentTaskSize');
+      
+      if (taskInfoElement) taskInfoElement.style.display = 'block';
+      if (taskPixelCountElement) taskPixelCountElement.textContent = data.task.pixels.length;
+      if (taskSizeElement) {
+        const coords = data.task.coordinates;
+        taskSizeElement.textContent = `${coords.width}x${coords.height}`;
+      }
+      
+      Utils.showAlert(Utils.t("taskReceived"), "info");
+      
+      // Start painting the task automatically if in slave mode
+      if (state.pixelColonyMode === "slave") {
+        PixelColony.paintTask(data.task);
+      }
+    },
+
+    // Handle no tasks available
+    handleNoTasks: (data) => {
+      const taskInfoElement = document.getElementById('currentTaskInfo');
+      if (taskInfoElement) taskInfoElement.style.display = 'none';
+      
+      console.log("⌛ No tasks available, waiting...");
+    },
+
+    // Handle errors
+    handleError: (data) => {
+      console.error("❌ PixelColony error:", data);
+      Utils.showAlert(data.message || "PixelColony error", "error");
+    },
+
+    // Update connection status UI
+    updateConnectionStatus: (status) => {
+      const statusTextElement = document.getElementById('connectionStatusText');
+      const indicatorElement = document.getElementById('connectionIndicator');
+      
+      if (statusTextElement && indicatorElement) {
+        indicatorElement.className = status;
+        
+        switch (status) {
+          case 'connected':
+            statusTextElement.textContent = Utils.t("connected");
+            statusTextElement.style.color = '#4caf50';
+            break;
+          case 'connecting':
+            statusTextElement.textContent = Utils.t("connecting");
+            statusTextElement.style.color = '#ffc107';
+            break;
+          case 'disconnected':
+          default:
+            statusTextElement.textContent = Utils.t("disconnected");
+            statusTextElement.style.color = '#ff6b6b';
+            break;
+        }
+      }
+    },
+
+    // Show/hide mode-specific controls
+    updateModeUI: (mode) => {
+      const masterControls = document.getElementById('masterControls');
+      const slaveControls = document.getElementById('slaveControls');
+      const connectionStatusRow = document.getElementById('connectionStatusRow');
+      const serverUrlRow = document.getElementById('serverUrlRow');
+      const connectedRoomInfo = document.getElementById('connectedRoomInfo');
+      
+      // Hide all mode-specific controls first
+      if (masterControls) masterControls.style.display = 'none';
+      if (slaveControls) slaveControls.style.display = 'none';
+      if (connectionStatusRow) connectionStatusRow.style.display = 'none';
+      if (serverUrlRow) serverUrlRow.style.display = 'none';
+      if (connectedRoomInfo) connectedRoomInfo.style.display = 'none';
+      
+      // Update mode button states
+      document.querySelectorAll('.wplace-btn-mode').forEach(btn => {
+        btn.classList.remove('wplace-btn-active');
+      });
+      
+      switch (mode) {
+        case 'solo':
+          document.getElementById('soloModeBtn')?.classList.add('wplace-btn-active');
+          break;
+        case 'master':
+          document.getElementById('masterModeBtn')?.classList.add('wplace-btn-active');
+          if (masterControls) masterControls.style.display = 'block';
+          if (connectionStatusRow) connectionStatusRow.style.display = 'block';
+          if (serverUrlRow) serverUrlRow.style.display = 'block';
+          break;
+        case 'slave':
+          document.getElementById('slaveModeBtn')?.classList.add('wplace-btn-active');
+          if (slaveControls) slaveControls.style.display = 'block';
+          if (connectionStatusRow) connectionStatusRow.style.display = 'block';
+          if (serverUrlRow) serverUrlRow.style.display = 'block';
+          break;
+      }
+      
+      state.pixelColonyMode = mode;
+    },
+
+    // Show connected room info
+    showConnectedRoomInfo: () => {
+      const masterControls = document.getElementById('masterControls');
+      const slaveControls = document.getElementById('slaveControls');
+      const connectedRoomInfo = document.getElementById('connectedRoomInfo');
+      
+      if (masterControls) masterControls.style.display = 'none';
+      if (slaveControls) slaveControls.style.display = 'none';
+      if (connectedRoomInfo) connectedRoomInfo.style.display = 'block';
+    },
+
+    // Create room
+    createRoom: async () => {
+      const masterName = document.getElementById('masterNameInput')?.value || 'Master Bot';
+      const description = document.getElementById('roomDescriptionInput')?.value || '';
+      const taskSize = document.getElementById('taskSizeSelect')?.value || '3x3';
+      const maxSlaves = parseInt(document.getElementById('maxSlavesInput')?.value) || 10;
+      
+      const message = {
+        type: 'room_create',
+        version: 'v1',
+        timestamp: new Date().toISOString(),
+        id: Utils.generateId(),
+        data: {
+          masterId: Utils.generateId(),
+          settings: {
+            taskSize: taskSize,
+            taskTimeout: 30000,
+            description: description,
+            maxSlaves: maxSlaves
+          }
+        }
+      };
+      
+      state.pixelColonyMasterId = message.data.masterId;
+      PixelColony.sendMessage(message);
+    },
+
+    // Join room
+    joinRoom: async () => {
+      const slaveName = document.getElementById('slaveNameInput')?.value || 'Slave Bot';
+      const roomId = document.getElementById('roomIdInput')?.value.toUpperCase();
+      
+      if (!roomId || roomId.length !== 8) {
+        Utils.showAlert(Utils.t("invalidRoomId"), "error");
+        return;
+      }
+      
+      const message = {
+        type: 'room_join',
+        version: 'v1',
+        timestamp: new Date().toISOString(),
+        id: Utils.generateId(),
+        data: {
+          roomId: roomId,
+          slaveId: Utils.generateId(),
+          slaveName: slaveName
+        }
+      };
+      
+      state.pixelColonySlaveId = message.data.slaveId;
+      PixelColony.sendMessage(message);
+    },
+
+    // Leave room
+    leaveRoom: async () => {
+      if (state.pixelColonyRoomId) {
+        const message = {
+          type: 'room_leave',
+          version: 'v1',
+          timestamp: new Date().toISOString(),
+          id: Utils.generateId(),
+          data: {
+            roomId: state.pixelColonyRoomId,
+            userId: state.pixelColonyMode === 'master' ? state.pixelColonyMasterId : state.pixelColonySlaveId
+          }
+        };
+        
+        PixelColony.sendMessage(message);
+      }
+      
+      // Reset state
+      state.pixelColonyRoomId = null;
+      state.pixelColonyMasterId = null;
+      state.pixelColonySlaveId = null;
+      state.pixelColonyCurrentTask = null;
+      
+      // Reset UI
+      PixelColony.updateModeUI(state.pixelColonyMode);
+      Utils.showAlert(Utils.t("roomLeft"), "info");
+    },
+
+    // Paint a task (for slave mode)
+    paintTask: async (task) => {
+      if (!task || !task.pixels) return;
+      
+      console.log("🎨 Starting task painting:", task.pixels.length, "pixels");
+      
+      for (const pixel of task.pixels) {
+        if (state.stopFlag || !state.pixelColonyConnected) break;
+        
+        try {
+          // Use the existing pixel painting logic
+          await Utils.paintPixel(pixel.x, pixel.y, pixel.colorId);
+          
+          // Update statistics
+          state.pixelColonyTaskStatistics.pixelsPlaced++;
+          PixelColony.updateTaskStatistics();
+          
+          // Wait for cooldown
+          await Utils.sleep(state.cooldown);
+          
+        } catch (error) {
+          console.error("❌ Error painting pixel:", error);
+          state.pixelColonyTaskStatistics.errorsCount++;
+        }
+      }
+      
+      // Report task completion
+      const message = {
+        type: 'task_complete',
+        version: 'v1',
+        timestamp: new Date().toISOString(),
+        id: Utils.generateId(),
+        data: {
+          taskId: task.taskId,
+          roomId: state.pixelColonyRoomId,
+          slaveId: state.pixelColonySlaveId,
+          status: 'completed',
+          pixelsPlaced: task.pixels.length,
+          completedAt: new Date().toISOString()
+        }
+      };
+      
+      PixelColony.sendMessage(message);
+      
+      state.pixelColonyTaskStatistics.tasksCompleted++;
+      state.pixelColonyCurrentTask = null;
+      
+      // Hide current task info
+      const taskInfoElement = document.getElementById('currentTaskInfo');
+      if (taskInfoElement) taskInfoElement.style.display = 'none';
+      
+      PixelColony.updateTaskStatistics();
+      
+      // Request next task
+      setTimeout(() => {
+        if (state.pixelColonyConnected && state.pixelColonyMode === 'slave') {
+          PixelColony.requestTask();
+        }
+      }, 1000);
+    },
+
+    // Request next task (for slave mode)
+    requestTask: () => {
+      if (!state.pixelColonyConnected || !state.pixelColonyRoomId) return;
+      
+      const message = {
+        type: 'task_claim',
+        version: 'v1',
+        timestamp: new Date().toISOString(),
+        id: Utils.generateId(),
+        data: {
+          roomId: state.pixelColonyRoomId,
+          slaveId: state.pixelColonySlaveId
+        }
+      };
+      
+      PixelColony.sendMessage(message);
+    },
+
+    // Update task statistics UI
+    updateTaskStatistics: () => {
+      const tasksCompletedElement = document.getElementById('tasksCompletedCount');
+      const pixelsPlacedElement = document.getElementById('pixelsPlacedCount');
+      
+      if (tasksCompletedElement) {
+        tasksCompletedElement.textContent = state.pixelColonyTaskStatistics.tasksCompleted;
+      }
+      if (pixelsPlacedElement) {
+        pixelsPlacedElement.textContent = state.pixelColonyTaskStatistics.pixelsPlaced;
+      }
+    },
+
+    // Start heartbeat
+    startHeartbeat: () => {
+      PixelColony.stopHeartbeat(); // Clear any existing interval
+      
+      state.pixelColonyHeartbeatInterval = setInterval(() => {
+        if (state.pixelColonyConnected) {
+          PixelColony.sendMessage({
+            type: 'heartbeat',
+            version: 'v1',
+            timestamp: new Date().toISOString(),
+            id: Utils.generateId(),
+            data: {}
+          });
+        }
+      }, 30000); // Send heartbeat every 30 seconds
+    },
+
+    // Stop heartbeat
+    stopHeartbeat: () => {
+      if (state.pixelColonyHeartbeatInterval) {
+        clearInterval(state.pixelColonyHeartbeatInterval);
+        state.pixelColonyHeartbeatInterval = null;
+      }
+    }
+  };
 
 
   async function createUI() {
@@ -4667,6 +5231,65 @@
       .wplace-btn-secondary:hover {
         background: ${theme.secondary};
       }
+
+      /* PixelColony Styles */
+      .wplace-btn-mode {
+        background: rgba(255,255,255,0.1);
+        color: ${theme.text};
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 4px;
+        padding: 6px 8px;
+        font-size: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        font-weight: 500;
+      }
+
+      .wplace-btn-mode:hover {
+        background: rgba(255,255,255,0.2);
+        border-color: ${theme.highlight};
+      }
+
+      .wplace-btn-mode.wplace-btn-active {
+        background: ${theme.highlight};
+        color: white;
+        border-color: ${theme.highlight};
+        box-shadow: 0 0 10px ${theme.highlight}33;
+      }
+
+      .wplace-input {
+        font-family: ${theme.fontFamily};
+        transition: all 0.3s ease;
+      }
+
+      .wplace-input:focus {
+        outline: none;
+        border-color: ${theme.highlight};
+        box-shadow: 0 0 0 2px ${theme.highlight}33;
+      }
+
+      #connectionIndicator {
+        transition: all 0.3s ease;
+      }
+
+      #connectionIndicator.connected {
+        background: #4caf50 !important;
+        box-shadow: 0 0 6px #4caf50;
+      }
+
+      #connectionIndicator.connecting {
+        background: #ffc107 !important;
+        animation: pulse 1.5s infinite;
+      }
+
+      #pixelColonySection .wplace-controls > .wplace-row {
+        margin-bottom: 12px;
+      }
+
+      #pixelColonySection .wplace-controls > .wplace-row:last-child {
+        margin-bottom: 0;
+      }
       `
         : ""
       }
@@ -4770,6 +5393,181 @@
                     <span id="cooldownValue" style="font-weight:bold; min-width: 20px; text-align: center;">${state.cooldownChargeThreshold}</span>
                 </div>
             </div>
+        </div>
+
+        <!-- PixelColony Section -->
+        <div class="wplace-section" id="pixelColonySection">
+          <div class="wplace-section-title">🤝 ${Utils.t("pixelColony")}</div>
+          <div class="wplace-controls">
+            
+            <!-- Mode Selection -->
+            <div class="wplace-row single">
+              <label style="display: block; margin-bottom: 8px; color: white; font-size: 12px;">
+                ${Utils.t("collaborativeMode")}
+              </label>
+              <div style="display: flex; gap: 4px;">
+                <button id="soloModeBtn" class="wplace-btn wplace-btn-mode wplace-btn-active" style="flex: 1;">
+                  <span>${Utils.t("soloMode")}</span>
+                </button>
+                <button id="masterModeBtn" class="wplace-btn wplace-btn-mode" style="flex: 1;">
+                  <span>${Utils.t("masterMode")}</span>
+                </button>
+                <button id="slaveModeBtn" class="wplace-btn wplace-btn-mode" style="flex: 1;">
+                  <span>${Utils.t("slaveMode")}</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Connection Status -->
+            <div class="wplace-row single" id="connectionStatusRow" style="display: none;">
+              <div style="display: flex; align-items: center; gap: 8px; padding: 8px; background: rgba(255,255,255,0.05); border-radius: 6px;">
+                <span style="font-size: 12px; color: white;">${Utils.t("connectionStatus")}:</span>
+                <span id="connectionStatusText" style="font-size: 12px; font-weight: bold; color: #ff6b6b;">${Utils.t("disconnected")}</span>
+                <div id="connectionIndicator" style="width: 8px; height: 8px; border-radius: 50%; background: #ff6b6b;"></div>
+              </div>
+            </div>
+
+            <!-- Server URL Input -->
+            <div class="wplace-row single" id="serverUrlRow" style="display: none;">
+              <label style="display: block; margin-bottom: 4px; color: white; font-size: 11px;">
+                ${Utils.t("serverUrl")}:
+              </label>
+              <input type="text" id="serverUrlInput" class="wplace-input" 
+                     placeholder="${Utils.t("serverUrlPlaceholder")}" 
+                     value="${state.pixelColonyWsUrl}"
+                     style="width: 100%; padding: 6px 8px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; color: white; font-size: 11px;">
+            </div>
+
+            <!-- Master Mode Controls -->
+            <div id="masterControls" style="display: none;">
+              <div class="wplace-row single">
+                <label style="display: block; margin-bottom: 4px; color: white; font-size: 11px;">
+                  ${Utils.t("masterName")}:
+                </label>
+                <input type="text" id="masterNameInput" class="wplace-input" 
+                       placeholder="Master Bot" 
+                       value="Master Bot"
+                       style="width: 100%; padding: 6px 8px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; color: white; font-size: 11px; margin-bottom: 8px;">
+                
+                <label style="display: block; margin-bottom: 4px; color: white; font-size: 11px;">
+                  ${Utils.t("roomDescription")}:
+                </label>
+                <input type="text" id="roomDescriptionInput" class="wplace-input" 
+                       placeholder="Collaborative painting session" 
+                       value=""
+                       style="width: 100%; padding: 6px 8px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; color: white; font-size: 11px; margin-bottom: 8px;">
+                
+                <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+                  <div style="flex: 1;">
+                    <label style="display: block; margin-bottom: 4px; color: white; font-size: 11px;">
+                      ${Utils.t("taskSize")}:
+                    </label>
+                    <select id="taskSizeSelect" style="width: 100%; padding: 6px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; color: white; font-size: 11px;">
+                      <option value="1x1">1x1</option>
+                      <option value="3x3" selected>3x3</option>
+                      <option value="5x5">5x5</option>
+                      <option value="10x10">10x10</option>
+                    </select>
+                  </div>
+                  <div style="flex: 1;">
+                    <label style="display: block; margin-bottom: 4px; color: white; font-size: 11px;">
+                      ${Utils.t("maxSlaves")}:
+                    </label>
+                    <input type="number" id="maxSlavesInput" min="1" max="50" value="10"
+                           style="width: 100%; padding: 6px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; color: white; font-size: 11px;">
+                  </div>
+                </div>
+              </div>
+              
+              <div class="wplace-row single">
+                <button id="createRoomBtn" class="wplace-btn wplace-btn-primary" style="width: 100%;">
+                  <i class="fas fa-plus"></i>
+                  <span>${Utils.t("createRoom")}</span>
+                </button>
+              </div>
+
+              <!-- Room Created Info -->
+              <div id="roomCreatedInfo" style="display: none; margin-top: 8px; padding: 8px; background: rgba(76, 175, 80, 0.1); border: 1px solid rgba(76, 175, 80, 0.3); border-radius: 6px;">
+                <div style="font-size: 11px; color: #4caf50; margin-bottom: 4px;">
+                  ${Utils.t("roomCreated")}
+                </div>
+                <div style="font-size: 12px; color: white; font-weight: bold;">
+                  ${Utils.t("roomId")}: <span id="createdRoomId"></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slave Mode Controls -->
+            <div id="slaveControls" style="display: none;">
+              <div class="wplace-row single">
+                <label style="display: block; margin-bottom: 4px; color: white; font-size: 11px;">
+                  ${Utils.t("slaveName")}:
+                </label>
+                <input type="text" id="slaveNameInput" class="wplace-input" 
+                       placeholder="Slave Bot" 
+                       value="Slave Bot"
+                       style="width: 100%; padding: 6px 8px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; color: white; font-size: 11px; margin-bottom: 8px;">
+                
+                <label style="display: block; margin-bottom: 4px; color: white; font-size: 11px;">
+                  ${Utils.t("roomId")}:
+                </label>
+                <input type="text" id="roomIdInput" class="wplace-input" 
+                       placeholder="${Utils.t("roomIdPlaceholder")}" 
+                       value=""
+                       maxlength="8"
+                       style="width: 100%; padding: 6px 8px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; color: white; font-size: 11px; margin-bottom: 8px; text-transform: uppercase;">
+              </div>
+              
+              <div class="wplace-row single">
+                <button id="joinRoomBtn" class="wplace-btn wplace-btn-primary" style="width: 100%;">
+                  <i class="fas fa-sign-in-alt"></i>
+                  <span>${Utils.t("joinRoom")}</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Connected Room Info -->
+            <div id="connectedRoomInfo" style="display: none;">
+              <div style="margin-top: 8px; padding: 8px; background: rgba(33, 150, 243, 0.1); border: 1px solid rgba(33, 150, 243, 0.3); border-radius: 6px;">
+                <div style="font-size: 11px; color: #2196f3; margin-bottom: 4px;">
+                  <i class="fas fa-users"></i> ${Utils.t("connectedSlaves")}: <span id="connectedSlavesCount">0</span>
+                </div>
+                <div style="font-size: 11px; color: white;">
+                  ${Utils.t("roomId")}: <span id="currentRoomId" style="font-weight: bold;"></span>
+                </div>
+              </div>
+
+              <!-- Task Statistics -->
+              <div style="margin-top: 8px; padding: 8px; background: rgba(255,255,255,0.05); border-radius: 6px;">
+                <div style="font-size: 11px; color: #ffc107; margin-bottom: 6px;">
+                  <i class="fas fa-chart-bar"></i> ${Utils.t("taskStatistics")}
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 10px; color: white;">
+                  <span>${Utils.t("tasksCompleted")}: <span id="tasksCompletedCount">0</span></span>
+                  <span>${Utils.t("pixelsPlacedTotal")}: <span id="pixelsPlacedCount">0</span></span>
+                </div>
+              </div>
+
+              <!-- Current Task Info -->
+              <div id="currentTaskInfo" style="display: none; margin-top: 8px; padding: 8px; background: rgba(255, 193, 7, 0.1); border: 1px solid rgba(255, 193, 7, 0.3); border-radius: 6px;">
+                <div style="font-size: 11px; color: #ffc107; margin-bottom: 4px;">
+                  <i class="fas fa-tasks"></i> ${Utils.t("taskReceived")}
+                </div>
+                <div style="font-size: 10px; color: white;">
+                  <span>Pixels: <span id="currentTaskPixelCount">0</span></span>
+                  <span style="margin-left: 12px;">Size: <span id="currentTaskSize">0x0</span></span>
+                </div>
+              </div>
+
+              <div class="wplace-row single" style="margin-top: 8px;">
+                <button id="leaveRoomBtn" class="wplace-btn wplace-btn-stop" style="width: 100%;">
+                  <i class="fas fa-sign-out-alt"></i>
+                  <span>${Utils.t("leaveRoom")}</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
         </div>
 
         <!-- Data Section -->
@@ -8197,6 +8995,108 @@
       const speedPrintZoneControls = document.getElementById('speedPrintZoneControls');
       if (speedPrintZoneControls) {
         speedPrintZoneControls.style.display = state.speedPrintZoneEnabled ? '' : 'none';
+      }
+
+      // PixelColony Event Listeners
+      if (state.pixelColonyEnabled) {
+        // Mode selection buttons
+        const soloModeBtn = document.getElementById('soloModeBtn');
+        const masterModeBtn = document.getElementById('masterModeBtn');
+        const slaveModeBtn = document.getElementById('slaveModeBtn');
+
+        if (soloModeBtn) {
+          soloModeBtn.addEventListener('click', () => {
+            PixelColony.updateModeUI('solo');
+            if (state.pixelColonyConnected) {
+              PixelColony.leaveRoom();
+            }
+          });
+        }
+
+        if (masterModeBtn) {
+          masterModeBtn.addEventListener('click', () => {
+            PixelColony.updateModeUI('master');
+          });
+        }
+
+        if (slaveModeBtn) {
+          slaveModeBtn.addEventListener('click', () => {
+            PixelColony.updateModeUI('slave');
+          });
+        }
+
+        // Connection button
+        const connectBtn = document.getElementById('pixelColonyConnectBtn');
+        if (connectBtn) {
+          connectBtn.addEventListener('click', async () => {
+            const wsUrlInput = document.getElementById('pixelColonyWsUrl');
+            const wsUrl = wsUrlInput ? wsUrlInput.value : 'ws://localhost:3001';
+            
+            if (state.pixelColonyConnected) {
+              // Disconnect
+              if (state.pixelColonyWs) {
+                state.pixelColonyWs.close();
+              }
+              PixelColony.updateConnectionStatus('disconnected');
+              connectBtn.textContent = Utils.t("connect");
+              Utils.showAlert(Utils.t("disconnected"), "info");
+            } else {
+              // Connect
+              try {
+                PixelColony.updateConnectionStatus('connecting');
+                connectBtn.textContent = Utils.t("connecting") + "...";
+                
+                await PixelColony.connect(wsUrl);
+                connectBtn.textContent = Utils.t("disconnect");
+                
+                // Initialize UI mode
+                PixelColony.updateModeUI(state.pixelColonyMode);
+                
+              } catch (error) {
+                PixelColony.updateConnectionStatus('disconnected');
+                connectBtn.textContent = Utils.t("connect");
+                Utils.showAlert(Utils.t("connectionError") + ": " + error.message, "error");
+              }
+            }
+          });
+        }
+
+        // Master controls
+        const createRoomBtn = document.getElementById('createRoomBtn');
+        if (createRoomBtn) {
+          createRoomBtn.addEventListener('click', () => {
+            PixelColony.createRoom();
+          });
+        }
+
+        // Slave controls
+        const joinRoomBtn = document.getElementById('joinRoomBtn');
+        if (joinRoomBtn) {
+          joinRoomBtn.addEventListener('click', () => {
+            PixelColony.joinRoom();
+          });
+        }
+
+        // Leave room button
+        const leaveRoomBtn = document.getElementById('leaveRoomBtn');
+        if (leaveRoomBtn) {
+          leaveRoomBtn.addEventListener('click', () => {
+            PixelColony.leaveRoom();
+          });
+        }
+
+        // Request task button for slave mode
+        const requestTaskBtn = document.getElementById('requestTaskBtn');
+        if (requestTaskBtn) {
+          requestTaskBtn.addEventListener('click', () => {
+            PixelColony.requestTask();
+          });
+        }
+
+        // Update UI based on current mode
+        PixelColony.updateModeUI(state.pixelColonyMode);
+        PixelColony.updateConnectionStatus('disconnected');
+        PixelColony.updateTaskStatistics();
       }
 
       NotificationManager.resetEdgeTracking();
