@@ -22,6 +22,7 @@
     let pollInterval = null;
     let isScriptLoaded = false;
     let launcherUI = null;
+    let currentScriptElement = null;
 
     // Fonction pour calculer un hash simple du contenu
     function simpleHash(str) {
@@ -71,12 +72,62 @@
             window.scriptParams = params;
             console.log('📋 [Launcher] Paramètres injectés:', params);
 
-            // Exécuter le script
-            eval(scriptContent);
+            // Supprimer l'ancien script s'il existe
+            if (currentScriptElement) {
+                currentScriptElement.remove();
+                currentScriptElement = null;
+                console.log('🗑️ [Launcher] Ancien script supprimé');
+            }
+
+            // Créer et injecter le nouveau script dans le DOM
+            const scriptElement = document.createElement('script');
+            scriptElement.id = `wplace-script-${CONFIG.SELECTED_SCRIPT.replace('.js', '')}`;
+            scriptElement.setAttribute('data-script-name', CONFIG.SELECTED_SCRIPT);
+            scriptElement.setAttribute('data-loaded-at', new Date().toISOString());
+
+            // Ajouter le code avec un wrapper pour les paramètres
+            const wrappedContent = `//# sourceURL=${CONFIG.SELECTED_SCRIPT}
+// === WPlace AutoBOT Script: ${CONFIG.SELECTED_SCRIPT} ===
+// Chargé via Launcher le ${new Date().toLocaleString()}
+// Paramètres: ${JSON.stringify(params)}
+
+(function() {
+    'use strict';
+    
+    // Injection des paramètres globaux
+    if (typeof window.scriptParams === 'undefined') {
+        window.scriptParams = ${JSON.stringify(params)};
+    }
+    
+    console.log('🎯 [Script] Démarrage de ${CONFIG.SELECTED_SCRIPT} avec paramètres:', window.scriptParams);
+    
+    // Code du script original
+    ${scriptContent}
+    
+})();
+`;
+
+            scriptElement.textContent = wrappedContent;
+
+            // Ajouter le script au DOM
+            document.head.appendChild(scriptElement);
+            currentScriptElement = scriptElement;
 
             isScriptLoaded = true;
             updateStatus('loaded', 'Script chargé');
-            console.log(`✅ [Launcher] Script ${CONFIG.SELECTED_SCRIPT} chargé avec succès`);
+            console.log(`✅ [Launcher] Script ${CONFIG.SELECTED_SCRIPT} injecté dans le DOM et exécuté`);
+            console.log(`🔍 [Launcher] Script visible dans DevTools Sources sous le nom: ${CONFIG.SELECTED_SCRIPT}`);
+            console.log(`🔍 [Launcher] ID de l'élément DOM: ${scriptElement.id}`);
+            console.log(`🔍 [Launcher] Element dans le DOM:`, scriptElement);
+
+            // Vérification de présence dans le DOM
+            setTimeout(() => {
+                const foundElement = document.getElementById(scriptElement.id);
+                console.log(`🔍 [Launcher] Vérification DOM - Element trouvé:`, foundElement ? 'OUI' : 'NON');
+                if (foundElement) {
+                    console.log(`🔍 [Launcher] Taille du script: ${foundElement.textContent.length} caractères`);
+                }
+            }, 100);
 
         } catch (error) {
             console.error('❌ [Launcher] Erreur lors du chargement:', error);
@@ -205,8 +256,20 @@
           border-radius: 2px;
           cursor: pointer;
           font-size: 10px;
-          width: 100%;
+          width: 48%;
+          margin-right: 2%;
         ">Load Script</button>
+        
+        <button id="remove-btn" style="
+          background: #600;
+          color: white;
+          border: 1px solid #555;
+          padding: 4px 6px;
+          border-radius: 2px;
+          cursor: pointer;
+          font-size: 10px;
+          width: 48%;
+        ">Remove</button>
       </div>
     `;
 
@@ -218,6 +281,10 @@
 
         // Event listeners
         document.getElementById('reload-btn').addEventListener('click', loadMainScript);
+
+        document.getElementById('remove-btn').addEventListener('click', () => {
+            window.wpLauncher.removeScript();
+        });
 
         document.getElementById('auto-reload-toggle').addEventListener('change', (e) => {
             CONFIG.AUTO_RELOAD = e.target.checked;
@@ -330,6 +397,14 @@
             clearInterval(pollInterval);
             pollInterval = null;
         }
+
+        // Nettoyer le script injecté
+        if (currentScriptElement) {
+            currentScriptElement.remove();
+            currentScriptElement = null;
+            console.log('🗑️ [Launcher] Script supprimé du DOM');
+        }
+
         console.log('🛑 [Launcher] Surveillance arrêtée');
     }
 
@@ -358,7 +433,43 @@
         reload: loadMainScript,
         start: startWatching,
         stop: stopLauncher,
-        status: () => ({ isScriptLoaded, lastFileHash })
+        status: () => ({ isScriptLoaded, lastFileHash, currentScriptElement }),
+        getScriptElement: () => currentScriptElement,
+        removeScript: () => {
+            if (currentScriptElement) {
+                currentScriptElement.remove();
+                currentScriptElement = null;
+                isScriptLoaded = false;
+                updateStatus('loaded', 'Script supprimé');
+                console.log('🗑️ [Launcher] Script manuellement supprimé');
+            }
+        },
+        debugScript: () => {
+            console.log('🔍 [Debug] État du launcher:');
+            console.log('  - Script chargé:', isScriptLoaded);
+            console.log('  - Element actuel:', currentScriptElement);
+            console.log('  - Script sélectionné:', CONFIG.SELECTED_SCRIPT);
+
+            if (currentScriptElement) {
+                console.log('  - ID de l\'élément:', currentScriptElement.id);
+                console.log('  - Dans le DOM:', document.contains(currentScriptElement));
+                console.log('  - Taille du script:', currentScriptElement.textContent.length, 'caractères');
+            }
+
+            // Lister tous les scripts dans le head
+            const allScripts = Array.from(document.head.querySelectorAll('script'));
+            const wplaceScripts = allScripts.filter(s => s.id && s.id.includes('wplace'));
+            console.log('🔍 [Debug] Scripts WPlace dans le DOM:', wplaceScripts.length);
+            wplaceScripts.forEach((script, index) => {
+                console.log(`  ${index + 1}. ID: ${script.id}, Taille: ${script.textContent.length}`);
+            });
+
+            return {
+                isLoaded: isScriptLoaded,
+                element: currentScriptElement,
+                allWplaceScripts: wplaceScripts
+            };
+        }
     };
 
 })().catch(console.error);

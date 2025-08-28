@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   # Redis service for data persistence and pub/sub
   redis:

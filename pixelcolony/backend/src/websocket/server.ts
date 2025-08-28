@@ -1,5 +1,10 @@
 import { serverConfig } from "@/config";
-import { BaseMessage, ErrorCodes, MessageHandlers } from "@/types";
+import {
+  BaseMessage,
+  ErrorCodes,
+  MessageHandlers,
+  ServerConfig,
+} from "@/types";
 import { log } from "@/utils/logger";
 import { Server } from "http";
 import WebSocket from "ws";
@@ -14,10 +19,10 @@ export class WebSocketServer {
     this.setupDefaultHandlers();
   }
 
-  public start(server: Server): void {
+  public start(server: Server, config: ServerConfig): void {
     this.wss = new WebSocket.Server({
       server,
-      path: "/ws",
+      path: config.wsPath,
       clientTracking: false,
     });
 

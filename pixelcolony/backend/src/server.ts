@@ -159,7 +159,7 @@ class Server {
   public async start(): Promise<void> {
     try {
       // Initialize PixelColony service
-      await this.pixelColonyService.initialize(this.server);
+      await this.pixelColonyService.initialize(this.server, serverConfig);
 
       // Start HTTP server
       await new Promise<void>((resolve, reject) => {
@@ -167,7 +167,6 @@ class Server {
           log.info("Server started", {
             port: serverConfig.port,
             env: process.env.NODE_ENV || "development",
-            wsPath: serverConfig.wsPath,
           });
           resolve();
         });

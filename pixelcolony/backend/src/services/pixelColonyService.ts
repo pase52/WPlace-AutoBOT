@@ -1,25 +1,26 @@
-import { redis } from '@/redis/client';
-import { RoomManager } from '@/services/roomManager';
-import { TaskManager } from '@/services/taskManager';
+import { redis } from "@/redis/client";
+import { RoomManager } from "@/services/roomManager";
+import { TaskManager } from "@/services/taskManager";
 import {
-    BaseMessage,
-    ClaimTaskMessage,
-    CompleteTaskMessage,
-    CreateRoomMessage,
-    ErrorCodes,
-    JoinRoomMessage,
-    LeaveRoomMessage,
-    RoomCreatedMessage,
-    RoomJoinedMessage,
-    TaskClaimedMessage,
-    TaskCompletedMessage
-} from '@/types';
-import { formatTimestamp, isValidRoomId, isValidUUID } from '@/utils/helpers';
-import { log } from '@/utils/logger';
-import { WebSocketConnection } from '@/websocket/connection';
-import { WebSocketServer } from '@/websocket/server';
-import { Server } from 'http';
-import { v4 as uuidv4 } from 'uuid';
+  BaseMessage,
+  ClaimTaskMessage,
+  CompleteTaskMessage,
+  CreateRoomMessage,
+  ErrorCodes,
+  JoinRoomMessage,
+  LeaveRoomMessage,
+  RoomCreatedMessage,
+  RoomJoinedMessage,
+  ServerConfig,
+  TaskClaimedMessage,
+  TaskCompletedMessage,
+} from "@/types";
+import { formatTimestamp, isValidRoomId, isValidUUID } from "@/utils/helpers";
+import { log } from "@/utils/logger";
+import { WebSocketConnection } from "@/websocket/connection";
+import { WebSocketServer } from "@/websocket/server";
+import { Server } from "http";
+import { v4 as uuidv4 } from "uuid";
 
 export class PixelColonyService {
   private static instance: PixelColonyService;
@@ -41,7 +42,7 @@ export class PixelColonyService {
     this.taskManager = TaskManager.getInstance();
   }
 
-  public async initialize(server: Server): Promise<void> {
+  public async initialize(server: Server, config: ServerConfig): Promise<void> {
     if (this.isInitialized) {
       throw new Error("PixelColonyService already initialized");
     }
@@ -51,7 +52,7 @@ export class PixelColonyService {
     log.info("Redis client connected");
 
     // Start WebSocket server
-    this.wsServer.start(server);
+    this.wsServer.start(server, config);
     log.info("WebSocket server started");
 
     // Register message handlers
