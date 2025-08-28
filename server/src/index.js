@@ -14,19 +14,48 @@ import { tryConsume, getAndAccrueTokens, isFollowing } from "./rate.js";
 
 const app = express();
 const server = http.createServer(app);
+
+// Compute a safe CORS origin option for both Express and Socket.IO
+function computeCorsOrigin() {
+  const raw = process.env.PUBLIC_ORIGINS;
+  if (!raw || raw.trim() === "*") {
+    // Reflect request origin (allows credentials without '*')
+    return (origin, callback) => callback(null, true);
+  }
+  const list = raw
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  return list.length ? list : (origin, callback) => callback(null, false);
+}
+
+const corsOrigin = computeCorsOrigin();
+
 const io = new SocketIOServer(server, {
   cors: {
-    origin: (process.env.PUBLIC_ORIGINS || "*").split(",").map((s) => s.trim()),
+    origin: corsOrigin,
     credentials: true,
   },
 });
 
-app.use(
-  cors({
-    origin: (process.env.PUBLIC_ORIGINS || "*").split(",").map((s) => s.trim()),
-    credentials: true,
-  })
-);
+const corsOptions = {
+  origin: corsOrigin,
+  credentials: true,
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  optionsSuccessStatus: 204,
+};
+
+// Preflight helper (adds Private Network header for local testing when needed)
+app.use((req, res, next) => {
+  if (req.method === "OPTIONS") {
+    res.header("Access-Control-Allow-Private-Network", "true");
+  }
+  next();
+});
+
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 app.use(express.json({ limit: "1mb" }));
 
 const redis = createRedis();
