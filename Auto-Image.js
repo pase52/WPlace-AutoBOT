@@ -606,9 +606,9 @@
     antiGriefSkipped: 0, // Count of pixels skipped due to anti-grief protection
 
     // PixelColony collaborative mode settings
-    pixelColonyEnabled: false,
+    pixelColonyEnabled: true,
     pixelColonyMode: "solo", // "solo", "master", "slave"
-    pixelColonyWsUrl: "ws://localhost:3001", // Default backend URL
+    pixelColonyWsUrl: "ws://localhost:8080/ws", // Backend WebSocket URL
     pixelColonyRoomId: null,
     pixelColonyMasterId: null,
     pixelColonySlaveId: null,
@@ -4276,7 +4276,6 @@
             </div>
           </div>
         </div>
-      </div>
     `;
 
     // Stats Window - Separate UI
@@ -8836,6 +8835,255 @@
     }
   }
 
+  // Initialize PixelColony Auto-Connect
+  function initializePixelColonyAutoConnect() {
+    console.log('🔗 Starting PixelColony auto-connection...');
+
+    // Only auto-connect if PixelColony is enabled
+    if (!state.pixelColonyEnabled) {
+      console.log('⚠️ PixelColony disabled, skipping auto-connection');
+      return;
+    }
+
+    // Try to connect automatically
+    const wsUrl = state.pixelColonyWsUrl;
+    PixelColony.connect(wsUrl)
+      .then(() => {
+        console.log('✅ PixelColony auto-connection successful');
+        Utils.showAlert(`🔗 ${Utils.t('autoConnectSuccess')}`, 'success');
+      })
+      .catch(error => {
+        console.warn('⚠️ PixelColony auto-connection failed:', error.message);
+        // Don't show error alert for auto-connection failures to avoid spam
+        // Users can manually connect if needed
+      });
+  }
+
+  // Initialize PixelColony Event Listeners
+  function initializePixelColonyEventListeners() {
+    // Mode buttons
+    const soloModeBtn = document.getElementById('soloModeBtn');
+    const masterModeBtn = document.getElementById('masterModeBtn');
+    const slaveModeBtn = document.getElementById('slaveModeBtn');
+
+    // Connection elements
+    const pixelColonyWsUrl = document.getElementById('pixelColonyWsUrl');
+    const pixelColonyConnectBtn = document.getElementById('pixelColonyConnectBtn');
+    const connectionStatusText = document.getElementById('connectionStatusText');
+    const connectionIndicator = document.getElementById('connectionIndicator');
+    const connectionStatusRow = document.getElementById('connectionStatusRow');
+
+    // Master controls
+    const masterControls = document.getElementById('masterControls');
+    const createRoomBtn = document.getElementById('createRoomBtn');
+    const masterNameInput = document.getElementById('masterNameInput');
+    const roomDescriptionInput = document.getElementById('roomDescriptionInput');
+    const taskSizeSelect = document.getElementById('taskSizeSelect');
+    const maxSlavesInput = document.getElementById('maxSlavesInput');
+    const roomCreatedInfo = document.getElementById('roomCreatedInfo');
+    const createdRoomId = document.getElementById('createdRoomId');
+
+    // Slave controls
+    const slaveControls = document.getElementById('slaveControls');
+    const joinRoomBtn = document.getElementById('joinRoomBtn');
+    const slaveNameInput = document.getElementById('slaveNameInput');
+    const roomIdInput = document.getElementById('roomIdInput');
+
+    // Connected room info
+    const connectedRoomInfo = document.getElementById('connectedRoomInfo');
+    const currentRoomId = document.getElementById('currentRoomId');
+    const leaveRoomBtn = document.getElementById('leaveRoomBtn');
+    const requestTaskBtn = document.getElementById('requestTaskBtn');
+
+    // Task info and statistics
+    const currentTaskInfo = document.getElementById('currentTaskInfo');
+    const currentTaskPixelCount = document.getElementById('currentTaskPixelCount');
+    const currentTaskSize = document.getElementById('currentTaskSize');
+    const tasksCompletedCount = document.getElementById('tasksCompletedCount');
+    const pixelsPlacedCount = document.getElementById('pixelsPlacedCount');
+
+    // Mode selection handlers
+    function selectMode(mode) {
+      state.pixelColonyMode = mode;
+
+      // Update button states
+      [soloModeBtn, masterModeBtn, slaveModeBtn].forEach(btn => {
+        btn.classList.remove('wplace-btn-active');
+      });
+
+      if (mode === 'solo') {
+        soloModeBtn.classList.add('wplace-btn-active');
+        connectionStatusRow.style.display = 'none';
+        masterControls.style.display = 'none';
+        slaveControls.style.display = 'none';
+        connectedRoomInfo.style.display = 'none';
+        currentTaskInfo.style.display = 'none';
+      } else if (mode === 'master') {
+        masterModeBtn.classList.add('wplace-btn-active');
+        connectionStatusRow.style.display = 'flex';
+        masterControls.style.display = 'block';
+        slaveControls.style.display = 'none';
+      } else if (mode === 'slave') {
+        slaveModeBtn.classList.add('wplace-btn-active');
+        connectionStatusRow.style.display = 'flex';
+        masterControls.style.display = 'none';
+        slaveControls.style.display = 'block';
+      }
+
+      saveBotSettings();
+    }
+
+    // Connection status update
+    function updateConnectionStatus(status) {
+      if (!connectionStatusText || !connectionIndicator) return;
+
+      switch (status) {
+        case 'connected':
+          connectionStatusText.textContent = Utils.t('connected');
+          connectionIndicator.className = 'wplace-status-indicator wplace-status-connected';
+          if (pixelColonyConnectBtn) pixelColonyConnectBtn.textContent = Utils.t('disconnect');
+          break;
+        case 'connecting':
+          connectionStatusText.textContent = Utils.t('connecting');
+          connectionIndicator.className = 'wplace-status-indicator wplace-status-connecting';
+          if (pixelColonyConnectBtn) pixelColonyConnectBtn.textContent = Utils.t('connecting');
+          break;
+        case 'disconnected':
+        default:
+          connectionStatusText.textContent = Utils.t('disconnected');
+          connectionIndicator.className = 'wplace-status-indicator wplace-status-disconnected';
+          if (pixelColonyConnectBtn) pixelColonyConnectBtn.textContent = Utils.t('connect');
+          break;
+      }
+    }
+
+    // Event listeners
+    if (soloModeBtn) soloModeBtn.addEventListener('click', () => selectMode('solo'));
+    if (masterModeBtn) masterModeBtn.addEventListener('click', () => selectMode('master'));
+    if (slaveModeBtn) slaveModeBtn.addEventListener('click', () => selectMode('slave'));
+
+    if (pixelColonyConnectBtn) {
+      pixelColonyConnectBtn.addEventListener('click', () => {
+        if (state.pixelColonyConnected) {
+          PixelColony.disconnect();
+          Utils.showAlert(`🔌 ${Utils.t('manualDisconnect')}`, 'info');
+        } else {
+          const wsUrl = pixelColonyWsUrl?.value || state.pixelColonyWsUrl;
+          Utils.showAlert(`🔗 ${Utils.t('manualConnectAttempt')}`, 'info');
+          PixelColony.connect(wsUrl)
+            .then(() => {
+              Utils.showAlert(`✅ ${Utils.t('manualConnectSuccess')}`, 'success');
+            })
+            .catch(error => {
+              Utils.showAlert(`❌ ${Utils.t('connectionFailed')}: ${error.message}`, 'error');
+            });
+        }
+      });
+    }
+
+    if (createRoomBtn) {
+      createRoomBtn.addEventListener('click', () => {
+        // Check if connected to PixelColony server
+        if (!state.pixelColonyConnected) {
+          Utils.showAlert(`❌ ${Utils.t('notConnectedError')}. ${Utils.t('autoConnectFailed')}.`, 'error');
+          return;
+        }
+
+        const settings = {
+          masterName: masterNameInput?.value || 'Master Bot',
+          description: roomDescriptionInput?.value || '',
+          taskSize: taskSizeSelect?.value || '3x3',
+          maxSlaves: parseInt(maxSlavesInput?.value || '10', 10)
+        };
+        PixelColony.createRoom(settings);
+      });
+    }
+
+    if (joinRoomBtn) {
+      joinRoomBtn.addEventListener('click', () => {
+        // Check if connected to PixelColony server
+        if (!state.pixelColonyConnected) {
+          Utils.showAlert(`❌ ${Utils.t('notConnectedError')}. ${Utils.t('autoConnectFailed')}.`, 'error');
+          return;
+        }
+
+        const roomId = roomIdInput?.value?.trim();
+        const slaveName = slaveNameInput?.value || 'Slave Bot';
+        if (roomId) {
+          PixelColony.joinRoom(roomId, slaveName);
+        } else {
+          Utils.showAlert(Utils.t('invalidRoomId'), 'error');
+        }
+      });
+    }
+
+    if (leaveRoomBtn) {
+      leaveRoomBtn.addEventListener('click', () => {
+        PixelColony.leaveRoom();
+      });
+    }
+
+    if (requestTaskBtn) {
+      requestTaskBtn.addEventListener('click', () => {
+        PixelColony.requestTask();
+      });
+    }
+
+    // Initialize with saved mode
+    selectMode(state.pixelColonyMode);
+    updateConnectionStatus('disconnected');
+
+    // Update statistics display
+    if (tasksCompletedCount) tasksCompletedCount.textContent = state.pixelColonyTaskStatistics.tasksCompleted;
+    if (pixelsPlacedCount) pixelsPlacedCount.textContent = state.pixelColonyTaskStatistics.pixelsPlaced;
+
+    // Set up PixelColony event handlers
+    window.addEventListener('pixelColonyConnected', () => {
+      updateConnectionStatus('connected');
+      if (state.pixelColonyMode === 'slave') {
+        requestTaskBtn.style.display = 'inline-flex';
+      }
+    });
+
+    window.addEventListener('pixelColonyDisconnected', () => {
+      updateConnectionStatus('disconnected');
+      connectedRoomInfo.style.display = 'none';
+      currentTaskInfo.style.display = 'none';
+    });
+
+    window.addEventListener('pixelColonyRoomCreated', (event) => {
+      const { roomId } = event.detail;
+      if (createdRoomId) createdRoomId.textContent = roomId;
+      if (roomCreatedInfo) roomCreatedInfo.style.display = 'block';
+      if (currentRoomId) currentRoomId.textContent = roomId;
+      if (connectedRoomInfo) connectedRoomInfo.style.display = 'block';
+    });
+
+    window.addEventListener('pixelColonyRoomJoined', (event) => {
+      const { roomId } = event.detail;
+      if (currentRoomId) currentRoomId.textContent = roomId;
+      if (connectedRoomInfo) connectedRoomInfo.style.display = 'block';
+    });
+
+    window.addEventListener('pixelColonyTaskReceived', (event) => {
+      const { task } = event.detail;
+      if (currentTaskPixelCount) currentTaskPixelCount.textContent = task.pixels.length;
+      if (currentTaskSize) currentTaskSize.textContent = `${task.width}x${task.height}`;
+      if (currentTaskInfo) currentTaskInfo.style.display = 'block';
+    });
+
+    window.addEventListener('pixelColonyTaskCompleted', () => {
+      state.pixelColonyTaskStatistics.tasksCompleted++;
+      if (tasksCompletedCount) tasksCompletedCount.textContent = state.pixelColonyTaskStatistics.tasksCompleted;
+      if (currentTaskInfo) currentTaskInfo.style.display = 'none';
+    });
+
+    window.addEventListener('pixelColonyPixelPlaced', () => {
+      state.pixelColonyTaskStatistics.pixelsPlaced++;
+      if (pixelsPlacedCount) pixelsPlacedCount.textContent = state.pixelColonyTaskStatistics.pixelsPlaced;
+    });
+  }
+
   // Load theme preference immediately on startup before creating UI
   loadThemePreference();
   applyTheme();
@@ -8843,6 +9091,12 @@
   createUI().then(() => {
     // Generate token automatically after UI is ready
     setTimeout(initializeTokenGenerator, 1000);
+
+    // Initialize PixelColony event listeners
+    initializePixelColonyEventListeners();
+
+    // Auto-connect to PixelColony WebSocket
+    setTimeout(initializePixelColonyAutoConnect, 2000);
 
     // Attach advanced color matching listeners (resize dialog)
     const advancedInit = () => {

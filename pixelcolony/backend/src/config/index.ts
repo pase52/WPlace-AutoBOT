@@ -43,7 +43,7 @@ function getEnvBoolean(name: string, defaultValue?: boolean): boolean {
 
 export const serverConfig: ServerConfig = {
   port: getEnvNumber("PORT", 8080),
-  wsPath: getEnvVar("WS_PATH", "/pixelcolony"),
+  wsPath: getEnvVar("WS_PATH", "/ws"),
   redisUrl: getEnvVar("REDIS_URL", "redis://localhost:6379"),
   heartbeatInterval: getEnvNumber("HEARTBEAT_INTERVAL", 30000),
   connectionTimeout: getEnvNumber("CONNECTION_TIMEOUT", 10000),

@@ -1,6 +1,4 @@
 # Production docker-compose configuration
-version: "3.8"
-
 services:
   # Redis with persistence and clustering config
   redis:
