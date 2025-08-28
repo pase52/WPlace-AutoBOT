@@ -314,6 +314,12 @@
       speedPrintZoneInterval: "Skip interval",
       speedPrintZoneEnabled: "Enable Speed Print Zone",
       speedPrintZoneProgress: "🚀 Speed Print Zone - Pass {pass}: {painted}/{total} pixels",
+      antiGriefProtection: "Anti-Grief Protection",
+      antiGriefProtectionDesc: "Protect existing pixels by taking a snapshot before painting and skipping pixels that were already painted by others",
+      antiGriefEnabled: "Enable Anti-Grief Protection",
+      snapshotTaken: "✅ Canvas snapshot taken for anti-grief protection",
+      snapshotFailed: "❌ Failed to take canvas snapshot",
+      pixelSkippedAntiGrief: "⚠️ Pixel skipped (protected by anti-grief)",
     },
     ru: {
       title: "WPlace Авто-Изображение",
@@ -387,6 +393,12 @@
       captchaFailed: "❌ Не удалось сгенерировать Turnstile токен. Пробую резервный метод...",
       automation: "Автоматизация",
       noChargesThreshold: "⌛ Ожидание зарядов до {threshold}. Сейчас {current}. Следующий через {time}...",
+      antiGriefProtection: "Защита от грифинга",
+      antiGriefProtectionDesc: "Защитить существующие пиксели, создав снимок перед рисованием и пропуская пиксели, которые уже были нарисованы другими",
+      antiGriefEnabled: "Включить защиту от грифинга",
+      snapshotTaken: "✅ Снимок холста сделан для защиты от грифинга",
+      snapshotFailed: "❌ Не удалось сделать снимок холста",
+      pixelSkippedAntiGrief: "⚠️ Пиксель пропущен (защищен от грифинга)",
     },
     pt: {
       title: "WPlace Auto-Image",
@@ -460,6 +472,12 @@
       captchaFailed: "❌ Falha ao resolver CAPTCHA. Pinte um pixel manualmente.",
       automation: "Automação",
       noChargesThreshold: "⌛ Aguardando cargas atingirem {threshold}. Atual: {current}. Próxima em {time}...",
+      antiGriefProtection: "Proteção Anti-Grief",
+      antiGriefProtectionDesc: "Proteger pixels existentes criando um instantâneo antes de pintar e pulando pixels que já foram pintados por outros",
+      antiGriefEnabled: "Ativar Proteção Anti-Grief",
+      snapshotTaken: "✅ Instantâneo do canvas criado para proteção anti-grief",
+      snapshotFailed: "❌ Falha ao criar instantâneo do canvas",
+      pixelSkippedAntiGrief: "⚠️ Pixel pulado (protegido por anti-grief)",
     },
     vi: {
       title: "WPlace Auto-Image",
@@ -533,6 +551,12 @@
       captchaFailed: "❌ Giải CAPTCHA tự động thất bại. Vui lòng vẽ một pixel thủ công.",
       automation: "Tự động hóa",
       noChargesThreshold: "⌛ Đang chờ số lần sạc đạt {threshold}. Hiện tại {current}. Lần tiếp theo trong {time}...",
+      antiGriefProtection: "Bảo vệ Chống Grief",
+      antiGriefProtectionDesc: "Bảo vệ các pixel hiện có bằng cách chụp ảnh trước khi vẽ và bỏ qua các pixel đã được vẽ bởi người khác",
+      antiGriefEnabled: "Bật Bảo vệ Chống Grief",
+      snapshotTaken: "✅ Đã chụp ảnh canvas để bảo vệ chống grief",
+      snapshotFailed: "❌ Không thể chụp ảnh canvas",
+      pixelSkippedAntiGrief: "⚠️ Pixel bị bỏ qua (được bảo vệ chống grief)",
     },
     fr: {
       title: "WPlace Auto-Image",
@@ -611,6 +635,12 @@
       speedPrintZoneInterval: "Intervalle de saut",
       speedPrintZoneEnabled: "Activer la zone d'impression rapide",
       speedPrintZoneProgress: "🚀 Zone d'impression rapide - Passe {pass}: {painted}/{total} pixels",
+      antiGriefProtection: "Protection Anti-Grief",
+      antiGriefProtectionDesc: "Protéger les pixels existants en prenant un instantané avant de peindre et en sautant les pixels déjà peints par d'autres",
+      antiGriefEnabled: "Activer la Protection Anti-Grief",
+      snapshotTaken: "✅ Instantané du canvas pris pour la protection anti-grief",
+      snapshotFailed: "❌ Échec de la prise d'instantané du canvas",
+      pixelSkippedAntiGrief: "⚠️ Pixel sauté (protégé par anti-grief)",
     },
     id: {
       title: "WPlace Auto-Image",
@@ -684,6 +714,12 @@
       captchaFailed: "❌ Gagal menyelesaikan CAPTCHA. Lukis satu piksel secara manual.",
       automation: "Automasi",
       noChargesThreshold: "⌛ Menunggu muatan mencapai {threshold}. Saat ini: {current}. Berikutnya dalam {time}...",
+      antiGriefProtection: "Perlindungan Anti-Grief",
+      antiGriefProtectionDesc: "Lindungi piksel yang ada dengan mengambil snapshot sebelum melukis dan melompati piksel yang sudah dilukis oleh orang lain",
+      antiGriefEnabled: "Aktifkan Perlindungan Anti-Grief",
+      snapshotTaken: "✅ Snapshot canvas diambil untuk perlindungan anti-grief",
+      snapshotFailed: "❌ Gagal mengambil snapshot canvas",
+      pixelSkippedAntiGrief: "⚠️ Piksel dilewati (dilindungi oleh anti-grief)",
     },
     tr: {
       title: "WPlace Otomatik-Resim",
@@ -755,6 +791,12 @@
       captchaFailed: "❌ Oto-CAPTCHA başarısız oldu. Bir pikseli manuel boyayın.",
       automation: "Otomasyon",
       noChargesThreshold: "⌛ Hakların {threshold} seviyesine ulaşması bekleniyor. Şu anda {current}. Sonraki {time} içinde...",
+      antiGriefProtection: "Grief Koruması",
+      antiGriefProtectionDesc: "Boyamadan önce anlık görüntü alarak ve başkaları tarafından zaten boyanmış pikselleri atlayarak mevcut pikselleri koruyun",
+      antiGriefEnabled: "Grief Korumasını Etkinleştir",
+      snapshotTaken: "✅ Grief koruması için tuval anlık görüntüsü alındı",
+      snapshotFailed: "❌ Tuval anlık görüntüsü alınamadı",
+      pixelSkippedAntiGrief: "⚠️ Piksel atlandı (grief koruması tarafından korunan)",
     },
     "zh-CN": {
       title: "WPlace 自动图像",
@@ -831,6 +873,12 @@
       captchaFailed: "❌ 令牌生成失败。尝试回退方法...",
       automation: "自动化",
       noChargesThreshold: "⌛ 等待次数达到 {threshold}。当前 {current}。下次在 {time}...",
+      antiGriefProtection: "防恶意破坏保护",
+      antiGriefProtectionDesc: "通过在绘画前拍摄快照并跳过已被他人绘制的像素来保护现有像素",
+      antiGriefEnabled: "启用防恶意破坏保护",
+      snapshotTaken: "✅ 已为防恶意破坏保护拍摄画布快照",
+      snapshotFailed: "❌ 无法拍摄画布快照",
+      pixelSkippedAntiGrief: "⚠️ 像素已跳过（受防恶意破坏保护）",
     },
     "zh-TW": {
       title: "WPlace 自動圖像",
@@ -907,6 +955,12 @@
       captchaFailed: "❌ 令牌產生失敗。嘗試回退方法...",
       automation: "自動化",
       noChargesThreshold: "⌛ 等待次數達到 {threshold}。目前 {current}。下次在 {time}...",
+      antiGriefProtection: "防惡意破壞保護",
+      antiGriefProtectionDesc: "透過在繪畫前拍攝快照並跳過已被他人繪製的像素來保護現有像素",
+      antiGriefEnabled: "啟用防惡意破壞保護",
+      snapshotTaken: "✅ 已為防惡意破壞保護拍攝畫布快照",
+      snapshotFailed: "❌ 無法拍攝畫布快照",
+      pixelSkippedAntiGrief: "⚠️ 像素已跳過（受防惡意破壞保護）",
     },
     ja: {
       title: "WPlace 自動画像",
@@ -983,6 +1037,12 @@
       captchaFailed: "❌ トークン生成失敗。フォールバックを試行...",
       automation: "自動化",
       noChargesThreshold: "⌛ チャージ {threshold} を待機中。現在 {current}。次は {time} 後...",
+      antiGriefProtection: "荒らし防止保護",
+      antiGriefProtectionDesc: "描画前にスナップショットを取り、他の人が既に描いたピクセルをスキップして既存のピクセルを保護する",
+      antiGriefEnabled: "荒らし防止保護を有効にする",
+      snapshotTaken: "✅ 荒らし防止保護のためキャンバススナップショットを取得しました",
+      snapshotFailed: "❌ キャンバススナップショットの取得に失敗しました",
+      pixelSkippedAntiGrief: "⚠️ ピクセルをスキップしました（荒らし防止保護により保護）",
     },
     ko: {
       title: "WPlace 자동 이미지",
@@ -1059,6 +1119,12 @@
       captchaFailed: "❌ 토큰 생성 실패. 폴백 시도...",
       automation: "자동화",
       noChargesThreshold: "⌛ 횟수가 {threshold} 에 도달할 때까지 대기 중. 현재 {current}. 다음 {time} 후...",
+      antiGriefProtection: "그리핑 방지 보호",
+      antiGriefProtectionDesc: "그리기 전에 스냅샷을 찍고 다른 사람이 이미 그린 픽셀을 건너뛰어 기존 픽셀을 보호합니다",
+      antiGriefEnabled: "그리핑 방지 보호 활성화",
+      snapshotTaken: "✅ 그리핑 방지 보호를 위해 캔버스 스냅샷을 찍었습니다",
+      snapshotFailed: "❌ 캔버스 스냅샷 찍기 실패",
+      pixelSkippedAntiGrief: "⚠️ 픽셀 건너뜀 (그리핑 방지 보호로 보호됨)",
     },
     uk: {
       title: "WPlace Авто-Зображення",
@@ -1133,6 +1199,12 @@
       captchaFailed: "❌ Не вдалося згенерувати токен Turnstile. Використовую запасний метод...",
       automation: "Автоматизація",
       noChargesThreshold: "⌛ Очікування, доки заряди досягнуть {threshold}. Зараз {current}. Наступне через {time}...",
+      antiGriefProtection: "Захист від гріфінгу",
+      antiGriefProtectionDesc: "Захистити наявні пікселі, зробивши знімок перед малюванням і пропускаючи пікселі, які вже намалювали інші",
+      antiGriefEnabled: "Увімкнути захист від гріфінгу",
+      snapshotTaken: "✅ Знімок полотна зроблено для захисту від гріфінгу",
+      snapshotFailed: "❌ Не вдалося зробити знімок полотна",
+      pixelSkippedAntiGrief: "⚠️ Піксель пропущено (захищено від гріфінгу)",
     },
   }
 
@@ -1196,6 +1268,10 @@
     speedPrintZonePass: 0, // Current pass number (0 = initial skip pattern, 1+ = fill passes)
     speedPrintZoneOffset: 0, // Current offset within the skip interval for fill passes
     speedPrintZoneCurrentPassPixels: 0, // Pixels painted in current pass only
+    // Anti-grief protection settings
+    antiGriefEnabled: false, // Default to OFF for backward compatibility
+    canvasSnapshot: null, // Stores the snapshot of existing pixels before painting
+    antiGriefSkipped: 0, // Count of pixels skipped due to anti-grief protection
   }
 
   let _updateResizePreview = () => { };
@@ -2623,6 +2699,8 @@
             imageLoaded: state.imageLoaded,
             colorsChecked: state.colorsChecked,
             availableColors: state.availableColors,
+            antiGriefEnabled: state.antiGriefEnabled,
+            canvasSnapshot: state.canvasSnapshot,
           },
           imageData: state.imageData
             ? {
@@ -2832,6 +2910,85 @@
         console.error('Failed to restore overlay from data:', error);
         return false;
       }
+    },
+
+    // Anti-grief protection: Take a snapshot of existing pixels in the painting area
+    takeCanvasSnapshot: async () => {
+      if (!state.imageLoaded || !state.startPosition || !state.region || !state.imageData) {
+        console.warn("Cannot take snapshot: missing required data");
+        return null;
+      }
+
+      try {
+        const { width, height } = state.imageData;
+        const { x: startX, y: startY } = state.startPosition;
+
+        // Create a map to store existing pixel colors in the target area
+        const snapshot = {};
+
+        console.debug(`📸 Taking canvas snapshot for area ${width}x${height} at position (${startX}, ${startY})`);
+
+        // Iterate through each pixel in the image area
+        for (let y = 0; y < height; y++) {
+          for (let x = 0; x < width; x++) {
+            const worldX = startX + x;
+            const worldY = startY + y;
+
+            // Calculate region and pixel coordinates
+            const regionX = state.region.x + Math.floor(worldX / 1000);
+            const regionY = state.region.y + Math.floor(worldY / 1000);
+            const pixelX = worldX % 1000;
+            const pixelY = worldY % 1000;
+
+            try {
+              // Get existing color from the overlay manager
+              const existingColor = await overlayManager.getTilePixelColor(regionX, regionY, pixelX, pixelY);
+
+              if (existingColor && Array.isArray(existingColor) && existingColor.length >= 3) {
+                const key = `${regionX},${regionY},${pixelX},${pixelY}`;
+                snapshot[key] = {
+                  r: existingColor[0],
+                  g: existingColor[1],
+                  b: existingColor[2],
+                  colorId: findClosestColor(existingColor, state.availableColors)
+                };
+              }
+            } catch (error) {
+              // Ignore errors for individual pixels - they might not exist yet
+            }
+          }
+        }
+
+        console.debug(`📸 Snapshot taken with ${Object.keys(snapshot).length} existing pixels`);
+        return snapshot;
+
+      } catch (error) {
+        console.error("Failed to take canvas snapshot:", error);
+        return null;
+      }
+    },
+
+    // Check if a pixel should be skipped based on anti-grief protection
+    shouldSkipPixelAntiGrief: (regionX, regionY, pixelX, pixelY, targetColorId) => {
+      if (!state.antiGriefEnabled || !state.canvasSnapshot) {
+        return false;
+      }
+
+      const key = `${regionX},${regionY},${pixelX},${pixelY}`;
+      const existingPixel = state.canvasSnapshot[key];
+
+      if (existingPixel) {
+        // Skip if the pixel already exists and has the same color we want to paint
+        if (existingPixel.colorId === targetColorId) {
+          return true;
+        }
+
+        // Also skip if there's already content (to protect existing art)
+        // This is the core anti-grief protection
+        return true;
+      }
+
+      return false;
     },
   }
 
@@ -4412,13 +4569,6 @@
         border-color: ${theme.highlight};
       }
 
-      .wplace-description {
-        color: ${theme.text};
-        font-size: 12px;
-        opacity: 0.8;
-        line-height: 1.4;
-      }
-
       .wplace-theme-custom {
         margin-top: 15px;
         padding: 15px;
@@ -4508,14 +4658,6 @@
         min-width: 40px;
       }
 
-      .wplace-custom-actions {
-        display: flex;
-        gap: 10px;
-        margin-top: 20px;
-        border-top: 1px solid ${theme.accent};
-        padding-top: 15px;
-      }
-
       .wplace-btn-secondary {
         background: ${theme.accent};
         color: ${theme.text};
@@ -4524,7 +4666,8 @@
 
       .wplace-btn-secondary:hover {
         background: ${theme.secondary};
-      }`
+      }
+      `
         : ""
       }
     `
@@ -4583,6 +4726,13 @@
                 <i class="fas fa-crosshairs"></i>
                 <span>${Utils.t("selectPosition")}</span>
               </button>
+            </div>
+            <div class="wplace-row single">
+              <!-- Anti Grief Protection -->
+              <label style="display: flex; align-items: center; gap: 8px; color: white; font-size:12px;" title="${Utils.t("antiGriefProtectionDesc")}">
+                <input type="checkbox" id="antiGriefToggle" ${state.speedPrintZoneEnabled ? 'checked' : ''} style="cursor: pointer;"/>
+                <span>${Utils.t("antiGriefEnabled")}</span>
+              </label>
             </div>
           </div>
         </div>
@@ -5960,7 +6110,7 @@
         const confirmLoad = confirm(
           `${Utils.t("savedDataFound")}\n\n` +
           `Saved: ${new Date(savedData.timestamp).toLocaleString()}\n` +
-          `Progress: ${savedData.state.paintedPixels}/${savedData.state.totalPixels} pixels`,
+          `Progress: ${savedData.state.paintedPixels + (savedData.state.antiGriefSkipped || 0)}/${savedData.state.totalPixels} pixels`,
         )
 
         if (confirmLoad) {
@@ -6073,8 +6223,10 @@
 
       let imageStatsHTML = '';
       if (state.imageLoaded) {
-        const progress = state.totalPixels > 0 ? Math.round((state.paintedPixels / state.totalPixels) * 100) : 0;
-        const remainingPixels = state.totalPixels - state.paintedPixels;
+        // Calculate progress including anti-grief skipped pixels as "processed"
+        const processedPixels = state.paintedPixels + state.antiGriefSkipped;
+        const progress = state.totalPixels > 0 ? Math.round((processedPixels / state.totalPixels) * 100) : 0;
+        const remainingPixels = state.totalPixels - processedPixels;
         state.estimatedTime = Utils.calculateEstimatedTime(remainingPixels, state.currentCharges, state.cooldown);
         progressBar.style.width = `${progress}%`;
 
@@ -6085,7 +6237,7 @@
                 </div>
                 <div class="wplace-stat-item">
                 <div class="wplace-stat-label"><i class="fas fa-paint-brush"></i> ${Utils.t("pixels")}</div>
-                <div class="wplace-stat-value">${state.paintedPixels}/${state.totalPixels}</div>
+                <div class="wplace-stat-value">${processedPixels}/${state.totalPixels}</div>
                 </div>
                 <div class="wplace-stat-item">
                 <div class="wplace-stat-label"><i class="fas fa-clock"></i> ${Utils.t("estimatedTime")}</div>
@@ -6881,6 +7033,7 @@
         state.imageData.totalPixels = totalValidPixels;
         state.totalPixels = totalValidPixels;
         state.paintedPixels = 0;
+        state.antiGriefSkipped = 0; // Reset anti-grief counter on new image
 
         state.resizeSettings = { baseWidth: width, baseHeight: height, width: newWidth, height: newHeight };
         saveBotSettings();
@@ -7007,6 +7160,7 @@
 
           state.totalPixels = totalValidPixels
           state.paintedPixels = 0
+          state.antiGriefSkipped = 0 // Reset anti-grief counter on new image
           state.imageLoaded = true
           state.lastPosition = { x: 0, y: 0 }
 
@@ -7165,6 +7319,24 @@
         updateUI("startPaintingMsg", "success");
       }
 
+      // Take canvas snapshot for anti-grief protection if enabled
+      if (state.antiGriefEnabled) {
+        try {
+          console.debug("📸 Taking canvas snapshot for anti-grief protection...");
+          state.canvasSnapshot = await Utils.takeCanvasSnapshot();
+          if (state.canvasSnapshot) {
+            updateUI("snapshotTaken", "success");
+            console.debug(`✅ Canvas snapshot taken successfully with ${Object.keys(state.canvasSnapshot).length} existing pixels`);
+          } else {
+            updateUI("snapshotFailed", "warning");
+            console.warn("⚠️ Failed to take canvas snapshot");
+          }
+        } catch (error) {
+          console.error("❌ Error taking canvas snapshot:", error);
+          updateUI("snapshotFailed", "warning");
+        }
+      }
+
       try {
         await processImage()
         return true
@@ -7206,16 +7378,32 @@
       })
     }
 
+    // Anti-grief protection toggle
+    const antiGriefToggle = document.getElementById("antiGriefToggle")
+    if (antiGriefToggle) {
+      antiGriefToggle.addEventListener("change", (e) => {
+        state.antiGriefEnabled = e.target.checked
+        console.debug(`Anti-grief protection ${state.antiGriefEnabled ? 'enabled' : 'disabled'}`)
+
+        // Save the setting to localStorage
+        try {
+          localStorage.setItem("wplace_anti_grief_enabled", JSON.stringify(state.antiGriefEnabled))
+        } catch (error) {
+          console.warn("Could not save anti-grief setting:", error)
+        }
+      })
+    }
+
     const checkSavedProgress = () => {
       const savedData = Utils.loadProgress()
       if (savedData && savedData.state.paintedPixels > 0) {
         const savedDate = new Date(savedData.timestamp).toLocaleString()
-        const progress = Math.round((savedData.state.paintedPixels / savedData.state.totalPixels) * 100)
+        const progress = Math.round(((savedData.state.paintedPixels + (savedData.state.antiGriefSkipped || 0)) / savedData.state.totalPixels) * 100)
 
         Utils.showAlert(
           `${Utils.t("savedDataFound")}\n\n` +
           `Saved: ${savedDate}\n` +
-          `Progress: ${savedData.state.paintedPixels}/${savedData.state.totalPixels} pixels (${progress}%)\n` +
+          `Progress: ${savedData.state.paintedPixels + (savedData.state.antiGriefSkipped || 0)}/${savedData.state.totalPixels} pixels (${progress}%)\n` +
           `${Utils.t("clickLoadToContinue")}`,
           "info",
         )
@@ -7312,7 +7500,7 @@
     if (!foundStart) { startRow = height; startCol = 0; }
 
     let pixelBatch = null;
-    let skippedPixels = { transparent: 0, white: 0, alreadyPainted: 0, speedPrintZoneSkipped: 0 };
+    let skippedPixels = { transparent: 0, white: 0, alreadyPainted: 0, speedPrintZoneSkipped: 0, antiGrief: 0 };
 
     try {
       outerLoop: for (let y = startRow; y < height; y++) {
@@ -7376,6 +7564,16 @@
           let adderY = Math.floor(absY / 1000);
           let pixelX = absX % 1000;
           let pixelY = absY % 1000;
+
+          // Anti-grief protection: Check if pixel should be skipped
+          const targetRegionX = regionX + adderX;
+          const targetRegionY = regionY + adderY;
+          if (Utils.shouldSkipPixelAntiGrief(targetRegionX, targetRegionY, pixelX, pixelY, colorId)) {
+            skippedPixels.antiGrief = (skippedPixels.antiGrief || 0) + 1;
+            state.antiGriefSkipped++; // Update global counter
+            console.debug(`⚠️ Pixel skipped due to anti-grief protection at (${pixelX},${pixelY}) in region (${targetRegionX},${targetRegionY})`);
+            continue;
+          }
 
           if (!pixelBatch ||
             pixelBatch.regionX !== regionX + adderX ||
@@ -7659,6 +7857,9 @@
     console.log(`   Skipped - Transparent: ${skippedPixels.transparent}`);
     console.log(`   Skipped - White (disabled): ${skippedPixels.white}`);
     console.log(`   Skipped - Already painted: ${skippedPixels.alreadyPainted}`);
+    if (state.antiGriefEnabled) {
+      console.log(`   Skipped - Anti-grief protection: ${skippedPixels.antiGrief}`);
+    }
     if (state.speedPrintZoneEnabled) {
       {
         console.debug(`   Skipped - Speed Print Zone (other passes): ${skippedPixels.speedPrintZoneSkipped}`);
@@ -7666,7 +7867,7 @@
         console.debug(`   Speed Print Zone - Pixels painted in current pass: ${state.speedPrintZoneCurrentPassPixels}`);
       }
     }
-    console.log(`   Total processed: ${state.paintedPixels + skippedPixels.transparent + skippedPixels.white + skippedPixels.alreadyPainted + (skippedPixels.speedPrintZoneSkipped || 0)}`);
+    console.log(`   Total processed: ${state.paintedPixels + skippedPixels.transparent + skippedPixels.white + skippedPixels.alreadyPainted + (skippedPixels.speedPrintZoneSkipped || 0) + (skippedPixels.antiGrief || 0)}`);
 
     updateStats()
   }
@@ -7851,6 +8052,8 @@
         // Speed Print Zone settings
         speedPrintZoneEnabled: state.speedPrintZoneEnabled,
         speedPrintZoneInterval: state.speedPrintZoneInterval,
+        // Anti-grief protection settings
+        antiGriefEnabled: state.antiGriefEnabled,
       };
       CONFIG.PAINTING_SPEED_ENABLED = settings.paintingSpeedEnabled;
       // AUTO_CAPTCHA_ENABLED is always true - no need to save/load
@@ -7895,6 +8098,8 @@
       // Speed Print Zone settings
       state.speedPrintZoneEnabled = settings.speedPrintZoneEnabled ?? CONFIG.SPEED_PRINT_ZONE.ENABLED;
       state.speedPrintZoneInterval = settings.speedPrintZoneInterval ?? CONFIG.SPEED_PRINT_ZONE.SKIP_INTERVAL;
+      // Anti-grief protection settings
+      state.antiGriefEnabled = settings.antiGriefEnabled ?? false;
       // Restore ignore mask if dims match current resizeSettings
       if (settings.resizeIgnoreMask && settings.resizeIgnoreMask.data && state.resizeSettings && settings.resizeIgnoreMask.w === state.resizeSettings.width && settings.resizeIgnoreMask.h === state.resizeSettings.height) {
         try {
@@ -7914,6 +8119,10 @@
 
       const enableSpeedToggle = document.getElementById('enableSpeedToggle');
       if (enableSpeedToggle) enableSpeedToggle.checked = CONFIG.PAINTING_SPEED_ENABLED;
+
+      // Anti-grief protection toggle
+      const antiGriefToggle = document.getElementById('antiGriefToggle');
+      if (antiGriefToggle) antiGriefToggle.checked = state.antiGriefEnabled;
 
       // Batch mode UI initialization
       const batchModeSelect = document.getElementById('batchModeSelect');
