@@ -1,0 +1,87 @@
+{
+    "name": "pixelcolony-backend",
+    "version": "1.0.0",
+    "description": "PixelColony multi-bot collaboration backend service",
+    "main": "dist/server.js",
+    "scripts": {
+        "build": "tsc",
+        "start": "node dist/server.js",
+        "dev": "tsx watch src/server.ts",
+        "dev:debug": "tsx watch --inspect src/server.ts",
+        "test": "jest",
+        "test:watch": "jest --watch",
+        "test:coverage": "jest --coverage",
+        "lint": "eslint src/**/*.ts",
+        "lint:fix": "eslint src/**/*.ts --fix",
+        "format": "prettier --write src/**/*.ts",
+        "docker:build": "docker build -t pixelcolony-backend .",
+        "docker:run": "docker run -p 8080:8080 --env-file .env pixelcolony-backend"
+    },
+    "keywords": [
+        "websocket",
+        "redis",
+        "collaboration",
+        "pixelart",
+        "wplace",
+        "automation"
+    ],
+    "author": "WPlace AutoBOT Team",
+    "license": "MIT",
+    "dependencies": {
+        "ws": "^8.16.0",
+        "ioredis": "^5.3.2",
+        "uuid": "^9.0.1",
+        "express": "^4.18.2",
+        "cors": "^2.8.5",
+        "helmet": "^7.1.0",
+        "compression": "^1.7.4",
+        "winston": "^3.11.0",
+        "dotenv": "^16.3.1"
+    },
+    "devDependencies": {
+        "@types/node": "^20.10.5",
+        "@types/ws": "^8.5.10",
+        "@types/uuid": "^9.0.7",
+        "@types/express": "^4.17.21",
+        "@types/cors": "^2.8.17",
+        "@types/compression": "^1.7.5",
+        "@types/jest": "^29.5.11",
+        "typescript": "^5.3.3",
+        "tsx": "^4.6.2",
+        "jest": "^29.7.0",
+        "ts-jest": "^29.1.1",
+        "eslint": "^8.56.0",
+        "@typescript-eslint/parser": "^6.16.0",
+        "@typescript-eslint/eslint-plugin": "^6.16.0",
+        "prettier": "^3.1.1",
+        "eslint-config-prettier": "^9.1.0",
+        "eslint-plugin-prettier": "^5.1.2"
+    },
+    "engines": {
+        "node": ">=18.0.0",
+        "npm": ">=8.0.0"
+    },
+    "jest": {
+        "preset": "ts-jest",
+        "testEnvironment": "node",
+        "roots": [
+            "<rootDir>/src",
+            "<rootDir>/tests"
+        ],
+        "testMatch": [
+            "**/__tests__/**/*.ts",
+            "**/?(*.)+(spec|test).ts"
+        ],
+        "collectCoverageFrom": [
+            "src/**/*.ts",
+            "!src/**/*.d.ts",
+            "!src/server.ts"
+        ],
+        "coverageDirectory": "coverage",
+        "coverageReporters": [
+            "text",
+            "lcov",
+            "html"
+        ]
+    }
+}
