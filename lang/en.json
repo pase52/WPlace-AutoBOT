@@ -150,5 +150,11 @@
   "paintTransparentPixels": "Paint Transparent",
   "paintTransparentPixelsDescription": "If enabled, template transparent pixels will be painted",
   "paintUnavailablePixels": "Paint Unavailable",
-  "paintUnavailablePixelsDescription": "If enabled, template colors that are unavailable will be painted using the closest available color"
+  "paintUnavailablePixelsDescription": "If enabled, template colors that are unavailable will be painted using the closest available color",
+  "antiGriefProtection": "Anti-Grief Protection",
+  "antiGriefProtectionDesc": "Protect existing pixels by taking a snapshot before painting and skipping pixels that were already painted by others",
+  "antiGriefEnabled": "Enable Anti-Grief Protection",
+  "snapshotTaken": "✅ Canvas snapshot taken for anti-grief protection",
+  "snapshotFailed": "❌ Failed to take canvas snapshot",
+  "pixelSkippedAntiGrief": "⚠️ Pixel skipped (protected by anti-grief)"
 }

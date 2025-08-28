@@ -600,6 +600,10 @@
     _lastSaveTime: 0,
     _saveInProgress: false,
     paintedMap: null,
+    // Anti-grief protection settings
+    antiGriefEnabled: false, // Default to OFF for backward compatibility
+    canvasSnapshot: null, // Stores the snapshot of existing pixels before painting
+    antiGriefSkipped: 0, // Count of pixels skipped due to anti-grief protection
   };
 
   let _updateResizePreview = () => { };
@@ -2515,6 +2519,8 @@
           blockWidth: state.blockWidth,
           blockHeight: state.blockHeight,
           availableColors: state.availableColors,
+          antiGriefEnabled: state.antiGriefEnabled,
+          canvasSnapshot: state.canvasSnapshot,
         },
         imageData: state.imageData
           ? {
@@ -2745,6 +2751,85 @@
       if (directionControls) directionControls.style.display = isLinear ? 'block' : 'none';
       if (snakeControls) snakeControls.style.display = isLinear ? 'block' : 'none';
       if (blockControls) blockControls.style.display = isBlock ? 'block' : 'none';
+    },
+
+    // Anti-grief protection: Take a snapshot of existing pixels in the painting area
+    takeCanvasSnapshot: async () => {
+      if (!state.imageLoaded || !state.startPosition || !state.region || !state.imageData) {
+        console.warn("Cannot take snapshot: missing required data");
+        return null;
+      }
+
+      try {
+        const { width, height } = state.imageData;
+        const { x: startX, y: startY } = state.startPosition;
+
+        // Create a map to store existing pixel colors in the target area
+        const snapshot = {};
+
+        console.debug(`📸 Taking canvas snapshot for area ${width}x${height} at position (${startX}, ${startY})`);
+
+        // Iterate through each pixel in the image area
+        for (let y = 0; y < height; y++) {
+          for (let x = 0; x < width; x++) {
+            const worldX = startX + x;
+            const worldY = startY + y;
+
+            // Calculate region and pixel coordinates
+            const regionX = state.region.x + Math.floor(worldX / 1000);
+            const regionY = state.region.y + Math.floor(worldY / 1000);
+            const pixelX = worldX % 1000;
+            const pixelY = worldY % 1000;
+
+            try {
+              // Get existing color from the overlay manager
+              const existingColor = await overlayManager.getTilePixelColor(regionX, regionY, pixelX, pixelY);
+
+              if (existingColor && Array.isArray(existingColor) && existingColor.length >= 3) {
+                const key = `${regionX},${regionY},${pixelX},${pixelY}`;
+                snapshot[key] = {
+                  r: existingColor[0],
+                  g: existingColor[1],
+                  b: existingColor[2],
+                  colorId: findClosestColor(existingColor, state.availableColors)
+                };
+              }
+            } catch (error) {
+              // Ignore errors for individual pixels - they might not exist yet
+            }
+          }
+        }
+
+        console.debug(`📸 Snapshot taken with ${Object.keys(snapshot).length} existing pixels`);
+        return snapshot;
+
+      } catch (error) {
+        console.error("Failed to take canvas snapshot:", error);
+        return null;
+      }
+    },
+
+    // Check if a pixel should be skipped based on anti-grief protection
+    shouldSkipPixelAntiGrief: (regionX, regionY, pixelX, pixelY, targetColorId) => {
+      if (!state.antiGriefEnabled || !state.canvasSnapshot) {
+        return false;
+      }
+
+      const key = `${regionX},${regionY},${pixelX},${pixelY}`;
+      const existingPixel = state.canvasSnapshot[key];
+
+      if (existingPixel) {
+        // Skip if the pixel already exists and has the same color we want to paint
+        if (existingPixel.colorId === targetColorId) {
+          return true;
+        }
+
+        // Also skip if there's already content (to protect existing art)
+        // This is the core anti-grief protection
+        return true;
+      }
+
+      return false;
     },
   };
 
@@ -3448,6 +3533,13 @@
                 <i class="fas fa-crosshairs"></i>
                 <span>${Utils.t('selectPosition')}</span>
               </button>
+            </div>
+            <div class="wplace-row single">
+              <!-- Anti Grief Protection -->
+              <label style="display: flex; align-items: center; gap: 8px; color: white; font-size:12px;" title="${Utils.t("antiGriefProtectionDesc")}">
+                <input type="checkbox" id="antiGriefToggle" ${state.speedPrintZoneEnabled ? 'checked' : ''} style="cursor: pointer;"/>
+                <span>${Utils.t("antiGriefEnabled")}</span>
+              </label>
             </div>
           </div>
         </div>
@@ -5023,7 +5115,7 @@
         const confirmLoad = confirm(
           `${Utils.t('savedDataFound')}\n\n` +
           `Saved: ${new Date(savedData.timestamp).toLocaleString()}\n` +
-          `Progress: ${savedData.state.paintedPixels}/${savedData.state.totalPixels} pixels`
+          `Progress: ${savedData.state.paintedPixels + (savedData.state.antiGriefSkipped || 0)}/${savedData.state.totalPixels} pixels`
         );
 
         if (confirmLoad) {
@@ -5231,9 +5323,11 @@
 
       let imageStatsHTML = '';
       if (state.imageLoaded) {
+        // Calculate progress including anti-grief skipped pixels as "processed"
+        const processedPixels = state.paintedPixels + state.antiGriefSkipped;
         const progress =
-          state.totalPixels > 0 ? Math.round((state.paintedPixels / state.totalPixels) * 100) : 0;
-        const remainingPixels = state.totalPixels - state.paintedPixels;
+          state.totalPixels > 0 ? Math.round((processedPixels / state.totalPixels) * 100) : 0;
+        const remainingPixels = state.totalPixels - processedPixels;
         state.estimatedTime = Utils.calculateEstimatedTime(
           remainingPixels,
           state.displayCharges,
@@ -5250,7 +5344,7 @@
             <div class="wplace-stat-label"><i class="fas fa-paint-brush"></i> ${Utils.t(
           'pixels'
         )}</div>
-            <div class="wplace-stat-value">${state.paintedPixels}/${state.totalPixels}</div>
+            <div class="wplace-stat-value">${processedPixels}/${state.totalPixels}</div>
           </div>
           <div class="wplace-stat-item">
             <div class="wplace-stat-label"><i class="fas fa-clock"></i> ${Utils.t(
@@ -6341,6 +6435,7 @@
         state.imageData.totalPixels = totalValidPixels;
         state.totalPixels = totalValidPixels;
         state.paintedPixels = 0;
+        state.antiGriefSkipped = 0; // Reset anti-grief counter on new image
 
         state.resizeSettings = {
           baseWidth: width,
@@ -6507,6 +6602,7 @@
 
           state.totalPixels = totalValidPixels;
           state.paintedPixels = 0;
+          state.antiGriefSkipped = 0 // Reset anti-grief counter on new image
           state.imageLoaded = true;
           state.lastPosition = { x: 0, y: 0 };
 
@@ -6652,6 +6748,24 @@
 
       updateUI('startPaintingMsg', 'success');
 
+      // Take canvas snapshot for anti-grief protection if enabled
+      if (state.antiGriefEnabled) {
+        try {
+          console.debug("📸 Taking canvas snapshot for anti-grief protection...");
+          state.canvasSnapshot = await Utils.takeCanvasSnapshot();
+          if (state.canvasSnapshot) {
+            updateUI("snapshotTaken", "success");
+            console.debug(`✅ Canvas snapshot taken successfully with ${Object.keys(state.canvasSnapshot).length} existing pixels`);
+          } else {
+            updateUI("snapshotFailed", "warning");
+            console.warn("⚠️ Failed to take canvas snapshot");
+          }
+        } catch (error) {
+          console.error("❌ Error taking canvas snapshot:", error);
+          updateUI("snapshotFailed", "warning");
+        }
+      }
+
       try {
         await processImage();
       } catch (e) {
@@ -6686,24 +6800,41 @@
         updateUI('paintingStoppedByUser', 'warning');
 
         if (state.imageLoaded && state.paintedPixels > 0) {
+
           Utils.saveProgress();
           Utils.showAlert(Utils.t('autoSaved'), 'success');
         }
       });
     }
 
+    // Anti-grief protection toggle
+    const antiGriefToggle = document.getElementById("antiGriefToggle")
+    if (antiGriefToggle) {
+      antiGriefToggle.addEventListener("change", (e) => {
+        state.antiGriefEnabled = e.target.checked
+        console.debug(`Anti-grief protection ${state.antiGriefEnabled ? 'enabled' : 'disabled'}`)
+
+        // Save the setting to localStorage
+        try {
+          localStorage.setItem("wplace_anti_grief_enabled", JSON.stringify(state.antiGriefEnabled))
+        } catch (error) {
+          console.warn("Could not save anti-grief setting:", error)
+        }
+      })
+    }
+
     const checkSavedProgress = () => {
       const savedData = Utils.loadProgress();
       if (savedData && savedData.state.paintedPixels > 0) {
         const savedDate = new Date(savedData.timestamp).toLocaleString();
-        const progress = Math.round(
-          (savedData.state.paintedPixels / savedData.state.totalPixels) * 100
+        const progress = Math.round((
+          (savedData.state.paintedPixels + (savedData.state.antiGriefSkipped || 0)) / savedData.state.totalPixels) * 100
         );
 
         Utils.showAlert(
           `${Utils.t('savedDataFound')}\n\n` +
           `Saved: ${savedDate}\n` +
-          `Progress: ${savedData.state.paintedPixels}/${savedData.state.totalPixels} pixels (${progress}%)\n` +
+          `Progress: ${savedData.state.paintedPixels + (savedData.state.antiGriefSkipped || 0)}/${savedData.state.totalPixels} pixels (${progress}%)\n` +
           `${Utils.t('clickLoadToContinue')}`,
           'info'
         );
@@ -6997,6 +7128,7 @@
       white: 0,
       alreadyPainted: 0,
       colorUnavailable: 0,
+      antiGrief: 0
     };
 
     const transparencyThreshold =
@@ -7099,6 +7231,16 @@
         let adderY = Math.floor(absY / 1000);
         let pixelX = absX % 1000;
         let pixelY = absY % 1000;
+
+        // Anti-grief protection: Check if pixel should be skipped
+        const targetRegionX = regionX + adderX;
+        const targetRegionY = regionY + adderY;
+        if (Utils.shouldSkipPixelAntiGrief(targetRegionX, targetRegionY, pixelX, pixelY, colorId)) {
+          skippedPixels.antiGrief = (skippedPixels.antiGrief || 0) + 1;
+          state.antiGriefSkipped++; // Update global counter
+          console.debug(`⚠️ Pixel skipped due to anti-grief protection at (${pixelX},${pixelY}) in region (${targetRegionX},${targetRegionY})`);
+          continue;
+        }
 
         // Template color ID, normalized/mapped to the nearest available color in our palette.
         // Example: template requires "Slate", but we only have "Dark Gray" available
@@ -7301,15 +7443,18 @@
     console.log(`   Skipped - White (disabled): ${skippedPixels.white}`);
     console.log(`   Skipped - Already painted: ${skippedPixels.alreadyPainted}`);
     console.log(`   Skipped - Color Unavailable: ${skippedPixels.colorUnavailable}`);
+    if (state.antiGriefEnabled) {
+      console.log(`   Skipped - Anti-grief protection: ${skippedPixels.antiGrief}`);
+    }
     console.log(
       `   Total processed: ${state.paintedPixels +
       skippedPixels.transparent +
       skippedPixels.white +
       skippedPixels.alreadyPainted +
-      skippedPixels.colorUnavailable
+      skippedPixels.colorUnavailable +
+      (skippedPixels.antiGrief || 0)
       }`
     );
-
     updateStats();
   }
 
@@ -7516,6 +7661,8 @@
         notifyOnlyWhenUnfocused: state.notifyOnlyWhenUnfocused,
         notificationIntervalMinutes: state.notificationIntervalMinutes,
         originalImage: state.originalImage,
+        // Anti-grief protection settings
+        antiGriefEnabled: state.antiGriefEnabled,
       };
       CONFIG.PAINTING_SPEED_ENABLED = settings.paintingSpeedEnabled;
       // AUTO_CAPTCHA_ENABLED is always true - no need to save/load
@@ -7563,12 +7710,16 @@
       state.blockHeight = settings.blockHeight ?? CONFIG.COORDINATE_BLOCK_HEIGHT;
       // Notifications
       state.notificationsEnabled = settings.notificationsEnabled ?? CONFIG.NOTIFICATIONS.ENABLED;
+      state.notifyOnChargesReached = settings.notifyOnChargesReached ?? CONFIG.NOTIFICATIONS.ON_CHARGES_REACHED;
+      state.notifyOnlyWhenUnfocused = settings.notifyOnlyWhenUnfocused ?? CONFIG.NOTIFICATIONS.ONLY_WHEN_UNFOCUSED;
       state.notifyOnChargesReached =
         settings.notifyOnChargesReached ?? CONFIG.NOTIFICATIONS.ON_CHARGES_REACHED;
       state.notifyOnlyWhenUnfocused =
         settings.notifyOnlyWhenUnfocused ?? CONFIG.NOTIFICATIONS.ONLY_WHEN_UNFOCUSED;
       state.notificationIntervalMinutes =
         settings.notificationIntervalMinutes ?? CONFIG.NOTIFICATIONS.REPEAT_MINUTES;
+      // Anti-grief protection settings
+      state.antiGriefEnabled = settings.antiGriefEnabled ?? false;
       // Restore ignore mask if dims match current resizeSettings
       if (
         settings.resizeIgnoreMask &&
@@ -7635,6 +7786,10 @@
 
       const enableSpeedToggle = document.getElementById('enableSpeedToggle');
       if (enableSpeedToggle) enableSpeedToggle.checked = CONFIG.PAINTING_SPEED_ENABLED;
+
+      // Anti-grief protection toggle
+      const antiGriefToggle = document.getElementById('antiGriefToggle');
+      if (antiGriefToggle) antiGriefToggle.checked = state.antiGriefEnabled;
 
       // Batch mode UI initialization
       const batchModeSelect = document.getElementById('batchModeSelect');
