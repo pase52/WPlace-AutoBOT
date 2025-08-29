@@ -1378,34 +1378,34 @@
     // Debounced scroll-to-adjust handler for sliders
     createScrollToAdjust: (element, updateCallback, min, max, step = 1) => {
       let debounceTimer = null;
-      
+
       const handleWheel = (e) => {
         // Only trigger when hovering over the slider
         if (e.target !== element) return;
-        
+
         e.preventDefault();
         e.stopPropagation();
-        
+
         // Clear existing debounce timer
         if (debounceTimer) {
           clearTimeout(debounceTimer);
         }
-        
+
         // Debounce the adjustment to make it precise
         debounceTimer = setTimeout(() => {
           const currentValue = parseInt(element.value) || 0;
           const delta = e.deltaY > 0 ? -step : step;
           const newValue = Math.max(min, Math.min(max, currentValue + delta));
-          
+
           if (newValue !== currentValue) {
             element.value = newValue;
             updateCallback(newValue);
           }
         }, 50); // 50ms debounce for precise control
       };
-      
+
       element.addEventListener('wheel', handleWheel, { passive: false });
-      
+
       // Return cleanup function
       return () => {
         if (debounceTimer) clearTimeout(debounceTimer);
@@ -3681,7 +3681,7 @@
       const indicatorElement = document.getElementById('connectionIndicator');
 
       if (statusTextElement && indicatorElement) {
-        indicatorElement.className = status;
+        indicatorElement.classList = `wplace-status-indicator wplace-status-${status}`;
 
         switch (status) {
           case 'connected':
@@ -4142,7 +4142,7 @@
               <div style="display: flex; align-items: center; gap: 8px; padding: 8px; background: rgba(255,255,255,0.05); border-radius: 6px;">
                 <span style="font-size: 12px; color: white;">${Utils.t("connectionStatus")}:</span>
                 <span id="connectionStatusText" style="font-size: 12px; font-weight: bold; color: #ff6b6b;">${Utils.t("disconnected")}</span>
-                <div id="connectionIndicator" style="width: 8px; height: 8px; border-radius: 50%; background: #ff6b6b;"></div>
+                <div id="connectionIndicator" class="wplace-status-indicator wplace-status-disconnected"></div>
               </div>
             </div>
 
@@ -4890,6 +4890,58 @@
         .wplace-content::-webkit-scrollbar-thumb:hover {
           background: rgba(255,255,255,0.5);
         }
+
+        /* PixelColony Connection Status Indicators */
+        .wplace-status-indicator {
+          display: inline-block;
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          margin-right: 8px;
+          border: 2px solid rgba(255,255,255,0.3);
+          transition: all 0.3s ease;
+          box-shadow: 0 0 0 1px rgba(0,0,0,0.2);
+        }
+
+        .wplace-status-connected {
+          background: #4caf50;
+          border-color: #4caf50;
+          box-shadow: 0 0 8px rgba(76, 175, 80, 0.6), 0 0 0 1px rgba(0,0,0,0.2);
+          animation: statusPulse 2s infinite;
+        }
+
+        .wplace-status-connecting {
+          background: #ff9800;
+          border-color: #ff9800;
+          box-shadow: 0 0 8px rgba(255, 152, 0, 0.6), 0 0 0 1px rgba(0,0,0,0.2);
+          animation: statusBlink 1.5s infinite;
+        }
+
+        .wplace-status-disconnected {
+          background: #f44336;
+          border-color: #f44336;
+          box-shadow: 0 0 4px rgba(244, 67, 54, 0.4), 0 0 0 1px rgba(0,0,0,0.2);
+        }
+
+        @keyframes statusPulse {
+          0%, 100% { 
+            transform: scale(1); 
+            opacity: 1; 
+          }
+          50% { 
+            transform: scale(1.1); 
+            opacity: 0.8; 
+          }
+        }
+
+        @keyframes statusBlink {
+          0%, 50% { 
+            opacity: 1; 
+          }
+          51%, 100% { 
+            opacity: 0.4; 
+          }
+        }
       </style>
     `;
 
@@ -5515,17 +5567,17 @@
       const speedDecrease = settingsContainer.querySelector('#speedDecrease');
       const speedIncrease = settingsContainer.querySelector('#speedIncrease');
       const speedValue = settingsContainer.querySelector('#speedValue');
-      
+
       if (speedSlider && speedInput && speedValue && speedDecrease && speedIncrease) {
         const updateSpeed = (newValue) => {
           const speed = Math.max(CONFIG.PAINTING_SPEED.MIN, Math.min(CONFIG.PAINTING_SPEED.MAX, parseInt(newValue)));
           state.paintingSpeed = speed;
-          
+
           // Update both controls (value shows in input, label shows unit only)
           speedSlider.value = speed;
           speedInput.value = speed;
           speedValue.textContent = `pixels`;
-          
+
           saveBotSettings();
         };
 
@@ -7549,12 +7601,12 @@
       const updateCooldown = (newValue) => {
         const threshold = Math.max(1, Math.min(state.maxCharges || 999, parseInt(newValue)));
         state.cooldownChargeThreshold = threshold;
-        
+
         // Update both controls (value shows in input, label shows unit only)
         cooldownSlider.value = threshold;
         cooldownInput.value = threshold;
         cooldownValue.textContent = `${Utils.t('charges')}`;
-        
+
         saveBotSettings();
         NotificationManager.resetEdgeTracking(); // prevent spurious notify after threshold change
       };
@@ -8902,231 +8954,6 @@
       });
   }
 
-  // Initialize PixelColony Event Listeners
-  function initializePixelColonyEventListeners() {
-    // Mode buttons
-    const soloModeBtn = document.getElementById('soloModeBtn');
-    const masterModeBtn = document.getElementById('masterModeBtn');
-    const slaveModeBtn = document.getElementById('slaveModeBtn');
-
-    // Connection elements
-    const pixelColonyWsUrl = document.getElementById('pixelColonyWsUrl');
-    const pixelColonyConnectBtn = document.getElementById('pixelColonyConnectBtn');
-    const connectionStatusText = document.getElementById('connectionStatusText');
-    const connectionIndicator = document.getElementById('connectionIndicator');
-    const connectionStatusRow = document.getElementById('connectionStatusRow');
-
-    // Master controls
-    const masterControls = document.getElementById('masterControls');
-    const createRoomBtn = document.getElementById('createRoomBtn');
-    const masterNameInput = document.getElementById('masterNameInput');
-    const roomDescriptionInput = document.getElementById('roomDescriptionInput');
-    const taskSizeSelect = document.getElementById('taskSizeSelect');
-    const maxSlavesInput = document.getElementById('maxSlavesInput');
-    const roomCreatedInfo = document.getElementById('roomCreatedInfo');
-    const createdRoomId = document.getElementById('createdRoomId');
-
-    // Slave controls
-    const slaveControls = document.getElementById('slaveControls');
-    const joinRoomBtn = document.getElementById('joinRoomBtn');
-    const slaveNameInput = document.getElementById('slaveNameInput');
-    const roomIdInput = document.getElementById('roomIdInput');
-
-    // Connected room info
-    const connectedRoomInfo = document.getElementById('connectedRoomInfo');
-    const currentRoomId = document.getElementById('currentRoomId');
-    const leaveRoomBtn = document.getElementById('leaveRoomBtn');
-    const requestTaskBtn = document.getElementById('requestTaskBtn');
-
-    // Task info and statistics
-    const currentTaskInfo = document.getElementById('currentTaskInfo');
-    const currentTaskPixelCount = document.getElementById('currentTaskPixelCount');
-    const currentTaskSize = document.getElementById('currentTaskSize');
-    const tasksCompletedCount = document.getElementById('tasksCompletedCount');
-    const pixelsPlacedCount = document.getElementById('pixelsPlacedCount');
-
-    // Mode selection handlers
-    function selectMode(mode) {
-      state.pixelColonyMode = mode;
-
-      // Update button states
-      [soloModeBtn, masterModeBtn, slaveModeBtn].forEach(btn => {
-        btn.classList.remove('wplace-btn-active');
-      });
-
-      if (mode === 'solo') {
-        soloModeBtn.classList.add('wplace-btn-active');
-        connectionStatusRow.style.display = 'none';
-        masterControls.style.display = 'none';
-        slaveControls.style.display = 'none';
-        connectedRoomInfo.style.display = 'none';
-        currentTaskInfo.style.display = 'none';
-      } else if (mode === 'master') {
-        masterModeBtn.classList.add('wplace-btn-active');
-        connectionStatusRow.style.display = 'flex';
-        masterControls.style.display = 'block';
-        slaveControls.style.display = 'none';
-      } else if (mode === 'slave') {
-        slaveModeBtn.classList.add('wplace-btn-active');
-        connectionStatusRow.style.display = 'flex';
-        masterControls.style.display = 'none';
-        slaveControls.style.display = 'block';
-      }
-
-      saveBotSettings();
-    }
-
-    // Connection status update
-    function updateConnectionStatus(status) {
-      if (!connectionStatusText || !connectionIndicator) return;
-
-      switch (status) {
-        case 'connected':
-          connectionStatusText.textContent = Utils.t('connected');
-          connectionIndicator.className = 'wplace-status-indicator wplace-status-connected';
-          if (pixelColonyConnectBtn) pixelColonyConnectBtn.textContent = Utils.t('disconnect');
-          break;
-        case 'connecting':
-          connectionStatusText.textContent = Utils.t('connecting');
-          connectionIndicator.className = 'wplace-status-indicator wplace-status-connecting';
-          if (pixelColonyConnectBtn) pixelColonyConnectBtn.textContent = Utils.t('connecting');
-          break;
-        case 'disconnected':
-        default:
-          connectionStatusText.textContent = Utils.t('disconnected');
-          connectionIndicator.className = 'wplace-status-indicator wplace-status-disconnected';
-          if (pixelColonyConnectBtn) pixelColonyConnectBtn.textContent = Utils.t('connect');
-          break;
-      }
-    }
-
-    // Event listeners
-    if (soloModeBtn) soloModeBtn.addEventListener('click', () => selectMode('solo'));
-    if (masterModeBtn) masterModeBtn.addEventListener('click', () => selectMode('master'));
-    if (slaveModeBtn) slaveModeBtn.addEventListener('click', () => selectMode('slave'));
-
-    if (pixelColonyConnectBtn) {
-      pixelColonyConnectBtn.addEventListener('click', () => {
-        if (state.pixelColonyConnected) {
-          PixelColony.disconnect();
-          Utils.showAlert(`🔌 ${Utils.t('manualDisconnect')}`, 'info');
-        } else {
-          const wsUrl = pixelColonyWsUrl?.value || state.pixelColonyWsUrl;
-          Utils.showAlert(`🔗 ${Utils.t('manualConnectAttempt')}`, 'info');
-          PixelColony.connect(wsUrl)
-            .then(() => {
-              Utils.showAlert(`✅ ${Utils.t('manualConnectSuccess')}`, 'success');
-            })
-            .catch(error => {
-              Utils.showAlert(`❌ ${Utils.t('connectionFailed')}: ${error.message}`, 'error');
-            });
-        }
-      });
-    }
-
-    if (createRoomBtn) {
-      createRoomBtn.addEventListener('click', () => {
-        // Check if connected to PixelColony server
-        if (!state.pixelColonyConnected) {
-          Utils.showAlert(`❌ ${Utils.t('notConnectedError')}. ${Utils.t('autoConnectFailed')}.`, 'error');
-          return;
-        }
-
-        const settings = {
-          masterName: masterNameInput?.value || 'Master Bot',
-          description: roomDescriptionInput?.value || '',
-          taskSize: taskSizeSelect?.value || '3x3',
-          maxSlaves: parseInt(maxSlavesInput?.value || '10', 10)
-        };
-        PixelColony.createRoom(settings);
-      });
-    }
-
-    if (joinRoomBtn) {
-      joinRoomBtn.addEventListener('click', () => {
-        // Check if connected to PixelColony server
-        if (!state.pixelColonyConnected) {
-          Utils.showAlert(`❌ ${Utils.t('notConnectedError')}. ${Utils.t('autoConnectFailed')}.`, 'error');
-          return;
-        }
-
-        const roomId = roomIdInput?.value?.trim();
-        const slaveName = slaveNameInput?.value || 'Slave Bot';
-        if (roomId) {
-          PixelColony.joinRoom(roomId, slaveName);
-        } else {
-          Utils.showAlert(Utils.t('invalidRoomId'), 'error');
-        }
-      });
-    }
-
-    if (leaveRoomBtn) {
-      leaveRoomBtn.addEventListener('click', () => {
-        PixelColony.leaveRoom();
-      });
-    }
-
-    if (requestTaskBtn) {
-      requestTaskBtn.addEventListener('click', () => {
-        PixelColony.requestTask();
-      });
-    }
-
-    // Initialize with saved mode
-    selectMode(state.pixelColonyMode);
-    updateConnectionStatus('disconnected');
-
-    // Update statistics display
-    if (tasksCompletedCount) tasksCompletedCount.textContent = state.pixelColonyTaskStatistics.tasksCompleted;
-    if (pixelsPlacedCount) pixelsPlacedCount.textContent = state.pixelColonyTaskStatistics.pixelsPlaced;
-
-    // Set up PixelColony event handlers
-    window.addEventListener('pixelColonyConnected', () => {
-      updateConnectionStatus('connected');
-      if (state.pixelColonyMode === 'slave') {
-        requestTaskBtn.style.display = 'inline-flex';
-      }
-    });
-
-    window.addEventListener('pixelColonyDisconnected', () => {
-      updateConnectionStatus('disconnected');
-      connectedRoomInfo.style.display = 'none';
-      currentTaskInfo.style.display = 'none';
-    });
-
-    window.addEventListener('pixelColonyRoomCreated', (event) => {
-      const { roomId } = event.detail;
-      if (createdRoomId) createdRoomId.textContent = roomId;
-      if (roomCreatedInfo) roomCreatedInfo.style.display = 'block';
-      if (currentRoomId) currentRoomId.textContent = roomId;
-      if (connectedRoomInfo) connectedRoomInfo.style.display = 'block';
-    });
-
-    window.addEventListener('pixelColonyRoomJoined', (event) => {
-      const { roomId } = event.detail;
-      if (currentRoomId) currentRoomId.textContent = roomId;
-      if (connectedRoomInfo) connectedRoomInfo.style.display = 'block';
-    });
-
-    window.addEventListener('pixelColonyTaskReceived', (event) => {
-      const { task } = event.detail;
-      if (currentTaskPixelCount) currentTaskPixelCount.textContent = task.pixels.length;
-      if (currentTaskSize) currentTaskSize.textContent = `${task.width}x${task.height}`;
-      if (currentTaskInfo) currentTaskInfo.style.display = 'block';
-    });
-
-    window.addEventListener('pixelColonyTaskCompleted', () => {
-      state.pixelColonyTaskStatistics.tasksCompleted++;
-      if (tasksCompletedCount) tasksCompletedCount.textContent = state.pixelColonyTaskStatistics.tasksCompleted;
-      if (currentTaskInfo) currentTaskInfo.style.display = 'none';
-    });
-
-    window.addEventListener('pixelColonyPixelPlaced', () => {
-      state.pixelColonyTaskStatistics.pixelsPlaced++;
-      if (pixelsPlacedCount) pixelsPlacedCount.textContent = state.pixelColonyTaskStatistics.pixelsPlaced;
-    });
-  }
-
   // Load theme preference immediately on startup before creating UI
   loadThemePreference();
   applyTheme();
@@ -9134,9 +8961,6 @@
   createUI().then(() => {
     // Generate token automatically after UI is ready
     setTimeout(initializeTokenGenerator, 1000);
-
-    // Initialize PixelColony event listeners
-    initializePixelColonyEventListeners();
 
     // Auto-connect to PixelColony WebSocket
     setTimeout(initializePixelColonyAutoConnect, 2000);
