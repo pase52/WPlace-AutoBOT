@@ -3148,6 +3148,11 @@
       return 'id-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
     },
 
+    // Generate a UUID v4
+    generateUuidV4: () => {
+      return crypto.randomUUID();
+    },
+
     // Paint a single pixel (for PixelColony slave mode)
     paintPixel: async (x, y, colorId) => {
       // Calculate region coordinates
@@ -3809,13 +3814,16 @@
     // Handle room joined
     handleRoomJoined: (data) => {
       state.pixelColonyRoomId = data.roomId;
-      state.pixelColonyMode = "slave";
 
       const currentRoomIdElement = document.getElementById('currentRoomId');
       if (currentRoomIdElement) currentRoomIdElement.textContent = data.roomId;
 
       PixelColony.showConnectedRoomInfo();
       Utils.showAlert(Utils.t("roomJoined"), "success");
+
+      if (state.pixelColonyMode === "slave") {
+        PixelColony.requestTask();
+      }
     },
 
     // Handle task claimed
@@ -3970,12 +3978,12 @@
       const maxSlaves = parseInt(document.getElementById('maxSlavesInput')?.value) || 10;
 
       const message = {
-        type: 'room_create',
+        type: 'create_room',
         version: 'v1',
         timestamp: new Date().toISOString(),
         id: Utils.generateId(),
         data: {
-          masterId: Utils.generateId(),
+          masterId: Utils.generateUuidV4(),
           settings: {
             taskSize: taskSize,
             taskTimeout: 30000,
@@ -3992,7 +4000,7 @@
     // Join room
     joinRoom: async () => {
       const slaveName = document.getElementById('slaveNameInput')?.value || 'Slave Bot';
-      const roomId = document.getElementById('roomIdInput')?.value.toUpperCase();
+      const roomId = document.getElementById('roomIdInput')?.value;
 
       if (!roomId || roomId.length !== 8) {
         Utils.showAlert(Utils.t("invalidRoomId"), "error");
@@ -4000,13 +4008,13 @@
       }
 
       const message = {
-        type: 'room_join',
+        type: 'join_room',
         version: 'v1',
         timestamp: new Date().toISOString(),
         id: Utils.generateId(),
         data: {
           roomId: roomId,
-          slaveId: Utils.generateId(),
+          slaveId: Utils.generateUuidV4(),
           slaveName: slaveName
         }
       };
@@ -4019,7 +4027,7 @@
     leaveRoom: async () => {
       if (state.pixelColonyRoomId) {
         const message = {
-          type: 'room_leave',
+          type: 'leave_room',
           version: 'v1',
           timestamp: new Date().toISOString(),
           id: Utils.generateId(),
@@ -4071,7 +4079,7 @@
 
       // Report task completion
       const message = {
-        type: 'task_complete',
+        type: 'complete_task',
         version: 'v1',
         timestamp: new Date().toISOString(),
         id: Utils.generateId(),
@@ -4109,7 +4117,7 @@
       if (!state.pixelColonyConnected || !state.pixelColonyRoomId) return;
 
       const message = {
-        type: 'task_claim',
+        type: 'claim_task',
         version: 'v1',
         timestamp: new Date().toISOString(),
         id: Utils.generateId(),
@@ -5606,7 +5614,7 @@
                        placeholder="${Utils.t("roomIdPlaceholder")}" 
                        value=""
                        maxlength="8"
-                       style="width: 100%; padding: 6px 8px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; color: white; font-size: 11px; margin-bottom: 8px; text-transform: uppercase;">
+                       style="width: 100%; padding: 6px 8px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; color: white; font-size: 11px; margin-bottom: 8px;">
               </div>
               
               <div class="wplace-row single">
@@ -9224,14 +9232,6 @@
         if (leaveRoomBtn) {
           leaveRoomBtn.addEventListener('click', () => {
             PixelColony.leaveRoom();
-          });
-        }
-
-        // Request task button for slave mode
-        const requestTaskBtn = document.getElementById('requestTaskBtn');
-        if (requestTaskBtn) {
-          requestTaskBtn.addEventListener('click', () => {
-            PixelColony.requestTask();
           });
         }
 
