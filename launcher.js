@@ -11,7 +11,7 @@
             'Auto-Image.js': 'http://localhost:8000/Auto-Image.js',
             'Auto-Farm.js': 'http://localhost:8000/Auto-Farm.js'
         },
-        POLL_INTERVAL: 1000, // Vérification toutes les secondes
+        POLL_INTERVAL: 10000, // Vérification toutes les secondes
         AUTO_RELOAD: false,  // Rechargement automatique désactivé par défaut
         SELECTED_SCRIPT: 'Auto-Image.js', // Script par défaut
         SCRIPT_PARAMS: '', // Paramètres par défaut
