@@ -210,10 +210,18 @@ export class WebSocketServer {
 
   public cleanupStaleConnections(): void {
     const staleConnections: WebSocketConnection[] = [];
-    const maxAge = serverConfig.connectionTimeout;
+    const heartbeatTimeout = serverConfig.heartbeatInterval * 3; // Allow 3 missed heartbeats
 
     this.connections.forEach((connection) => {
-      if (!connection.isHealthy() || connection.getConnectionAge() > maxAge) {
+      const timeSinceLastHeartbeat = connection.getTimeSinceLastHeartbeat();
+
+      // Only remove connections that are either:
+      // 1. Not healthy (WebSocket closed or ping failed)
+      // 2. Haven't sent a heartbeat in too long (3x heartbeat interval)
+      if (
+        !connection.isHealthy() ||
+        timeSinceLastHeartbeat > heartbeatTimeout
+      ) {
         staleConnections.push(connection);
       }
     });
@@ -222,6 +230,7 @@ export class WebSocketServer {
       log.debug("Cleaning up stale connection", {
         connectionId: connection.id,
         age: connection.getConnectionAge(),
+        timeSinceLastHeartbeat: connection.getTimeSinceLastHeartbeat(),
         healthy: connection.isHealthy(),
       });
 
