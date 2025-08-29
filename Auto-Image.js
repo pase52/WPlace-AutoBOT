@@ -3758,17 +3758,31 @@
         case 'room_joined':
           PixelColony.handleRoomJoined(message.data);
           break;
+        case 'tasks_created':
+          PixelColony.handleTasksCreated(message.data);
+          break;
         case 'task_claimed':
           PixelColony.handleTaskClaimed(message.data);
           break;
+        case 'task_completed':
+          PixelColony.handleTaskCompleted(message.data);
+          break;
         case 'no_tasks':
           PixelColony.handleNoTasks(message.data);
+          break;
+        case 'room_status':
+          PixelColony.handleRoomStatus(message.data);
+          break;
+        case 'rate_limit':
+          PixelColony.handleRateLimit(message.data);
           break;
         case 'error':
           PixelColony.handleError(message.data);
           break;
         case 'heartbeat':
-          // Heartbeat response - no action needed
+        case 'heartbeat_response':
+          // Heartbeat/heartbeat response - no action needed, just acknowledge
+          console.log("💓 Heartbeat received from server");
           break;
         default:
           console.log("🔄 Unknown message type:", message.type);
@@ -3839,6 +3853,35 @@
     handleError: (data) => {
       console.error("❌ PixelColony error:", data);
       Utils.showAlert(data.message || "PixelColony error", "error");
+    },
+
+    // Handle tasks created (for masters)
+    handleTasksCreated: (data) => {
+      console.log("📋 Tasks created:", data);
+      Utils.showAlert(`${data.totalTasks} tasks created for room ${data.roomId}`, "success");
+    },
+
+    // Handle task completed (for room participants)
+    handleTaskCompleted: (data) => {
+      console.log("✅ Task completed:", data);
+      const statusText = data.status === 'completed' ? 'completed' : 'failed';
+      Utils.showAlert(`Task ${statusText} (${data.statistics.pixelsPlaced} pixels placed)`, data.status === 'completed' ? "success" : "warning");
+    },
+
+    // Handle room status updates
+    handleRoomStatus: (data) => {
+      console.log("📊 Room status update:", data);
+      // Update UI with room statistics if needed
+      if (state.pixelColonyRoomId === data.roomId) {
+        // You could update UI elements here with room statistics
+        console.log(`Room ${data.roomId}: ${data.statistics.completedTasks}/${data.statistics.totalTasks} tasks completed`);
+      }
+    },
+
+    // Handle rate limiting
+    handleRateLimit: (data) => {
+      console.warn("⚠️ Rate limited:", data);
+      Utils.showAlert(`Rate limited for ${data.operation}. ${data.remaining} requests remaining.`, "warning");
     },
 
     // Update connection status UI
