@@ -194,7 +194,7 @@
     currentTheme: 'Classic Autobot',
     PAINT_UNAVAILABLE: true,
     COORDINATE_MODE: 'rows',
-    COORDINATE_DIRECTION: 'bottom-left',
+    COORDINATE_DIRECTION: 'top-left',
     COORDINATE_SNAKE: true,
     COORDINATE_BLOCK_WIDTH: 6,
     COORDINATE_BLOCK_HEIGHT: 2,
@@ -486,6 +486,7 @@
       progress: 'Progress',
       pixels: 'Pixels',
       charges: 'Charges',
+      batchSize: 'Batch Size',
       initMessage: "Click 'Upload Image' to begin",
     },
   };
@@ -3429,9 +3430,17 @@
             <div class="wplace-section-title">⏱️ ${Utils.t('cooldownSettings')}</div>
             <div class="wplace-cooldown-control">
                 <label id="cooldownLabel">${Utils.t('waitCharges')}:</label>
-                <div class="wplace-slider-container">
-                    <input type="range" id="cooldownSlider" class="wplace-slider" min="1" max="1" value="${state.cooldownChargeThreshold}">
-                    <span id="cooldownValue" class="wplace-cooldown-value">${state.cooldownChargeThreshold}</span>
+                <div class="wplace-dual-control">
+                    <div class="wplace-slider-container">
+                        <input type="range" id="cooldownSlider" class="wplace-slider" min="1" max="1" value="${state.cooldownChargeThreshold}">
+                        <span id="cooldownSliderValue" class="wplace-cooldown-value">${state.cooldownChargeThreshold}</span>
+                    </div>
+                    <div class="wplace-input-group">
+                        <button id="cooldownDecrease" class="wplace-input-btn" type="button">-</button>
+                        <input type="number" id="cooldownInput" class="wplace-number-input" min="1" max="999" value="${state.cooldownChargeThreshold}">
+                        <button id="cooldownIncrease" class="wplace-input-btn" type="button">+</button>
+                        <span id="cooldownValue" class="wplace-input-value">${Utils.t('charges')}</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -3725,11 +3734,21 @@
             </select>
           </div>
           
-          <!-- Normal Mode: Fixed Size Slider -->
+          <!-- Normal Mode: Fixed Size Controls -->
           <div id="normalBatchControls" class="wplace-batch-controls wplace-normal-batch-controls">
-            <div class="wplace-speed-slider-container">
-              <input type="range" id="speedSlider" min="${CONFIG.PAINTING_SPEED.MIN}" max="${CONFIG.PAINTING_SPEED.MAX}" value="${CONFIG.PAINTING_SPEED.DEFAULT}" class="wplace-speed-slider">
-              <div id="speedValue" class="wplace-speed-value">${CONFIG.PAINTING_SPEED.DEFAULT} (batch size)</div>
+            <div class="wplace-dual-control">
+                <div class="wplace-speed-slider-container">
+                  <input type="range" id="speedSlider" min="${CONFIG.PAINTING_SPEED.MIN}" max="${CONFIG.PAINTING_SPEED.MAX}" value="${CONFIG.PAINTING_SPEED.DEFAULT}" class="wplace-speed-slider">
+                  <div id="speedSliderValue" class="wplace-speed-value">${CONFIG.PAINTING_SPEED.DEFAULT} (batch size)</div>
+                </div>
+                <div class="wplace-speed-input-container">
+                  <div class="wplace-input-group">
+                    <button id="speedDecrease" class="wplace-input-btn" type="button">-</button>
+                    <input type="number" id="speedInput" class="wplace-number-input" min="${CONFIG.PAINTING_SPEED.MIN}" max="${CONFIG.PAINTING_SPEED.MAX}" value="${CONFIG.PAINTING_SPEED.DEFAULT}">
+                    <button id="speedIncrease" class="wplace-input-btn" type="button">+</button>
+                    <span id="speedValue" class="wplace-input-value">${Utils.t('batchSize')}</span>
+                  </div>
+                </div>
             </div>
             <div class="wplace-speed-labels">
               <span class="wplace-speed-min"><i class="fas fa-turtle"></i> ${CONFIG.PAINTING_SPEED.MIN}</span>
@@ -3969,7 +3988,7 @@
           }
         }
 
-        #speedSlider::-webkit-slider-thumb, #overlayOpacitySlider::-webkit-slider-thumb {
+        #speedSlider::-webkit-slider-thumb, #cooldownSlider::-webkit-slider-thumb, #overlayOpacitySlider::-webkit-slider-thumb {
           -webkit-appearance: none;
           width: 18px;
           height: 18px;
@@ -3980,12 +3999,12 @@
           transition: all 0.2s ease;
         }
 
-        #speedSlider::-webkit-slider-thumb:hover, #overlayOpacitySlider::-webkit-slider-thumb:hover {
+        #speedSlider::-webkit-slider-thumb:hover, #cooldownSlider::-webkit-slider-thumb:hover, #overlayOpacitySlider::-webkit-slider-thumb:hover {
           transform: scale(1.2);
           box-shadow: 0 4px 8px rgba(0,0,0,0.4), 0 0 0 3px #4facfe;
         }
 
-        #speedSlider::-moz-range-thumb, #overlayOpacitySlider::-moz-range-thumb {
+        #speedSlider::-moz-range-thumb, #cooldownSlider::-moz-range-thumb, #overlayOpacitySlider::-moz-range-thumb {
           width: 18px;
           height: 18px;
           border-radius: 50%;
@@ -4031,6 +4050,173 @@
 
         .wplace-settings-header:active {
           background: rgba(255,255,255,0.2) !important;
+        }
+
+        /* Dual Control Layout - Ultra Compact for Neon */
+        .wplace-dual-control {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 8px;
+          margin: 2px 0;
+          flex-wrap: wrap;
+        }
+
+        .wplace-slider-container {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          flex: 1;
+          min-width: 140px;
+        }
+
+        .wplace-slider, .wplace-speed-slider {
+          flex: 1;
+          min-width: 80px;
+          height: 16px;
+        }
+
+        .wplace-cooldown-value, .wplace-speed-value {
+          min-width: 50px;
+          text-align: center;
+          font-weight: 500;
+          color: rgba(255,255,255,0.9);
+          font-size: 10px;
+        }
+
+        /* Input Group Styles - Ultra Compact */
+        .wplace-input-group {
+          display: flex;
+          align-items: center;
+          gap: 2px;
+          flex-shrink: 0;
+        }
+          margin: 8px 0;
+        }
+
+        .wplace-input-btn {
+          background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+          color: white;
+          border: none;
+          border-radius: 2px;
+          width: 18px;
+          height: 18px;
+          cursor: pointer;
+          font-weight: bold;
+          font-size: 11px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.2s ease;
+          box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+          font-size: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.2s ease;
+          box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .wplace-input-btn:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+          background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+        }
+
+        .wplace-input-btn:active {
+          transform: translateY(0);
+          box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .wplace-number-input {
+          background: rgba(255,255,255,0.1);
+          border: 1px solid rgba(255,255,255,0.2);
+          border-radius: 2px;
+          color: white;
+          padding: 1px 4px;
+          font-size: 10px;
+          width: 40px;
+          text-align: center;
+          transition: all 0.2s ease;
+          height: 18px;
+        }
+
+        .wplace-number-input:focus {
+          outline: none;
+          border-color: #4facfe;
+          box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.3);
+          background: rgba(255,255,255,0.15);
+        }
+
+        .wplace-input-value {
+          color: rgba(255,255,255,0.7);
+          font-size: 9px;
+          margin-left: 2px;
+          white-space: nowrap;
+        }
+
+        /* Neon Theme Specific Optimizations */
+        .wplace-theme-neon .wplace-dual-control {
+          gap: 4px;
+          margin: 1px 0;
+        }
+
+        .wplace-theme-neon .wplace-slider-container {
+          gap: 2px;
+          min-width: 120px;
+        }
+
+        .wplace-theme-neon .wplace-slider, 
+        .wplace-theme-neon .wplace-speed-slider {
+          height: 14px;
+          min-width: 70px;
+        }
+
+        .wplace-theme-neon .wplace-input-btn {
+          width: 16px;
+          height: 16px;
+          font-size: 10px;
+        }
+
+        .wplace-theme-neon .wplace-number-input {
+          width: 35px;
+          height: 16px;
+          font-size: 9px;
+          padding: 0 3px;
+        }
+
+        .wplace-theme-neon .wplace-cooldown-value, 
+        .wplace-theme-neon .wplace-speed-value {
+          font-size: 9px;
+          min-width: 40px;
+        }
+
+        .wplace-theme-neon .wplace-input-value {
+          font-size: 8px;
+        }
+
+        .wplace-speed-input-container {
+          margin: 2px 0;
+        }
+
+        /* Custom Scrollbar for Content Area */
+        .wplace-content::-webkit-scrollbar {
+          width: 6px;
+        }
+
+        .wplace-content::-webkit-scrollbar-track {
+          background: rgba(255,255,255,0.1);
+          border-radius: 3px;
+        }
+
+        .wplace-content::-webkit-scrollbar-thumb {
+          background: rgba(255,255,255,0.3);
+          border-radius: 3px;
+        }
+
+        .wplace-content::-webkit-scrollbar-thumb:hover {
+          background: rgba(255,255,255,0.5);
         }
       </style>
     `;
@@ -4283,6 +4469,10 @@
     const closeStatsBtn = statsContainer.querySelector('#closeStatsBtn');
     const refreshChargesBtn = statsContainer.querySelector('#refreshChargesBtn');
     const cooldownSlider = container.querySelector('#cooldownSlider');
+    const cooldownSliderValue = container.querySelector('#cooldownSliderValue');
+    const cooldownInput = container.querySelector('#cooldownInput');
+    const cooldownDecrease = container.querySelector('#cooldownDecrease');
+    const cooldownIncrease = container.querySelector('#cooldownIncrease');
     const cooldownValue = container.querySelector('#cooldownValue');
 
     if (!uploadBtn || !selectPosBtn || !startBtn || !stopBtn) {
@@ -4644,15 +4834,45 @@
         });
       }
 
-      // Speed slider event listener
+      // Speed controls - both slider and input
       const speedSlider = settingsContainer.querySelector('#speedSlider');
+      const speedSliderValue = settingsContainer.querySelector('#speedSliderValue');
+      const speedInput = settingsContainer.querySelector('#speedInput');
+      const speedDecrease = settingsContainer.querySelector('#speedDecrease');
+      const speedIncrease = settingsContainer.querySelector('#speedIncrease');
       const speedValue = settingsContainer.querySelector('#speedValue');
-      if (speedSlider && speedValue) {
-        speedSlider.addEventListener('input', (e) => {
-          const speed = parseInt(e.target.value, 10);
+      
+      if (speedSlider && speedSliderValue && speedInput && speedValue && speedDecrease && speedIncrease) {
+        const updateSpeed = (newValue) => {
+          const speed = Math.max(CONFIG.PAINTING_SPEED.MIN, Math.min(CONFIG.PAINTING_SPEED.MAX, parseInt(newValue)));
           state.paintingSpeed = speed;
-          speedValue.textContent = `${speed} (batch size)`;
+          
+          // Update both controls
+          speedSlider.value = speed;
+          speedInput.value = speed;
+          speedSliderValue.textContent = `${speed} (batch size)`;
+          
           saveBotSettings();
+        };
+
+        // Slider event listener
+        speedSlider.addEventListener('input', (e) => {
+          updateSpeed(e.target.value);
+        });
+
+        // Number input event listener
+        speedInput.addEventListener('input', (e) => {
+          updateSpeed(e.target.value);
+        });
+
+        // Decrease button
+        speedDecrease.addEventListener('click', () => {
+          updateSpeed(parseInt(speedInput.value) - 1);
+        });
+
+        // Increase button
+        speedIncrease.addEventListener('click', () => {
+          updateSpeed(parseInt(speedInput.value) + 1);
         });
       }
 
@@ -5094,8 +5314,11 @@
         intervalMs
       );
 
-      if (cooldownSlider.max !== state.maxCharges) {
+      if (cooldownSlider && cooldownSlider.max !== state.maxCharges) {
         cooldownSlider.max = state.maxCharges;
+      }
+      if (cooldownInput && cooldownInput.max !== state.maxCharges) {
+        cooldownInput.max = state.maxCharges;
       }
 
       let imageStatsHTML = '';
@@ -6582,13 +6805,38 @@
 
     setTimeout(checkSavedProgress, 1000);
 
-    if (cooldownSlider && cooldownValue) {
-      cooldownSlider.addEventListener('input', (e) => {
-        const threshold = parseInt(e.target.value);
+    if (cooldownSlider && cooldownSliderValue && cooldownInput && cooldownValue && cooldownDecrease && cooldownIncrease) {
+      const updateCooldown = (newValue) => {
+        const threshold = Math.max(1, Math.min(state.maxCharges || 999, parseInt(newValue)));
         state.cooldownChargeThreshold = threshold;
-        cooldownValue.textContent = threshold;
+        
+        // Update both controls
+        cooldownSlider.value = threshold;
+        cooldownInput.value = threshold;
+        cooldownSliderValue.textContent = threshold;
+        
         saveBotSettings();
         NotificationManager.resetEdgeTracking(); // prevent spurious notify after threshold change
+      };
+
+      // Slider event listener
+      cooldownSlider.addEventListener('input', (e) => {
+        updateCooldown(e.target.value);
+      });
+
+      // Number input event listener
+      cooldownInput.addEventListener('input', (e) => {
+        updateCooldown(e.target.value);
+      });
+
+      // Decrease button
+      cooldownDecrease.addEventListener('click', () => {
+        updateCooldown(parseInt(cooldownInput.value) - 1);
+      });
+
+      // Increase button
+      cooldownIncrease.addEventListener('click', () => {
+        updateCooldown(parseInt(cooldownInput.value) + 1);
       });
     }
 
@@ -7473,9 +7721,13 @@
       }
 
       const speedSlider = document.getElementById('speedSlider');
+      const speedInput = document.getElementById('speedInput');
+      const speedSliderValue = document.getElementById('speedSliderValue');
       if (speedSlider) speedSlider.value = state.paintingSpeed;
+      if (speedInput) speedInput.value = state.paintingSpeed;
+      if (speedSliderValue) speedSliderValue.textContent = `${state.paintingSpeed} (batch size)`;
       const speedValue = document.getElementById('speedValue');
-      if (speedValue) speedValue.textContent = `${state.paintingSpeed} (batch size)`;
+      if (speedValue) speedValue.textContent = Utils.t('batchSize');
 
       const enableSpeedToggle = document.getElementById('enableSpeedToggle');
       if (enableSpeedToggle) enableSpeedToggle.checked = CONFIG.PAINTING_SPEED_ENABLED;
@@ -7507,9 +7759,13 @@
       // AUTO_CAPTCHA_ENABLED is always true - no toggle to set
 
       const cooldownSlider = document.getElementById('cooldownSlider');
+      const cooldownInput = document.getElementById('cooldownInput');
+      const cooldownSliderValue = document.getElementById('cooldownSliderValue');
       if (cooldownSlider) cooldownSlider.value = state.cooldownChargeThreshold;
+      if (cooldownInput) cooldownInput.value = state.cooldownChargeThreshold;
+      if (cooldownSliderValue) cooldownSliderValue.textContent = state.cooldownChargeThreshold;
       const cooldownValue = document.getElementById('cooldownValue');
-      if (cooldownValue) cooldownValue.textContent = state.cooldownChargeThreshold;
+      if (cooldownValue) cooldownValue.textContent = Utils.t('charges');
 
       const overlayOpacitySlider = document.getElementById('overlayOpacitySlider');
       if (overlayOpacitySlider) overlayOpacitySlider.value = state.overlayOpacity;
