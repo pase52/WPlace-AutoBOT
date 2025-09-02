@@ -566,6 +566,19 @@
   font-size: 13px;
 }
 
+/* Cooldown control styling for classic light theme */
+.wplace-theme-classic-light .wplace-cooldown-control {
+  margin: 12px 0;
+}
+
+.wplace-theme-classic-light .wplace-cooldown-control label {
+  color: var(--wplace-highlight);
+  font-weight: 500;
+  font-size: 13px;
+  margin-bottom: 8px;
+  display: block;
+}
+
 /* Color swatches with light styling */
 .wplace-theme-classic-light .wplace-color-swatch {
   border: 1px solid rgb(0 0 0 / 20%) !important;
