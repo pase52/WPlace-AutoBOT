@@ -3471,13 +3471,12 @@
                 <div class="wplace-dual-control-compact">
                     <div class="wplace-slider-container-compact">
                         <input type="range" id="cooldownSlider" class="wplace-slider" min="1" max="1" value="${state.cooldownChargeThreshold}">
-                        <span id="cooldownSliderValue" class="wplace-cooldown-value">${state.cooldownChargeThreshold}</span>
                     </div>
                     <div class="wplace-input-group-compact">
                         <button id="cooldownDecrease" class="wplace-input-btn-compact" type="button">-</button>
                         <input type="number" id="cooldownInput" class="wplace-number-input-compact" min="1" max="999" value="${state.cooldownChargeThreshold}">
                         <button id="cooldownIncrease" class="wplace-input-btn-compact" type="button">+</button>
-                        <span class="wplace-input-label-compact">${Utils.t('charges')}</span>
+                        <span id="cooldownValue" class="wplace-input-label-compact">${state.cooldownChargeThreshold} ${Utils.t('charges')}</span>
                     </div>
                 </div>
             </div>
@@ -3780,14 +3779,13 @@
             <div class="wplace-dual-control-compact">
                 <div class="wplace-speed-slider-container-compact">
                   <input type="range" id="speedSlider" min="${CONFIG.PAINTING_SPEED.MIN}" max="${CONFIG.PAINTING_SPEED.MAX}" value="${CONFIG.PAINTING_SPEED.DEFAULT}" class="wplace-speed-slider">
-                  <span id="speedSliderValue" class="wplace-speed-value">${CONFIG.PAINTING_SPEED.DEFAULT}</span>
                 </div>
                 <div class="wplace-speed-input-container-compact">
                   <div class="wplace-input-group-compact">
                     <button id="speedDecrease" class="wplace-input-btn-compact" type="button">-</button>
                     <input type="number" id="speedInput" class="wplace-number-input-compact" min="${CONFIG.PAINTING_SPEED.MIN}" max="${CONFIG.PAINTING_SPEED.MAX}" value="${CONFIG.PAINTING_SPEED.DEFAULT}">
                     <button id="speedIncrease" class="wplace-input-btn-compact" type="button">+</button>
-                    <span class="wplace-input-label-compact">pixels</span>
+                    <span id="speedValue" class="wplace-input-label-compact">${CONFIG.PAINTING_SPEED.DEFAULT} pixels</span>
                   </div>
                 </div>
             </div>
@@ -4362,7 +4360,6 @@
     const closeStatsBtn = statsContainer.querySelector('#closeStatsBtn');
     const refreshChargesBtn = statsContainer.querySelector('#refreshChargesBtn');
     const cooldownSlider = container.querySelector('#cooldownSlider');
-    const cooldownSliderValue = container.querySelector('#cooldownSliderValue');
     const cooldownInput = container.querySelector('#cooldownInput');
     const cooldownDecrease = container.querySelector('#cooldownDecrease');
     const cooldownIncrease = container.querySelector('#cooldownIncrease');
@@ -4737,21 +4734,20 @@
 
       // Speed controls - both slider and input
       const speedSlider = settingsContainer.querySelector('#speedSlider');
-      const speedSliderValue = settingsContainer.querySelector('#speedSliderValue');
       const speedInput = settingsContainer.querySelector('#speedInput');
       const speedDecrease = settingsContainer.querySelector('#speedDecrease');
       const speedIncrease = settingsContainer.querySelector('#speedIncrease');
       const speedValue = settingsContainer.querySelector('#speedValue');
       
-      if (speedSlider && speedSliderValue && speedInput && speedValue && speedDecrease && speedIncrease) {
+      if (speedSlider && speedInput && speedValue && speedDecrease && speedIncrease) {
         const updateSpeed = (newValue) => {
           const speed = Math.max(CONFIG.PAINTING_SPEED.MIN, Math.min(CONFIG.PAINTING_SPEED.MAX, parseInt(newValue)));
           state.paintingSpeed = speed;
           
-          // Update both controls without duplication
+          // Update both controls and single indicator
           speedSlider.value = speed;
           speedInput.value = speed;
-          speedSliderValue.textContent = `${speed}`;
+          speedValue.textContent = `${speed} pixels`;
           
           saveBotSettings();
         };
@@ -6709,15 +6705,15 @@
 
     setTimeout(checkSavedProgress, 1000);
 
-    if (cooldownSlider && cooldownSliderValue && cooldownInput && cooldownValue && cooldownDecrease && cooldownIncrease) {
+    if (cooldownSlider && cooldownInput && cooldownValue && cooldownDecrease && cooldownIncrease) {
       const updateCooldown = (newValue) => {
         const threshold = Math.max(1, Math.min(state.maxCharges || 999, parseInt(newValue)));
         state.cooldownChargeThreshold = threshold;
         
-        // Update both controls
+        // Update both controls and single indicator
         cooldownSlider.value = threshold;
         cooldownInput.value = threshold;
-        cooldownSliderValue.textContent = threshold;
+        cooldownValue.textContent = `${threshold} ${Utils.t('charges')}`;
         
         saveBotSettings();
         NotificationManager.resetEdgeTracking(); // prevent spurious notify after threshold change
@@ -7629,12 +7625,10 @@
 
       const speedSlider = document.getElementById('speedSlider');
       const speedInput = document.getElementById('speedInput');
-      const speedSliderValue = document.getElementById('speedSliderValue');
+      const speedValue = document.getElementById('speedValue');
       if (speedSlider) speedSlider.value = state.paintingSpeed;
       if (speedInput) speedInput.value = state.paintingSpeed;
-      if (speedSliderValue) speedSliderValue.textContent = `${state.paintingSpeed} (batch size)`;
-      const speedValue = document.getElementById('speedValue');
-      if (speedValue) speedValue.textContent = Utils.t('batchSize');
+      if (speedValue) speedValue.textContent = `${state.paintingSpeed} pixels`;
 
       const enableSpeedToggle = document.getElementById('enableSpeedToggle');
       if (enableSpeedToggle) enableSpeedToggle.checked = CONFIG.PAINTING_SPEED_ENABLED;
@@ -7667,12 +7661,10 @@
 
       const cooldownSlider = document.getElementById('cooldownSlider');
       const cooldownInput = document.getElementById('cooldownInput');
-      const cooldownSliderValue = document.getElementById('cooldownSliderValue');
+      const cooldownValue = document.getElementById('cooldownValue');
       if (cooldownSlider) cooldownSlider.value = state.cooldownChargeThreshold;
       if (cooldownInput) cooldownInput.value = state.cooldownChargeThreshold;
-      if (cooldownSliderValue) cooldownSliderValue.textContent = state.cooldownChargeThreshold;
-      const cooldownValue = document.getElementById('cooldownValue');
-      if (cooldownValue) cooldownValue.textContent = Utils.t('charges');
+      if (cooldownValue) cooldownValue.textContent = `${state.cooldownChargeThreshold} ${Utils.t('charges')}`;
 
       const overlayOpacitySlider = document.getElementById('overlayOpacitySlider');
       if (overlayOpacitySlider) overlayOpacitySlider.value = state.overlayOpacity;
