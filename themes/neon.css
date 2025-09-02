@@ -407,7 +407,7 @@
   align-items: center;
   gap: 6px;
   flex: 1;
-  min-width: 140px;
+  min-width: 160px;
 }
 
 .wplace-theme-neon .wplace-speed-slider-container-compact {
@@ -415,7 +415,7 @@
   align-items: center;
   gap: 6px;
   flex: 1;
-  min-width: 140px;
+  min-width: 160px;
 }
 
 .wplace-theme-neon .wplace-input-group-compact {
@@ -516,3 +516,4 @@
   box-shadow: 0 0 30px rgb(0 255 65 / 50%) !important;
   font-family: 'Press Start 2P', monospace !important;
 }
+
