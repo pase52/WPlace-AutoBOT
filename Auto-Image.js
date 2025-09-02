@@ -487,6 +487,18 @@
       pixels: 'Pixels',
       charges: 'Charges',
       batchSize: 'Batch Size',
+      cooldownSettings: 'Cooldown Settings',
+      waitCharges: 'Wait for Charges',
+      settings: 'Settings',
+      showStats: 'Show Statistics',
+      compactMode: 'Compact Mode',
+      minimize: 'Minimize',
+      tokenCapturedSuccess: 'Token captured successfully',
+      turnstileInstructions: 'Complete the verification',
+      hideTurnstileBtn: 'Hide',
+      notificationsNotSupported: 'Notifications not supported',
+      chargesReadyMessage: 'Charges are ready',
+      chargesReadyNotification: 'WPlace AutoBot',
       initMessage: "Click 'Upload Image' to begin",
     },
   };
@@ -3476,7 +3488,7 @@
                         <button id="cooldownDecrease" class="wplace-input-btn-compact" type="button">-</button>
                         <input type="number" id="cooldownInput" class="wplace-number-input-compact" min="1" max="999" value="${state.cooldownChargeThreshold}">
                         <button id="cooldownIncrease" class="wplace-input-btn-compact" type="button">+</button>
-                        <span id="cooldownValue" class="wplace-input-label-compact">${state.cooldownChargeThreshold} ${Utils.t('charges')}</span>
+                        <span id="cooldownValue" class="wplace-input-label-compact">${Utils.t('charges')}</span>
                     </div>
                 </div>
             </div>
@@ -3785,7 +3797,7 @@
                     <button id="speedDecrease" class="wplace-input-btn-compact" type="button">-</button>
                     <input type="number" id="speedInput" class="wplace-number-input-compact" min="${CONFIG.PAINTING_SPEED.MIN}" max="${CONFIG.PAINTING_SPEED.MAX}" value="${CONFIG.PAINTING_SPEED.DEFAULT}">
                     <button id="speedIncrease" class="wplace-input-btn-compact" type="button">+</button>
-                    <span id="speedValue" class="wplace-input-label-compact">${CONFIG.PAINTING_SPEED.DEFAULT} pixels</span>
+                    <span id="speedValue" class="wplace-input-label-compact">pixels</span>
                   </div>
                 </div>
             </div>
@@ -4744,10 +4756,10 @@
           const speed = Math.max(CONFIG.PAINTING_SPEED.MIN, Math.min(CONFIG.PAINTING_SPEED.MAX, parseInt(newValue)));
           state.paintingSpeed = speed;
           
-          // Update both controls and single indicator
+          // Update both controls (value shows in input, label shows unit only)
           speedSlider.value = speed;
           speedInput.value = speed;
-          speedValue.textContent = `${speed} pixels`;
+          speedValue.textContent = `pixels`;
           
           saveBotSettings();
         };
@@ -6710,10 +6722,10 @@
         const threshold = Math.max(1, Math.min(state.maxCharges || 999, parseInt(newValue)));
         state.cooldownChargeThreshold = threshold;
         
-        // Update both controls and single indicator
+        // Update both controls (value shows in input, label shows unit only)
         cooldownSlider.value = threshold;
         cooldownInput.value = threshold;
-        cooldownValue.textContent = `${threshold} ${Utils.t('charges')}`;
+        cooldownValue.textContent = `${Utils.t('charges')}`;
         
         saveBotSettings();
         NotificationManager.resetEdgeTracking(); // prevent spurious notify after threshold change
@@ -7628,7 +7640,7 @@
       const speedValue = document.getElementById('speedValue');
       if (speedSlider) speedSlider.value = state.paintingSpeed;
       if (speedInput) speedInput.value = state.paintingSpeed;
-      if (speedValue) speedValue.textContent = `${state.paintingSpeed} pixels`;
+      if (speedValue) speedValue.textContent = `pixels`;
 
       const enableSpeedToggle = document.getElementById('enableSpeedToggle');
       if (enableSpeedToggle) enableSpeedToggle.checked = CONFIG.PAINTING_SPEED_ENABLED;
@@ -7664,7 +7676,7 @@
       const cooldownValue = document.getElementById('cooldownValue');
       if (cooldownSlider) cooldownSlider.value = state.cooldownChargeThreshold;
       if (cooldownInput) cooldownInput.value = state.cooldownChargeThreshold;
-      if (cooldownValue) cooldownValue.textContent = `${state.cooldownChargeThreshold} ${Utils.t('charges')}`;
+      if (cooldownValue) cooldownValue.textContent = `${Utils.t('charges')}`;
 
       const overlayOpacitySlider = document.getElementById('overlayOpacitySlider');
       if (overlayOpacitySlider) overlayOpacitySlider.value = state.overlayOpacity;
