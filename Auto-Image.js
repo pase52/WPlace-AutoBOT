@@ -1331,6 +1331,44 @@
       return `${seconds}s`;
     },
 
+    // Debounced scroll-to-adjust handler for sliders
+    createScrollToAdjust: (element, updateCallback, min, max, step = 1) => {
+      let debounceTimer = null;
+      
+      const handleWheel = (e) => {
+        // Only trigger when hovering over the slider
+        if (e.target !== element) return;
+        
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // Clear existing debounce timer
+        if (debounceTimer) {
+          clearTimeout(debounceTimer);
+        }
+        
+        // Debounce the adjustment to make it precise
+        debounceTimer = setTimeout(() => {
+          const currentValue = parseInt(element.value) || 0;
+          const delta = e.deltaY > 0 ? -step : step;
+          const newValue = Math.max(min, Math.min(max, currentValue + delta));
+          
+          if (newValue !== currentValue) {
+            element.value = newValue;
+            updateCallback(newValue);
+          }
+        }, 50); // 50ms debounce for precise control
+      };
+      
+      element.addEventListener('wheel', handleWheel, { passive: false });
+      
+      // Return cleanup function
+      return () => {
+        if (debounceTimer) clearTimeout(debounceTimer);
+        element.removeEventListener('wheel', handleWheel);
+      };
+    },
+
     /**
      * Calculate the range of tile coordinates (in region space) that cover a given image area.
      * @param {number} startRegionX - Base region X
@@ -3430,16 +3468,16 @@
             <div class="wplace-section-title">⏱️ ${Utils.t('cooldownSettings')}</div>
             <div class="wplace-cooldown-control">
                 <label id="cooldownLabel">${Utils.t('waitCharges')}:</label>
-                <div class="wplace-dual-control">
-                    <div class="wplace-slider-container">
+                <div class="wplace-dual-control-compact">
+                    <div class="wplace-slider-container-compact">
                         <input type="range" id="cooldownSlider" class="wplace-slider" min="1" max="1" value="${state.cooldownChargeThreshold}">
                         <span id="cooldownSliderValue" class="wplace-cooldown-value">${state.cooldownChargeThreshold}</span>
                     </div>
-                    <div class="wplace-input-group">
-                        <button id="cooldownDecrease" class="wplace-input-btn" type="button">-</button>
-                        <input type="number" id="cooldownInput" class="wplace-number-input" min="1" max="999" value="${state.cooldownChargeThreshold}">
-                        <button id="cooldownIncrease" class="wplace-input-btn" type="button">+</button>
-                        <span id="cooldownValue" class="wplace-input-value">${Utils.t('charges')}</span>
+                    <div class="wplace-input-group-compact">
+                        <button id="cooldownDecrease" class="wplace-input-btn-compact" type="button">-</button>
+                        <input type="number" id="cooldownInput" class="wplace-number-input-compact" min="1" max="999" value="${state.cooldownChargeThreshold}">
+                        <button id="cooldownIncrease" class="wplace-input-btn-compact" type="button">+</button>
+                        <span class="wplace-input-label-compact">${Utils.t('charges')}</span>
                     </div>
                 </div>
             </div>
@@ -3736,17 +3774,20 @@
           
           <!-- Normal Mode: Fixed Size Controls -->
           <div id="normalBatchControls" class="wplace-batch-controls wplace-normal-batch-controls">
-            <div class="wplace-dual-control">
-                <div class="wplace-speed-slider-container">
+            <div class="wplace-batch-size-header">
+              <span class="wplace-batch-size-label">${Utils.t('batchSize')}</span>
+            </div>
+            <div class="wplace-dual-control-compact">
+                <div class="wplace-speed-slider-container-compact">
                   <input type="range" id="speedSlider" min="${CONFIG.PAINTING_SPEED.MIN}" max="${CONFIG.PAINTING_SPEED.MAX}" value="${CONFIG.PAINTING_SPEED.DEFAULT}" class="wplace-speed-slider">
-                  <div id="speedSliderValue" class="wplace-speed-value">${CONFIG.PAINTING_SPEED.DEFAULT} (batch size)</div>
+                  <span id="speedSliderValue" class="wplace-speed-value">${CONFIG.PAINTING_SPEED.DEFAULT}</span>
                 </div>
-                <div class="wplace-speed-input-container">
-                  <div class="wplace-input-group">
-                    <button id="speedDecrease" class="wplace-input-btn" type="button">-</button>
-                    <input type="number" id="speedInput" class="wplace-number-input" min="${CONFIG.PAINTING_SPEED.MIN}" max="${CONFIG.PAINTING_SPEED.MAX}" value="${CONFIG.PAINTING_SPEED.DEFAULT}">
-                    <button id="speedIncrease" class="wplace-input-btn" type="button">+</button>
-                    <span id="speedValue" class="wplace-input-value">${Utils.t('batchSize')}</span>
+                <div class="wplace-speed-input-container-compact">
+                  <div class="wplace-input-group-compact">
+                    <button id="speedDecrease" class="wplace-input-btn-compact" type="button">-</button>
+                    <input type="number" id="speedInput" class="wplace-number-input-compact" min="${CONFIG.PAINTING_SPEED.MIN}" max="${CONFIG.PAINTING_SPEED.MAX}" value="${CONFIG.PAINTING_SPEED.DEFAULT}">
+                    <button id="speedIncrease" class="wplace-input-btn-compact" type="button">+</button>
+                    <span class="wplace-input-label-compact">pixels</span>
                   </div>
                 </div>
             </div>
@@ -4050,154 +4091,6 @@
 
         .wplace-settings-header:active {
           background: rgba(255,255,255,0.2) !important;
-        }
-
-        /* Dual Control Layout - Ultra Compact for Neon */
-        .wplace-dual-control {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          gap: 8px;
-          margin: 2px 0;
-          flex-wrap: wrap;
-        }
-
-        .wplace-slider-container {
-          display: flex;
-          align-items: center;
-          gap: 4px;
-          flex: 1;
-          min-width: 140px;
-        }
-
-        .wplace-slider, .wplace-speed-slider {
-          flex: 1;
-          min-width: 80px;
-          height: 16px;
-        }
-
-        .wplace-cooldown-value, .wplace-speed-value {
-          min-width: 50px;
-          text-align: center;
-          font-weight: 500;
-          color: rgba(255,255,255,0.9);
-          font-size: 10px;
-        }
-
-        /* Input Group Styles - Ultra Compact */
-        .wplace-input-group {
-          display: flex;
-          align-items: center;
-          gap: 2px;
-          flex-shrink: 0;
-        }
-          margin: 8px 0;
-        }
-
-        .wplace-input-btn {
-          background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-          color: white;
-          border: none;
-          border-radius: 2px;
-          width: 18px;
-          height: 18px;
-          cursor: pointer;
-          font-weight: bold;
-          font-size: 11px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.2s ease;
-          box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-        }
-          font-size: 12px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.2s ease;
-          box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-        }
-
-        .wplace-input-btn:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-          background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
-        }
-
-        .wplace-input-btn:active {
-          transform: translateY(0);
-          box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .wplace-number-input {
-          background: rgba(255,255,255,0.1);
-          border: 1px solid rgba(255,255,255,0.2);
-          border-radius: 2px;
-          color: white;
-          padding: 1px 4px;
-          font-size: 10px;
-          width: 40px;
-          text-align: center;
-          transition: all 0.2s ease;
-          height: 18px;
-        }
-
-        .wplace-number-input:focus {
-          outline: none;
-          border-color: #4facfe;
-          box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.3);
-          background: rgba(255,255,255,0.15);
-        }
-
-        .wplace-input-value {
-          color: rgba(255,255,255,0.7);
-          font-size: 9px;
-          margin-left: 2px;
-          white-space: nowrap;
-        }
-
-        /* Neon Theme Specific Optimizations */
-        .wplace-theme-neon .wplace-dual-control {
-          gap: 4px;
-          margin: 1px 0;
-        }
-
-        .wplace-theme-neon .wplace-slider-container {
-          gap: 2px;
-          min-width: 120px;
-        }
-
-        .wplace-theme-neon .wplace-slider, 
-        .wplace-theme-neon .wplace-speed-slider {
-          height: 14px;
-          min-width: 70px;
-        }
-
-        .wplace-theme-neon .wplace-input-btn {
-          width: 16px;
-          height: 16px;
-          font-size: 10px;
-        }
-
-        .wplace-theme-neon .wplace-number-input {
-          width: 35px;
-          height: 16px;
-          font-size: 9px;
-          padding: 0 3px;
-        }
-
-        .wplace-theme-neon .wplace-cooldown-value, 
-        .wplace-theme-neon .wplace-speed-value {
-          font-size: 9px;
-          min-width: 40px;
-        }
-
-        .wplace-theme-neon .wplace-input-value {
-          font-size: 8px;
-        }
-
-        .wplace-speed-input-container {
-          margin: 2px 0;
         }
 
         /* Custom Scrollbar for Content Area */
@@ -4799,11 +4692,19 @@
       );
 
       if (overlayOpacitySlider && overlayOpacityValue) {
-        overlayOpacitySlider.addEventListener('input', (e) => {
-          const opacity = parseFloat(e.target.value);
+        const updateOpacity = (newValue) => {
+          const opacity = parseFloat(newValue);
           state.overlayOpacity = opacity;
+          overlayOpacitySlider.value = opacity;
           overlayOpacityValue.textContent = `${Math.round(opacity * 100)}%`;
+        };
+
+        overlayOpacitySlider.addEventListener('input', (e) => {
+          updateOpacity(e.target.value);
         });
+
+        // Add scroll-to-adjust for overlay opacity slider
+        Utils.createScrollToAdjust(overlayOpacitySlider, updateOpacity, 0, 1, 0.05);
       }
 
       if (settingsPaintWhiteToggle) {
@@ -4847,10 +4748,10 @@
           const speed = Math.max(CONFIG.PAINTING_SPEED.MIN, Math.min(CONFIG.PAINTING_SPEED.MAX, parseInt(newValue)));
           state.paintingSpeed = speed;
           
-          // Update both controls
+          // Update both controls without duplication
           speedSlider.value = speed;
           speedInput.value = speed;
-          speedSliderValue.textContent = `${speed} (batch size)`;
+          speedSliderValue.textContent = `${speed}`;
           
           saveBotSettings();
         };
@@ -4874,6 +4775,9 @@
         speedIncrease.addEventListener('click', () => {
           updateSpeed(parseInt(speedInput.value) + 1);
         });
+
+        // Add scroll-to-adjust for speed slider
+        Utils.createScrollToAdjust(speedSlider, updateSpeed, CONFIG.PAINTING_SPEED.MIN, CONFIG.PAINTING_SPEED.MAX, 1);
       }
 
       if (enableBlueMarbleToggle) {
@@ -6838,6 +6742,9 @@
       cooldownIncrease.addEventListener('click', () => {
         updateCooldown(parseInt(cooldownInput.value) + 1);
       });
+
+      // Add scroll-to-adjust for cooldown slider
+      Utils.createScrollToAdjust(cooldownSlider, updateCooldown, 1, state.maxCharges, 1);
     }
 
     loadBotSettings();
