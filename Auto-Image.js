@@ -194,7 +194,7 @@
     currentTheme: 'Classic Autobot',
     PAINT_UNAVAILABLE: true,
     COORDINATE_MODE: 'rows',
-    COORDINATE_DIRECTION: 'bottom-left',
+    COORDINATE_DIRECTION: 'top-left',
     COORDINATE_SNAKE: true,
     COORDINATE_BLOCK_WIDTH: 6,
     COORDINATE_BLOCK_HEIGHT: 2,
@@ -486,6 +486,19 @@
       progress: 'Progress',
       pixels: 'Pixels',
       charges: 'Charges',
+      batchSize: 'Batch Size',
+      cooldownSettings: 'Cooldown Settings',
+      waitCharges: 'Wait for Charges',
+      settings: 'Settings',
+      showStats: 'Show Statistics',
+      compactMode: 'Compact Mode',
+      minimize: 'Minimize',
+      tokenCapturedSuccess: 'Token captured successfully',
+      turnstileInstructions: 'Complete the verification',
+      hideTurnstileBtn: 'Hide',
+      notificationsNotSupported: 'Notifications not supported',
+      chargesReadyMessage: 'Charges are ready',
+      chargesReadyNotification: 'WPlace AutoBot',
       initMessage: "Click 'Upload Image' to begin",
     },
   };
@@ -1328,6 +1341,44 @@
       if (hours > 0) return `${hours}h ${minutes}m ${seconds}s`;
       if (minutes > 0) return `${minutes}m ${seconds}s`;
       return `${seconds}s`;
+    },
+
+    // Debounced scroll-to-adjust handler for sliders
+    createScrollToAdjust: (element, updateCallback, min, max, step = 1) => {
+      let debounceTimer = null;
+      
+      const handleWheel = (e) => {
+        // Only trigger when hovering over the slider
+        if (e.target !== element) return;
+        
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // Clear existing debounce timer
+        if (debounceTimer) {
+          clearTimeout(debounceTimer);
+        }
+        
+        // Debounce the adjustment to make it precise
+        debounceTimer = setTimeout(() => {
+          const currentValue = parseInt(element.value) || 0;
+          const delta = e.deltaY > 0 ? -step : step;
+          const newValue = Math.max(min, Math.min(max, currentValue + delta));
+          
+          if (newValue !== currentValue) {
+            element.value = newValue;
+            updateCallback(newValue);
+          }
+        }, 50); // 50ms debounce for precise control
+      };
+      
+      element.addEventListener('wheel', handleWheel, { passive: false });
+      
+      // Return cleanup function
+      return () => {
+        if (debounceTimer) clearTimeout(debounceTimer);
+        element.removeEventListener('wheel', handleWheel);
+      };
     },
 
     /**
@@ -3429,9 +3480,16 @@
             <div class="wplace-section-title">⏱️ ${Utils.t('cooldownSettings')}</div>
             <div class="wplace-cooldown-control">
                 <label id="cooldownLabel">${Utils.t('waitCharges')}:</label>
-                <div class="wplace-slider-container">
-                    <input type="range" id="cooldownSlider" class="wplace-slider" min="1" max="1" value="${state.cooldownChargeThreshold}">
-                    <span id="cooldownValue" class="wplace-cooldown-value">${state.cooldownChargeThreshold}</span>
+                <div class="wplace-dual-control-compact">
+                    <div class="wplace-slider-container-compact">
+                        <input type="range" id="cooldownSlider" class="wplace-slider" min="1" max="1" value="${state.cooldownChargeThreshold}">
+                    </div>
+                    <div class="wplace-input-group-compact">
+                        <button id="cooldownDecrease" class="wplace-input-btn-compact" type="button">-</button>
+                        <input type="number" id="cooldownInput" class="wplace-number-input-compact" min="1" max="999" value="${state.cooldownChargeThreshold}">
+                        <button id="cooldownIncrease" class="wplace-input-btn-compact" type="button">+</button>
+                        <span id="cooldownValue" class="wplace-input-label-compact">${Utils.t('charges')}</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -3725,11 +3783,23 @@
             </select>
           </div>
           
-          <!-- Normal Mode: Fixed Size Slider -->
+          <!-- Normal Mode: Fixed Size Controls -->
           <div id="normalBatchControls" class="wplace-batch-controls wplace-normal-batch-controls">
-            <div class="wplace-speed-slider-container">
-              <input type="range" id="speedSlider" min="${CONFIG.PAINTING_SPEED.MIN}" max="${CONFIG.PAINTING_SPEED.MAX}" value="${CONFIG.PAINTING_SPEED.DEFAULT}" class="wplace-speed-slider">
-              <div id="speedValue" class="wplace-speed-value">${CONFIG.PAINTING_SPEED.DEFAULT} (batch size)</div>
+            <div class="wplace-batch-size-header">
+              <span class="wplace-batch-size-label">${Utils.t('batchSize')}</span>
+            </div>
+            <div class="wplace-dual-control-compact">
+                <div class="wplace-speed-slider-container-compact">
+                  <input type="range" id="speedSlider" min="${CONFIG.PAINTING_SPEED.MIN}" max="${CONFIG.PAINTING_SPEED.MAX}" value="${CONFIG.PAINTING_SPEED.DEFAULT}" class="wplace-speed-slider">
+                </div>
+                <div class="wplace-speed-input-container-compact">
+                  <div class="wplace-input-group-compact">
+                    <button id="speedDecrease" class="wplace-input-btn-compact" type="button">-</button>
+                    <input type="number" id="speedInput" class="wplace-number-input-compact" min="${CONFIG.PAINTING_SPEED.MIN}" max="${CONFIG.PAINTING_SPEED.MAX}" value="${CONFIG.PAINTING_SPEED.DEFAULT}">
+                    <button id="speedIncrease" class="wplace-input-btn-compact" type="button">+</button>
+                    <span id="speedValue" class="wplace-input-label-compact">pixels</span>
+                  </div>
+                </div>
             </div>
             <div class="wplace-speed-labels">
               <span class="wplace-speed-min"><i class="fas fa-turtle"></i> ${CONFIG.PAINTING_SPEED.MIN}</span>
@@ -3969,7 +4039,7 @@
           }
         }
 
-        #speedSlider::-webkit-slider-thumb, #overlayOpacitySlider::-webkit-slider-thumb {
+        #speedSlider::-webkit-slider-thumb, #cooldownSlider::-webkit-slider-thumb, #overlayOpacitySlider::-webkit-slider-thumb {
           -webkit-appearance: none;
           width: 18px;
           height: 18px;
@@ -3980,12 +4050,12 @@
           transition: all 0.2s ease;
         }
 
-        #speedSlider::-webkit-slider-thumb:hover, #overlayOpacitySlider::-webkit-slider-thumb:hover {
+        #speedSlider::-webkit-slider-thumb:hover, #cooldownSlider::-webkit-slider-thumb:hover, #overlayOpacitySlider::-webkit-slider-thumb:hover {
           transform: scale(1.2);
           box-shadow: 0 4px 8px rgba(0,0,0,0.4), 0 0 0 3px #4facfe;
         }
 
-        #speedSlider::-moz-range-thumb, #overlayOpacitySlider::-moz-range-thumb {
+        #speedSlider::-moz-range-thumb, #cooldownSlider::-moz-range-thumb, #overlayOpacitySlider::-moz-range-thumb {
           width: 18px;
           height: 18px;
           border-radius: 50%;
@@ -4031,6 +4101,25 @@
 
         .wplace-settings-header:active {
           background: rgba(255,255,255,0.2) !important;
+        }
+
+        /* Custom Scrollbar for Content Area */
+        .wplace-content::-webkit-scrollbar {
+          width: 6px;
+        }
+
+        .wplace-content::-webkit-scrollbar-track {
+          background: rgba(255,255,255,0.1);
+          border-radius: 3px;
+        }
+
+        .wplace-content::-webkit-scrollbar-thumb {
+          background: rgba(255,255,255,0.3);
+          border-radius: 3px;
+        }
+
+        .wplace-content::-webkit-scrollbar-thumb:hover {
+          background: rgba(255,255,255,0.5);
         }
       </style>
     `;
@@ -4283,6 +4372,9 @@
     const closeStatsBtn = statsContainer.querySelector('#closeStatsBtn');
     const refreshChargesBtn = statsContainer.querySelector('#refreshChargesBtn');
     const cooldownSlider = container.querySelector('#cooldownSlider');
+    const cooldownInput = container.querySelector('#cooldownInput');
+    const cooldownDecrease = container.querySelector('#cooldownDecrease');
+    const cooldownIncrease = container.querySelector('#cooldownIncrease');
     const cooldownValue = container.querySelector('#cooldownValue');
 
     if (!uploadBtn || !selectPosBtn || !startBtn || !stopBtn) {
@@ -4609,11 +4701,19 @@
       );
 
       if (overlayOpacitySlider && overlayOpacityValue) {
-        overlayOpacitySlider.addEventListener('input', (e) => {
-          const opacity = parseFloat(e.target.value);
+        const updateOpacity = (newValue) => {
+          const opacity = parseFloat(newValue);
           state.overlayOpacity = opacity;
+          overlayOpacitySlider.value = opacity;
           overlayOpacityValue.textContent = `${Math.round(opacity * 100)}%`;
+        };
+
+        overlayOpacitySlider.addEventListener('input', (e) => {
+          updateOpacity(e.target.value);
         });
+
+        // Add scroll-to-adjust for overlay opacity slider
+        Utils.createScrollToAdjust(overlayOpacitySlider, updateOpacity, 0, 1, 0.05);
       }
 
       if (settingsPaintWhiteToggle) {
@@ -4644,16 +4744,48 @@
         });
       }
 
-      // Speed slider event listener
+      // Speed controls - both slider and input
       const speedSlider = settingsContainer.querySelector('#speedSlider');
+      const speedInput = settingsContainer.querySelector('#speedInput');
+      const speedDecrease = settingsContainer.querySelector('#speedDecrease');
+      const speedIncrease = settingsContainer.querySelector('#speedIncrease');
       const speedValue = settingsContainer.querySelector('#speedValue');
-      if (speedSlider && speedValue) {
-        speedSlider.addEventListener('input', (e) => {
-          const speed = parseInt(e.target.value, 10);
+      
+      if (speedSlider && speedInput && speedValue && speedDecrease && speedIncrease) {
+        const updateSpeed = (newValue) => {
+          const speed = Math.max(CONFIG.PAINTING_SPEED.MIN, Math.min(CONFIG.PAINTING_SPEED.MAX, parseInt(newValue)));
           state.paintingSpeed = speed;
-          speedValue.textContent = `${speed} (batch size)`;
+          
+          // Update both controls (value shows in input, label shows unit only)
+          speedSlider.value = speed;
+          speedInput.value = speed;
+          speedValue.textContent = `pixels`;
+          
           saveBotSettings();
+        };
+
+        // Slider event listener
+        speedSlider.addEventListener('input', (e) => {
+          updateSpeed(e.target.value);
         });
+
+        // Number input event listener
+        speedInput.addEventListener('input', (e) => {
+          updateSpeed(e.target.value);
+        });
+
+        // Decrease button
+        speedDecrease.addEventListener('click', () => {
+          updateSpeed(parseInt(speedInput.value) - 1);
+        });
+
+        // Increase button
+        speedIncrease.addEventListener('click', () => {
+          updateSpeed(parseInt(speedInput.value) + 1);
+        });
+
+        // Add scroll-to-adjust for speed slider
+        Utils.createScrollToAdjust(speedSlider, updateSpeed, CONFIG.PAINTING_SPEED.MIN, CONFIG.PAINTING_SPEED.MAX, 1);
       }
 
       if (enableBlueMarbleToggle) {
@@ -5094,8 +5226,11 @@
         intervalMs
       );
 
-      if (cooldownSlider.max !== state.maxCharges) {
+      if (cooldownSlider && cooldownSlider.max !== state.maxCharges) {
         cooldownSlider.max = state.maxCharges;
+      }
+      if (cooldownInput && cooldownInput.max !== state.maxCharges) {
+        cooldownInput.max = state.maxCharges;
       }
 
       let imageStatsHTML = '';
@@ -6582,14 +6717,42 @@
 
     setTimeout(checkSavedProgress, 1000);
 
-    if (cooldownSlider && cooldownValue) {
-      cooldownSlider.addEventListener('input', (e) => {
-        const threshold = parseInt(e.target.value);
+    if (cooldownSlider && cooldownInput && cooldownValue && cooldownDecrease && cooldownIncrease) {
+      const updateCooldown = (newValue) => {
+        const threshold = Math.max(1, Math.min(state.maxCharges || 999, parseInt(newValue)));
         state.cooldownChargeThreshold = threshold;
-        cooldownValue.textContent = threshold;
+        
+        // Update both controls (value shows in input, label shows unit only)
+        cooldownSlider.value = threshold;
+        cooldownInput.value = threshold;
+        cooldownValue.textContent = `${Utils.t('charges')}`;
+        
         saveBotSettings();
         NotificationManager.resetEdgeTracking(); // prevent spurious notify after threshold change
+      };
+
+      // Slider event listener
+      cooldownSlider.addEventListener('input', (e) => {
+        updateCooldown(e.target.value);
       });
+
+      // Number input event listener
+      cooldownInput.addEventListener('input', (e) => {
+        updateCooldown(e.target.value);
+      });
+
+      // Decrease button
+      cooldownDecrease.addEventListener('click', () => {
+        updateCooldown(parseInt(cooldownInput.value) - 1);
+      });
+
+      // Increase button
+      cooldownIncrease.addEventListener('click', () => {
+        updateCooldown(parseInt(cooldownInput.value) + 1);
+      });
+
+      // Add scroll-to-adjust for cooldown slider
+      Utils.createScrollToAdjust(cooldownSlider, updateCooldown, 1, state.maxCharges, 1);
     }
 
     loadBotSettings();
@@ -7473,9 +7636,11 @@
       }
 
       const speedSlider = document.getElementById('speedSlider');
-      if (speedSlider) speedSlider.value = state.paintingSpeed;
+      const speedInput = document.getElementById('speedInput');
       const speedValue = document.getElementById('speedValue');
-      if (speedValue) speedValue.textContent = `${state.paintingSpeed} (batch size)`;
+      if (speedSlider) speedSlider.value = state.paintingSpeed;
+      if (speedInput) speedInput.value = state.paintingSpeed;
+      if (speedValue) speedValue.textContent = `pixels`;
 
       const enableSpeedToggle = document.getElementById('enableSpeedToggle');
       if (enableSpeedToggle) enableSpeedToggle.checked = CONFIG.PAINTING_SPEED_ENABLED;
@@ -7507,9 +7672,11 @@
       // AUTO_CAPTCHA_ENABLED is always true - no toggle to set
 
       const cooldownSlider = document.getElementById('cooldownSlider');
-      if (cooldownSlider) cooldownSlider.value = state.cooldownChargeThreshold;
+      const cooldownInput = document.getElementById('cooldownInput');
       const cooldownValue = document.getElementById('cooldownValue');
-      if (cooldownValue) cooldownValue.textContent = state.cooldownChargeThreshold;
+      if (cooldownSlider) cooldownSlider.value = state.cooldownChargeThreshold;
+      if (cooldownInput) cooldownInput.value = state.cooldownChargeThreshold;
+      if (cooldownValue) cooldownValue.textContent = `${Utils.t('charges')}`;
 
       const overlayOpacitySlider = document.getElementById('overlayOpacitySlider');
       if (overlayOpacitySlider) overlayOpacitySlider.value = state.overlayOpacity;
