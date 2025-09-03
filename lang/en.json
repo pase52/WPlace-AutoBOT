@@ -167,6 +167,7 @@
   "joinRoom": "Join Room",
   "leaveRoom": "Leave Room",
   "roomId": "Room ID",
+  "copyRoomId": "Copy Room ID",
   "roomIdPlaceholder": "Enter 8-character room ID",
   "masterName": "Master Name",
   "slaveName": "Slave Name",

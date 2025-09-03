@@ -4218,8 +4218,20 @@
                 <div style="font-size: 11px; color: #4caf50; margin-bottom: 4px;">
                   ${Utils.t("roomCreated")}
                 </div>
-                <div style="font-size: 12px; color: white; font-weight: bold;">
-                  ${Utils.t("roomId")}: <span id="createdRoomId"></span>
+                <div style="display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: white; font-weight: bold;">
+                  <span>${Utils.t("roomId")}: <span id="createdRoomId"></span></span>
+                  <button id="copyRoomIdBtn" class="wplace-btn" style="
+                    padding: 4px 8px; 
+                    font-size: 10px; 
+                    background: rgba(76, 175, 80, 0.2); 
+                    border: 1px solid rgba(76, 175, 80, 0.5); 
+                    color: #4caf50;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                  " title="${Utils.t('copyRoomId')}">
+                    <i class="fas fa-copy"></i>
+                  </button>
                 </div>
               </div>
             </div>
@@ -4261,6 +4273,19 @@
                 </div>
                 <div style="font-size: 11px; color: white;">
                   ${Utils.t("roomId")}: <span id="currentRoomId" style="font-weight: bold;"></span>
+
+                  <button class="copyRoomIdBtn" class="wplace-btn" style="
+                    padding: 4px 8px; 
+                    font-size: 10px; 
+                    background: rgba(76, 175, 80, 0.2); 
+                    border: 1px solid rgba(76, 175, 80, 0.5); 
+                    color: #4caf50;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                  " title="${Utils.t('copyRoomId')}">
+                    <i class="fas fa-copy"></i>
+                  </button>
                 </div>
               </div>
 
@@ -8703,6 +8728,57 @@
           createRoomBtn.addEventListener('click', () => {
             PixelColony.createRoom();
           });
+        }
+
+        // Copy room ID buttons
+        const copyRoomIdBtns = document.getElementsByClassName('copyRoomIdBtn');
+        if (copyRoomIdBtns) {
+          for (let i = 0; i < copyRoomIdBtns.length; i++) {
+            const copyRoomIdBtn = copyRoomIdBtns.item(i);
+
+            copyRoomIdBtn.addEventListener('click', async () => {
+              const roomIdElement = document.getElementById('createdRoomId');
+              const roomId = roomIdElement?.textContent?.trim();
+
+              if (!roomId) {
+                Utils.showAlert('❌ No room ID to copy', 'error');
+                return;
+              }
+
+              try {
+                await navigator.clipboard.writeText(roomId);
+                Utils.showAlert('✅ Room ID copied to clipboard!', 'success');
+
+                // Visual feedback - briefly change button style
+                const originalText = copyRoomIdBtns.innerHTML;
+                copyRoomIdBtns.innerHTML = '<i class="fas fa-check"></i>';
+                copyRoomIdBtns.style.background = 'rgba(76, 175, 80, 0.4)';
+
+                setTimeout(() => {
+                  copyRoomIdBtns.innerHTML = originalText;
+                  copyRoomIdBtns.style.background = 'rgba(76, 175, 80, 0.2)';
+                }, 1000);
+
+              } catch (err) {
+                // Fallback for browsers that don't support clipboard API
+                const textArea = document.createElement('textarea');
+                textArea.value = roomId;
+                textArea.style.position = 'fixed';
+                textArea.style.opacity = '0';
+                document.body.appendChild(textArea);
+                textArea.select();
+
+                try {
+                  document.execCommand('copy');
+                  Utils.showAlert('✅ Room ID copied to clipboard!', 'success');
+                } catch (fallbackErr) {
+                  Utils.showAlert('❌ Failed to copy room ID', 'error');
+                }
+
+                document.body.removeChild(textArea);
+              }
+            });
+          }
         }
 
         // Slave controls
