@@ -1,10 +1,9 @@
 import { redis } from "@/redis/client";
 import {
-  PixelData,
   REDIS_CHANNELS,
   REDIS_KEYS,
   Task,
-  TaskCoordinates,
+  TaskDefinition,
   TaskStatistics,
   TaskStatus,
 } from "@/types";
@@ -13,9 +12,7 @@ import {
   formatTimestamp,
   generateTaskId,
   isValidRoomId,
-  isValidTaskSize,
   isValidUUID,
-  parseTaskSize,
 } from "@/utils/helpers";
 import { log } from "@/utils/logger";
 
@@ -36,34 +33,27 @@ export class TaskManager {
    */
   public async createTasks(
     roomId: string,
-    pixels: PixelData[],
-    taskSize: "1x1" | "3x3" | "5x5" | "10x10"
+    tasksDefinitions: TaskDefinition[]
   ): Promise<string[]> {
     if (!isValidRoomId(roomId)) {
       throw new Error(`Invalid room ID: ${roomId}`);
     }
 
-    if (!isValidTaskSize(taskSize)) {
-      throw new Error(`Invalid task size: ${taskSize}`);
+    if (!tasksDefinitions || tasksDefinitions.length === 0) {
+      throw new Error("No tasks provided for creation");
     }
 
-    if (!pixels || pixels.length === 0) {
-      throw new Error("No pixels provided for task creation");
-    }
-
-    const { width, height } = parseTaskSize(taskSize);
-    const taskGroups = this.groupPixelsIntoTasks(pixels, width, height);
     const tasks: Task[] = [];
     const taskIds: string[] = [];
 
-    for (const group of taskGroups) {
+    for (const def of tasksDefinitions) {
       const taskId = generateTaskId();
       const task: Task = {
         taskId,
         roomId,
         status: "todo",
-        coordinates: group.coordinates,
-        pixels: group.pixels,
+        coordinates: def.coordinates,
+        pixels: def.pixels,
         createdAt: formatTimestamp(),
         timeout: Date.now() + 5 * 60 * 1000, // 5 minutes
         assignedTo: undefined,
@@ -95,7 +85,7 @@ export class TaskManager {
       ),
     ]);
 
-    log.task.created(taskIds, roomId, tasks.length);
+    log.task.created(taskIds, roomId, tasksDefinitions.length);
 
     return taskIds;
   }
@@ -455,44 +445,6 @@ export class TaskManager {
         }
       }
     }
-  }
-
-  /**
-   * Group pixels into tasks based on task size
-   */
-  private groupPixelsIntoTasks(
-    pixels: PixelData[],
-    taskWidth: number,
-    taskHeight: number
-  ): Array<{ coordinates: TaskCoordinates; pixels: PixelData[] }> {
-    // Group pixels by task regions
-    const taskMap = new Map<
-      string,
-      { coordinates: TaskCoordinates; pixels: PixelData[] }
-    >();
-
-    for (const pixel of pixels) {
-      // Calculate which task region this pixel belongs to
-      const taskX = Math.floor(pixel.x / taskWidth) * taskWidth;
-      const taskY = Math.floor(pixel.y / taskHeight) * taskHeight;
-      const taskKey = `${taskX},${taskY}`;
-
-      if (!taskMap.has(taskKey)) {
-        taskMap.set(taskKey, {
-          coordinates: {
-            x: taskX,
-            y: taskY,
-            width: taskWidth,
-            height: taskHeight,
-          },
-          pixels: [],
-        });
-      }
-
-      taskMap.get(taskKey)!.pixels.push(pixel);
-    }
-
-    return Array.from(taskMap.values());
   }
 
   /**

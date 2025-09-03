@@ -6,6 +6,7 @@ import {
   ClaimTaskMessage,
   CompleteTaskMessage,
   CreateRoomMessage,
+  CreateTasksMessage,
   ErrorCodes,
   JoinRoomMessage,
   LeaveRoomMessage,
@@ -91,6 +92,7 @@ export class PixelColonyService {
     this.wsServer.addHandler("leave_room", this.handleLeaveRoom.bind(this));
 
     // Task management
+    this.wsServer.addHandler("create_tasks", this.handleCreateTasks.bind(this));
     this.wsServer.addHandler("claim_task", this.handleClaimTask.bind(this));
     this.wsServer.addHandler(
       "complete_task",
@@ -343,6 +345,61 @@ export class PixelColonyService {
     } catch (error) {
       const err = error as Error;
       log.error("Failed to leave room", {
+        error: err.message,
+        connectionId: connection.id,
+      });
+
+      connection.sendError(
+        ErrorCodes.INTERNAL_SERVER_ERROR,
+        err.message,
+        {},
+        message.id
+      );
+    }
+  }
+
+  private async handleCreateTasks(
+    message: BaseMessage,
+    connection: WebSocketConnection
+  ): Promise<void> {
+    try {
+      const createTaskMessage = message as CreateTasksMessage;
+      const { roomId, tasks } = createTaskMessage.data;
+
+      // Validate master context
+      if (!connection.isMaster() || !connection.isInRoom(roomId)) {
+        connection.sendError(
+          ErrorCodes.AUTHENTICATION_FAILED,
+          "Not authorized to create tasks in this room",
+          { roomId },
+          message.id
+        );
+        return;
+      }
+
+      // Create tasks
+      const createdTasks = await this.taskManager.createTasks(roomId, tasks);
+
+      // Send success response
+      connection.send({
+        type: "tasks_created",
+        version: "v1",
+        timestamp: formatTimestamp(),
+        id: uuidv4(),
+        data: {
+          roomId,
+          tasks: createdTasks,
+        },
+      });
+
+      log.info("Tasks created successfully", {
+        roomId,
+        tasks: createdTasks,
+        connectionId: connection.id,
+      });
+    } catch (error) {
+      const err = error as Error;
+      log.error("Failed to create tasks", {
         error: err.message,
         connectionId: connection.id,
       });
