@@ -8,7 +8,7 @@
   --wplace-secondary: #FBFBFB;         /* Light white */
   --wplace-accent: #F3F3F3;            /* Darker white */
   --wplace-text: #203C5D;              /* Dark blue text */
-  --wplace-highlight: #32C8FE;         /* Cyan highlight */
+  --wplace-highlight: #203C5D;         /* Dark blue highlight */
   --wplace-success: #28a745;           /* Bootstrap green */
   --wplace-error: #dc3545;             /* Bootstrap red */
   --wplace-warning: #ffc107;           /* Bootstrap yellow */
@@ -28,13 +28,13 @@
   /* Icon colors */
   --wplace-icon-primary: #4facfe;      /* Light blue */
   --wplace-icon-secondary: #00f2fe;    /* Cyan */
-  --wplace-icon-palette: #f093fb;      /* Pink */
+  --wplace-icon-palette: #003BFF;      /* Pink */
   
   /* Additional UI colors */
   --wplace-danger: #dc3545;            /* Bootstrap red */
   --wplace-danger-dark: #c82333;       /* Darker red */
   --wplace-muted-text: rgb(33 37 41 / 70%);
-  --wplace-highlight-secondary: #d3a4ff;
+  --wplace-highlight-secondary: #203C5D;
   
   /* Text variants */
   --wplace-text-secondary: rgb(33 37 41 / 90%);
@@ -67,7 +67,7 @@
   --wplace-pulse-end: rgb(40 167 69 / 0%);
   
   /* Slider colors */
-  --wplace-slider-thumb-bg: #32C8FE;
+  --wplace-slider-thumb-bg: #203C5D;
   --wplace-slider-track-bg: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
 }
 
@@ -287,7 +287,7 @@
 }
 
 .wplace-theme-classic-light .wplace-progress-bar {
-  background: linear-gradient(135deg, #32C8FE 0%, #9370db 100%) !important;
+  background: linear-gradient(135deg, #203C5D 0%, #9370db 100%) !important;
   box-shadow: none !important;
 }
 
@@ -426,10 +426,10 @@
 .wplace-theme-classic-light .wplace-icon-robot { color: #4facfe; }
 .wplace-theme-classic-light .wplace-icon-speed { color: #4facfe; }
 .wplace-theme-classic-light .wplace-icon-bell { color: #ffc107; }
-.wplace-theme-classic-light .wplace-icon-palette { color: #f093fb; }
+.wplace-theme-classic-light .wplace-icon-palette { color:  #003BFF; }
 .wplace-theme-classic-light .wplace-icon-globe { color: #ffeaa7; }
 .wplace-theme-classic-light .wplace-icon-paint { color: #4facfe; }
-.wplace-theme-classic-light .wplace-icon-eye { color: #32C8FE; }
+.wplace-theme-classic-light .wplace-icon-eye { color: #203C5D; }
 
 /* Clean light theme animations */
 @keyframes light-shimmer {
@@ -596,6 +596,7 @@
   border-radius: 8px !important;
   border: 1px solid rgb(0 0 0 / 10%) !important;
 }
+
 
 
 
