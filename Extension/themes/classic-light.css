@@ -67,7 +67,7 @@
   --wplace-pulse-end: rgb(40 167 69 / 0%);
   
   /* Slider colors */
-  --wplace-slider-thumb-bg: #6f42c1;
+  --wplace-slider-thumb-bg: #32C8FE;
   --wplace-slider-track-bg: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
 }
 
@@ -147,7 +147,7 @@
 .wplace-theme-classic-light .wplace-data-management .wplace-btn {
   background: linear-gradient(135deg, #FBFBFB 0%, #F3F3F3 100%) !important;
   border: 1px solid rgb(0 0 0 / 20%) !important;
-  color: #212529 !important;
+  color: #203C5D !important;
   font-weight: 500 !important;
 }
 
@@ -287,7 +287,7 @@
 }
 
 .wplace-theme-classic-light .wplace-progress-bar {
-  background: linear-gradient(135deg, #6f42c1 0%, #9370db 100%) !important;
+  background: linear-gradient(135deg, #32C8FE 0%, #9370db 100%) !important;
   box-shadow: none !important;
 }
 
@@ -429,7 +429,7 @@
 .wplace-theme-classic-light .wplace-icon-palette { color: #f093fb; }
 .wplace-theme-classic-light .wplace-icon-globe { color: #ffeaa7; }
 .wplace-theme-classic-light .wplace-icon-paint { color: #4facfe; }
-.wplace-theme-classic-light .wplace-icon-eye { color: #6f42c1; }
+.wplace-theme-classic-light .wplace-icon-eye { color: #32C8FE; }
 
 /* Clean light theme animations */
 @keyframes light-shimmer {
@@ -596,5 +596,6 @@
   border-radius: 8px !important;
   border: 1px solid rgb(0 0 0 / 10%) !important;
 }
+
 
 
