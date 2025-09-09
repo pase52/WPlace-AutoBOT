@@ -108,7 +108,7 @@
 
 /* Stats header styling */
 .wplace-theme-classic-light #wplace-stats-container .wplace-header {
-  background: linear-gradient(135deg, #F3F3F3 0%, #dee2e6 100%) !important;
+  background: linear-gradient(135deg, #F3F3F3 0%, #E0E0E1 100%) !important;
   color: var(--wplace-text) !important;
   border-bottom: 1px solid rgb(0 0 0 / 20%) !important;
   text-shadow: none !important;
@@ -152,13 +152,13 @@
 }
 
 .wplace-theme-classic-light .wplace-btn:hover:not(:disabled) {
-  background: linear-gradient(135deg, #F3F3F3 0%, #dee2e6 100%) !important;
+  background: linear-gradient(135deg, #F3F3F3 0%, #E0E0E1 100%) !important;
   box-shadow: 0 4px 12px rgb(0 0 0 / 15%) !important;
   transform: translateY(-1px) !important;
 }
 
 .wplace-theme-classic-light .wplace-data-management .wplace-btn:hover:not(:disabled) {
-  background: linear-gradient(135deg, #F3F3F3 0%, #dee2e6 100%) !important;
+  background: linear-gradient(135deg, #F3F3F3 0%, #E0E0E1 100%) !important;
   box-shadow: 0 4px 12px rgb(0 0 0 / 15%) !important;
 }
 
@@ -287,7 +287,7 @@
 }
 
 .wplace-theme-classic-light .wplace-progress-bar {
-  background: linear-gradient(135deg, #203C5D 0%, #9370db 100%) !important;
+  background: linear-gradient(135deg, #203C5D 0%, #203C5D 100%) !important;
   box-shadow: none !important;
 }
 
@@ -378,17 +378,17 @@
 
 /* Sliders with classic gradient */
 .wplace-theme-classic-light .wplace-speed-slider {
-  background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%) !important;
+  background: linear-gradient(to right, #4facfe 0%, #32C8FE 100%) !important;
   border-radius: 4px !important;
 }
 
 .wplace-theme-classic-light .wplace-overlay-opacity-slider {
-  background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%) !important;
+  background: linear-gradient(to right, #4facfe 0%, #32C8FE 100%) !important;
   border-radius: 4px !important;
 }
 
 .wplace-theme-classic-light .wplace-slider {
-  background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%) !important;
+  background: linear-gradient(to right, #4facfe 0%, #32C8FE 100%) !important;
   border-radius: 4px !important;
 }
 
@@ -405,7 +405,7 @@
 }
 
 .wplace-theme-classic-light .wplace-speed-value {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
+  background: linear-gradient(135deg, #4facfe 0%, #32C8FE 100%) !important;
   border-radius: 8px !important;
   color: white !important;
   font-weight: 600 !important;
@@ -502,7 +502,7 @@
 }
 
 .wplace-theme-classic-light .wplace-input-btn-compact {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  background: linear-gradient(135deg, #4facfe 0%, #32C8FE 100%);
   color: white;
   border: none;
   border-radius: 4px;
@@ -521,7 +521,7 @@
 .wplace-theme-classic-light .wplace-input-btn-compact:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+  background: linear-gradient(135deg, #32C8FE 0%, #4facfe 100%);
 }
 
 .wplace-theme-classic-light .wplace-input-btn-compact:active {
@@ -596,6 +596,7 @@
   border-radius: 8px !important;
   border: 1px solid rgb(0 0 0 / 10%) !important;
 }
+
 
 
 
