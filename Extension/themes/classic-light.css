@@ -4,11 +4,11 @@
 
 .wplace-theme-classic-light {
   /* === CORE COLORS === */
-  --wplace-primary: #fff;           /* Clean white */
-  --wplace-secondary: #f8f9fa;         /* Light gray */
-  --wplace-accent: #e9ecef;            /* Lighter gray */
-  --wplace-text: #212529;              /* Dark text */
-  --wplace-highlight: #6f42c1;         /* Purple highlight */
+  --wplace-primary: #E0E0E1;           /* Quite white */
+  --wplace-secondary: #FBFBFB;         /* Light white */
+  --wplace-accent: #FBFBFB;            /* Lighter white */
+  --wplace-text: #203C5D;              /* Dark blue text */
+  --wplace-highlight: #32C8FE;         /* Cyan highlight */
   --wplace-success: #28a745;           /* Bootstrap green */
   --wplace-error: #dc3545;             /* Bootstrap red */
   --wplace-warning: #ffc107;           /* Bootstrap yellow */
@@ -596,3 +596,4 @@
   border-radius: 8px !important;
   border: 1px solid rgb(0 0 0 / 10%) !important;
 }
+
