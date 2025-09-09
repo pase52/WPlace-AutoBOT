@@ -56,7 +56,7 @@
   --wplace-border-ultra-faint: #e0e0e0; /* neutral-200 — very faint */
   
   /* Shadow variants */
-  --wplace-shadow-drag: 0 12px 40px rgb(0 0 0 / 20%), 0 0 0 2px rgb(111 66 193 / 30%);
+  --wplace-shadow-drag: 0 12px 40px rgb(0 0 0 / 20%), 0 0 0 2px rgb(32 60 93 / 30%);
   --wplace-shadow-notification: 0 4px 12px rgb(0 0 0 / 15%);
   --wplace-shadow-slider-thumb: 0 3px 6px rgb(0 0 0 / 20%), 0 0 0 2px var(--wplace-icon-primary);
   --wplace-shadow-slider-hover: 0 4px 8px rgb(0 0 0 / 25%), 0 0 0 3px var(--wplace-icon-primary);
@@ -269,14 +269,14 @@
 }
 
 .wplace-theme-classic-light .wplace-btn-upload {
-  background: rgb(111 66 193 / 10%) !important;
+  background: rgb(32 60 93 / 10%) !important;
   border: 2px dashed var(--wplace-highlight) !important;
   color: var(--wplace-highlight) !important;
 }
 
 .wplace-theme-classic-light .wplace-btn-upload:hover:not(:disabled) {
-  background: rgb(111 66 193 / 15%) !important;
-  box-shadow: 0 4px 12px rgb(111 66 193 / 20%) !important;
+  background: rgb(32 60 93 / 15%) !important;
+  box-shadow: 0 4px 12px rgb(32 60 93 / 20%) !important;
 }
 
 /* Progress bars with clean light styling */
@@ -313,7 +313,7 @@
 }
 
 .wplace-theme-classic-light .status-default {
-  background: rgb(111 66 193 / 10%) !important;
+  background: rgb(32 60 93 / 10%) !important;
   border-color: var(--wplace-highlight) !important;
   color: var(--wplace-highlight) !important;
   text-shadow: none !important;
@@ -362,7 +362,7 @@
 
 .wplace-theme-classic-light .wplace-settings-select:focus {
   border-color: var(--wplace-highlight) !important;
-  box-shadow: 0 0 0 2px rgb(111 66 193 / 30%) !important;
+  box-shadow: 0 0 0 2px rgb(32 60 93 / 30%) !important;
 }
 
 /* Dropdown menu options */
@@ -587,7 +587,7 @@
 }
 
 .wplace-theme-classic-light .wplace-color-swatch:hover {
-  box-shadow: 0 4px 16px rgb(111 66 193 / 30%) !important;
+  box-shadow: 0 4px 16px rgb(32 60 93 / 30%) !important;
   transform: translateY(-1px);
 }
 
@@ -596,6 +596,7 @@
   border-radius: 8px !important;
   border: 1px solid rgb(0 0 0 / 10%) !important;
 }
+
 
 
 
