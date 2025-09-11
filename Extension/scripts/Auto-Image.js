@@ -281,7 +281,8 @@ localStorage.removeItem("lp");
       'wplace-theme-classic',
       'wplace-theme-classic-light',
       'wplace-theme-acrylic',
-      'wplace-theme-neon'
+      'wplace-theme-neon',
+      'wplace-theme-neon-cyan'
     );
 
     let themeClass = 'wplace-theme-classic'; // default
@@ -296,6 +297,9 @@ localStorage.removeItem("lp");
     } else if (CONFIG.currentTheme === 'Acrylic') {
       themeClass = 'wplace-theme-acrylic';
       themeFileName = 'acrylic';
+    } else if (CONFIG.currentTheme === 'Neon Retro Cyan') {
+      themeClass = 'wplace-theme-neon-cyan';
+      themeFileName = 'neon-cyan';
     }
 
     document.documentElement.classList.add(themeClass);
@@ -3602,6 +3606,8 @@ localStorage.removeItem("lp");
         defaultTheme = 'classic-light';
       } else if (CONFIG.currentTheme === 'Acrylic') {
         defaultTheme = 'acrylic';
+      } else if (CONFIG.currentTheme === 'Neon Retro Cyan') {
+        defaultTheme = 'neon-cyan';
       }
       
       console.log(`%c🎯 Loading theme: ${defaultTheme} (${CONFIG.currentTheme})`, 'color: #8b5cf6;');
@@ -8242,6 +8248,7 @@ localStorage.removeItem("lp");
     });
   });
 })();
+
 
 
 
