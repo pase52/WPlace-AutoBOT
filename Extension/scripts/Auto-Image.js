@@ -176,7 +176,31 @@ localStorage.removeItem("lp");
           'pixel-blink': false,
         },
       },
-      'Neon Retro': {
+            'Neon Retro': {
+        primary: '#1a1a2e',
+        secondary: '#16213e',
+        accent: '#0f3460',
+        text: '#00ff41',
+        highlight: '#ff6b35',
+        success: '#39ff14',
+        error: '#ff073a',
+        warning: '#ffff00',
+        neon: '#00ffff',
+        purple: '#bf00ff',
+        pink: '#ff1493',
+        fontFamily: "'Press Start 2P', monospace",
+        borderRadius: '0',
+        borderStyle: 'solid',
+        borderWidth: '3px',
+        boxShadow: '0 0 20px rgba(0, 255, 65, 0.3), inset 0 0 20px rgba(0, 255, 65, 0.1)',
+        backdropFilter: 'none',
+        animations: {
+          glow: true,
+          scanline: true,
+          'pixel-blink': true,
+        },
+      },
+      'Neon Retro Cyan': {
         primary: '#1959A1',
         secondary: '#3C74AF',
         accent: '#538CC0',
@@ -8218,6 +8242,7 @@ localStorage.removeItem("lp");
     });
   });
 })();
+
 
 
 
