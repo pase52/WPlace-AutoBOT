@@ -1,13 +1,13 @@
-/* WPlace Auto-Image Bot - Neon Theme */
-/* Retro cyberpunk aesthetic with green neon glow effects */
+/* WPlace Auto-Image Bot - Neon Cyan Theme */
+/* Retro cyberpunk aesthetic with cyan neon glow effects */
 
 .wplace-theme-neon {
   /* Neon theme colors - matching upstream main neon theme */
-  --wplace-primary: #1a1a2e;
-  --wplace-secondary: #16213e;
-  --wplace-accent: #0f3460;
-  --wplace-text: #00ff41;
-  --wplace-highlight: #ff6b35;
+  --wplace-primary: #1959A1;
+  --wplace-secondary: #3C74AF;
+  --wplace-accent: #538CC0;
+  --wplace-text: #81DCF7;
+  --wplace-highlight: #EA9C00;
   --wplace-success: #39ff14;
   --wplace-error: #ff073a;
   --wplace-warning: #ff0;
@@ -16,7 +16,7 @@
   --wplace-radius: 0;
   --wplace-border-style: solid;
   --wplace-border-width: 2px;
-  --wplace-border-color: #00ff41;
+  --wplace-border-color: #81DCF7;
   --wplace-shadow: 0 0 20px rgb(0 255 65 / 30%), inset 0 0 20px rgb(0 255 65 / 10%);
   --wplace-backdrop: none;
   --wplace-font: 'Press Start 2P', monospace, 'Courier New';
@@ -31,9 +31,9 @@
   --wplace-pixel-blink: 1;
 
   /* Icon colors - neon variants */
-  --wplace-icon-primary: #00ff41;
+  --wplace-icon-primary: #81DCF7;
   --wplace-icon-secondary: #39ff14;
-  --wplace-icon-palette: #ff6b35;
+  --wplace-icon-palette: #EA9C00;
   
   /* Additional UI colors - neon variants */
   --wplace-danger: #ff073a;
@@ -72,7 +72,7 @@
   --wplace-pulse-end: rgb(0 255 65 / 0%);
   
   /* Slider colors - neon style */
-  --wplace-slider-thumb-bg: #00ff41;
+  --wplace-slider-thumb-bg: #81DCF7;
 }
 
 /* Neon-specific styling overrides */
@@ -510,8 +510,8 @@
 
 /* Resize dialog styling for neon theme */
 .wplace-theme-neon .resize-container {
-  background: #1a1a2e !important;
-  border: 3px solid #00ff41 !important;
+  background: #1959A1 !important;
+  border: 3px solid #81DCF7 !important;
   border-radius: 0 !important;
   box-shadow: 0 0 30px rgb(0 255 65 / 50%) !important;
   font-family: 'Press Start 2P', monospace !important;
