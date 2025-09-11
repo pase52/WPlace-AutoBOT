@@ -156,22 +156,22 @@ localStorage.removeItem("lp");
         },
       },
       'Classic Light': {
-        primary: '#ffffff',
-        secondary: '#f8f9fa',
-        accent: '#e9ecef',
-        text: '#212529',
-        highlight: '#6f42c1',
+        primary: '#E0E0E1',
+        secondary: '#FBFBFB',
+        accent: '#F3F3F3',
+        text: '#203C5D',
+        highlight: '#203C5D',
         success: '#28a745',
         error: '#dc3545',
         warning: '#ffc107',
-        fontFamily: "'Segoe UI', Roboto, sans-serif",
+        fontFamily: "'Noto Sans', Roboto, monospace",
         borderRadius: '12px',
         borderStyle: 'solid',
         borderWidth: '1px',
         boxShadow: '0 8px 32px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.08)',
         backdropFilter: 'blur(10px)',
         animations: {
-          glow: false,
+          glow: true,
           scanline: false,
           'pixel-blink': false,
         },
@@ -8218,4 +8218,5 @@ localStorage.removeItem("lp");
     });
   });
 })();
+
 
