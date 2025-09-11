@@ -177,15 +177,15 @@ localStorage.removeItem("lp");
         },
       },
       'Neon Retro': {
-        primary: '#1a1a2e',
-        secondary: '#16213e',
-        accent: '#0f3460',
-        text: '#00ff41',
-        highlight: '#ff6b35',
+        primary: '#1959A1',
+        secondary: '#3C74AF',
+        accent: '#538CC0',
+        text: '#81DCF7',
+        highlight: '#EA9C00',
         success: '#39ff14',
         error: '#ff073a',
         warning: '#ffff00',
-        neon: '#00ffff',
+        neon: '#ff6b35',
         purple: '#bf00ff',
         pink: '#ff1493',
         fontFamily: "'Press Start 2P', monospace",
@@ -8218,5 +8218,6 @@ localStorage.removeItem("lp");
     });
   });
 })();
+
 
 
