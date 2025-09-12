@@ -42,34 +42,34 @@
   --wplace-highlight-secondary: #fa0;
   
   /* Text variants - neon style */
-  --wplace-text-secondary: #00ff41dd;
-  --wplace-text-muted: #00ff41bb;
-  --wplace-text-dim: #00ff4199;
+  --wplace-text-secondary: #3C74AF;
+  --wplace-text-muted: #00ff41;
+  --wplace-text-dim: #00ff41;
   --wplace-text-faded: #00ff41cc;
   
   /* Background variants - neon style */
-  --wplace-bg-input: rgb(0 255 65 / 15%);
-  --wplace-bg-subtle: rgb(0 255 65 / 8%);
-  --wplace-bg-faint: rgb(0 255 65 / 5%);
-  --wplace-bg-ghost: rgb(0 255 65 / 3%);
-  --wplace-bg-whisper: rgb(0 255 65 / 2%);
+  --wplace-bg-input: rgb(234 156 0 / 15%);
+  --wplace-bg-subtle: rgb(234 156 0 / 8%);
+  --wplace-bg-faint: rgb(234 156 0 / 5%);
+  --wplace-bg-ghost: rgb(234 156 0 / 3%);
+  --wplace-bg-whisper: rgb(234 156 0 / 2%);
   
   /* Border variants - neon style */
-  --wplace-border-subtle: rgb(0 255 65 / 40%);
-  --wplace-border-faint: rgb(0 255 65 / 25%);
-  --wplace-border-ghost: rgb(0 255 65 / 15%);
-  --wplace-border-ultra-faint: rgb(0 255 65 / 8%);
+  --wplace-border-subtle: rgb(234 156 0 / 40%);
+  --wplace-border-faint: rgb(234 156 0 / 25%);
+  --wplace-border-ghost: rgb(234 156 0 / 15%);
+  --wplace-border-ultra-faint: rgb(234 156 0 / 8%);
   
   /* Shadow variants - neon style */
-  --wplace-shadow-drag: 0 12px 40px rgb(0 255 65 / 60%), 0 0 0 2px rgb(0 255 65 / 80%), 0 0 20px rgb(0 255 65 / 30%);
-  --wplace-shadow-notification: 0 4px 12px rgb(0 255 65 / 40%), 0 0 15px rgb(0 255 65 / 20%);
-  --wplace-shadow-slider-thumb: 0 3px 6px rgb(0 255 65 / 50%), 0 0 0 2px var(--wplace-icon-primary), 0 0 10px rgb(0 255 65 / 30%);
-  --wplace-shadow-slider-hover: 0 4px 8px rgb(0 255 65 / 60%), 0 0 0 3px var(--wplace-icon-primary), 0 0 15px rgb(0 255 65 / 40%);
+  --wplace-shadow-drag: 0 12px 40px rgb(234 156 0 / 60%), 0 0 0 2px rgb(234 156 0 / 80%), 0 0 20px rgb(234 156 0 / 30%);
+  --wplace-shadow-notification: 0 4px 12px rgb(234 156 05 / 40%), 0 0 15px rgb(0 255 65 / 20%);
+  --wplace-shadow-slider-thumb: 0 3px 6px rgb(234 156 0 / 50%), 0 0 0 2px var(--wplace-icon-primary), 0 0 10px rgb(234 156 0 / 30%);
+  --wplace-shadow-slider-hover: 0 4px 8px rgb(234 156 0 / 60%), 0 0 0 3px var(--wplace-icon-primary), 0 0 15px rgb(234 156 0 / 40%);
   
   /* Animation colors - neon style */
-  --wplace-pulse-start: rgb(0 255 65 / 80%);
-  --wplace-pulse-mid: rgb(0 255 65 / 0%);
-  --wplace-pulse-end: rgb(0 255 65 / 0%);
+  --wplace-pulse-start: rgb(234 156 0 / 80%);
+  --wplace-pulse-mid: rgb(234 156 0 / 0%);
+  --wplace-pulse-end: rgb(234 156 0 / 0%);
   
   /* Slider colors - neon style */
   --wplace-slider-thumb-bg: #81DCF7;
@@ -80,7 +80,7 @@
   background: var(--wplace-primary) !important;
   border: 2px solid var(--wplace-text) !important;
   border-radius: 0 !important;
-  box-shadow: 0 0 20px var(--wplace-text), inset 0 0 20px rgb(0 255 65 / 10%) !important;
+  box-shadow: 0 0 20px var(--wplace-text), inset 0 0 20px rgb(234 156 0 / 10%) !important;
   font-family: var(--wplace-font) !important;
 }
 
@@ -88,7 +88,7 @@
   background: var(--wplace-primary) !important;
   border: 2px solid var(--wplace-text) !important;
   border-radius: 0 !important;
-  box-shadow: 0 0 20px var(--wplace-text), inset 0 0 20px rgb(0 255 65 / 10%) !important;
+  box-shadow: 0 0 20px var(--wplace-text), inset 0 0 20px rgb(234 156 0 / 10%) !important;
   font-family: var(--wplace-font) !important;
   position: fixed !important;
   overflow: hidden !important;
@@ -136,7 +136,7 @@
 
 /* Pixel blinking and neon glow animation for buttons */
 .wplace-theme-neon-cyan .wplace-btn:hover:not(:disabled) {
-  box-shadow: 0 0 15px var(--wplace-text), inset 0 0 15px rgb(0 255 65 / 10%) !important;
+  box-shadow: 0 0 15px var(--wplace-text), inset 0 0 15px rgb(234 156 0 / 10%) !important;
   animation: pixel-blink 0.5s infinite, neon-glow 1s ease-in-out infinite alternate !important;
 }
 
@@ -208,7 +208,7 @@
 }
 
 .wplace-theme-neon-cyan .status-default {
-  background: rgb(0 255 65 / 10%) !important;
+  background: rgb(234 156 0 / 10%) !important;
   border-color: var(--wplace-text) !important;
   color: var(--wplace-text) !important;
   text-shadow: 0 0 5px var(--wplace-text) !important;
@@ -219,7 +219,7 @@
   background: var(--wplace-primary) !important;
   border: 2px solid var(--wplace-text) !important;
   border-radius: 0 !important;
-  box-shadow: 0 0 30px var(--wplace-text), inset 0 0 30px rgb(0 255 65 / 10%) !important;
+  box-shadow: 0 0 30px var(--wplace-text), inset 0 0 30px rgb(234 156 0 / 10%) !important;
   font-family: var(--wplace-font) !important;
 }
 
@@ -278,7 +278,7 @@
   color: var(--wplace-text) !important;
   text-shadow: 0 0 8px var(--wplace-text) !important;
   font-family: var(--wplace-font) !important;
-  box-shadow: 0 0 10px rgb(0 255 65 / 30%) !important;
+  box-shadow: 0 0 10px rgb(234 156 0 / 30%) !important;
 }
 
 .wplace-theme-neon-cyan .wplace-overlay-opacity-value {
@@ -296,7 +296,7 @@
   background: var(--wplace-secondary) !important;
   border: 1px solid var(--wplace-text) !important;
   border-radius: 0 !important;
-  box-shadow: 0 0 10px rgb(0 255 65 / 30%) !important;
+  box-shadow: 0 0 10px rgb(234 156 0 / 30%) !important;
 }
 
 .wplace-theme-neon-cyan .wplace-slider::-webkit-slider-thumb,
@@ -310,7 +310,7 @@
   border: 2px solid var(--wplace-text) !important;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 0 8px rgb(0 255 65 / 50%) !important;
+  box-shadow: 0 0 8px rgb(234 156 0 / 50%) !important;
 }
 
 .wplace-theme-neon-cyan .wplace-slider::-webkit-slider-thumb:hover,
@@ -466,7 +466,7 @@
 .wplace-theme-neon-cyan .wplace-number-input-compact:focus {
   outline: none;
   box-shadow: 0 0 10px var(--wplace-text) !important;
-  background: rgb(0 255 65 / 15%) !important;
+  background: rgb(234 156 0 / 15%) !important;
 }
 
 .wplace-theme-neon-cyan .wplace-input-label-compact {
@@ -513,6 +513,6 @@
   background: #1959A1 !important;
   border: 3px solid #81DCF7 !important;
   border-radius: 0 !important;
-  box-shadow: 0 0 30px rgb(0 255 65 / 50%) !important;
+  box-shadow: 0 0 30px rgb(234 156 0 / 50%) !important;
   font-family: 'Press Start 2P', monospace !important;
 }
