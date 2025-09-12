@@ -510,9 +510,9 @@
 
 /* Resize dialog styling for neon theme */
 .wplace-theme-neon-cyan .resize-container {
-  background: #1959A1 !important;
-  opacity: 1 !important;
-  z-index: 99999 !important;
-  border-radius: 0 !important;
+  background-color: #1959A1 !important; /* Solid neon blue */
+  opacity: 1 !important;                /* Fully opaque */
+  backdrop-filter: none !important;     /* Remove blur effects */
+  box-shadow: none !important;          /* Optional: remove glows */
   font-family: 'Press Start 2P', monospace !important;
 }
