@@ -3822,7 +3822,7 @@ localStorage.removeItem("lp");
 
     const neonCyanTheme = {
       primary: '#00ffff',
-      secondary: '#'#3C74AF',
+      secondary: '#3C74AF',
       text: 'cyan',
       fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
       boxShadow: '0 20px 40px rgba(0, 255, 255, 0.7), 0 0 0 1px rgba(0, 255, 255, 0.2)',
@@ -3835,6 +3835,8 @@ localStorage.removeItem("lp");
 
   if (theme) {
     const themeBackground = theme.primary
+      ? `linear-gradient(135deg, ${theme.primary} 0%, ${theme.secondary || theme.primary} 100%)`
+      : `linear-gradient(135deg, #667eea 0%, #764ba2 100%)`;
       
     settingsContainer.className = 'wplace-settings-container-base';
       
@@ -8280,6 +8282,7 @@ localStorage.removeItem("lp");
     });
   });
 })();
+
 
 
 
