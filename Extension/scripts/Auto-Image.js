@@ -176,7 +176,7 @@ localStorage.removeItem("lp");
           'pixel-blink': false,
         },
       },
-            'Neon Retro': {
+      'Neon Retro': {
         primary: '#1a1a2e',
         secondary: '#16213e',
         accent: '#0f3460',
@@ -8252,6 +8252,7 @@ localStorage.removeItem("lp");
     });
   });
 })();
+
 
 
 
