@@ -156,22 +156,22 @@ localStorage.removeItem("lp");
         },
       },
       'Classic Light': {
-        primary: '#E0E0E1',
-        secondary: '#FBFBFB',
-        accent: '#F3F3F3',
-        text: '#203C5D',
-        highlight: '#203C5D',
+        primary: '#ffffff',
+        secondary: '#f8f9fa',
+        accent: '#e9ecef',
+        text: '#212529',
+        highlight: '#6f42c1',
         success: '#28a745',
         error: '#dc3545',
         warning: '#ffc107',
-        fontFamily: "'Noto Sans', Roboto, monospace",
+        fontFamily: "'Segoe UI', Roboto, sans-serif",
         borderRadius: '12px',
         borderStyle: 'solid',
         borderWidth: '1px',
         boxShadow: '0 8px 32px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.08)',
         backdropFilter: 'blur(10px)',
         animations: {
-          glow: true,
+          glow: false,
           scanline: false,
           'pixel-blink': false,
         },
@@ -3606,8 +3606,6 @@ localStorage.removeItem("lp");
         defaultTheme = 'classic-light';
       } else if (CONFIG.currentTheme === 'Acrylic') {
         defaultTheme = 'acrylic';
-      } else if (CONFIG.currentTheme === 'Neon Retro Cyan') {
-        defaultTheme = 'neon-cyan';
       }
       
       console.log(`%c🎯 Loading theme: ${defaultTheme} (${CONFIG.currentTheme})`, 'color: #8b5cf6;');
@@ -3815,7 +3813,7 @@ localStorage.removeItem("lp");
       max-width: 480px;
       z-index: 99999;
       color: ${theme.text || 'white'};
-      font-family: ${theme.fontFamily || "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, noto-sans"};
+      font-family: ${theme.fontFamily || "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"};
       box-shadow: ${theme.boxShadow || '0 20px 40px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1)'
       };
       backdrop-filter: ${theme.backdropFilter || 'blur(10px)'};
@@ -3825,8 +3823,6 @@ localStorage.removeItem("lp");
         ? `
         box-shadow: ${theme.boxShadow || '0 20px 40px rgba(0,0,0,0.3)'}, 
                    0 0 30px ${theme.highlight || theme.neon || '#00ffff'};
-        box-shadow: ${theme.boxShadow || '0 20px 40px rgba(0,0,0,0.3)'}, 
-                   0 0 30px ${theme.highlight || theme.neon.cyan || '#81DCF7'};
       `
         : ''
       }
@@ -4400,14 +4396,14 @@ localStorage.removeItem("lp");
               <div class="resize-brush-control">
                 <label class="resize-tool-label">Brush</label>
                 <div class="resize-tool-input-group">
-                  <input id="maskBrushSize" type="range" min="1" max="192" step="1" value="1" class="resize-tool-slider">
+                  <input id="maskBrushSize" type="range" min="1" max="7" step="1" value="1" class="resize-tool-slider">
                   <span id="maskBrushSizeValue" class="resize-tool-value">1</span>
                 </div>
               </div>
             <div class="resize-brush-control">
               <label class="resize-tool-label">Row/col size</label>
               <div class="resize-tool-input-group">
-                <input id="rowColSize" type="range" min="1" max="192" step="1" value="1" class="resize-tool-slider">
+                <input id="rowColSize" type="range" min="1" max="7" step="1" value="1" class="resize-tool-slider">
                 <span id="rowColSizeValue" class="resize-tool-value">1</span>
               </div>
             </div>
@@ -8250,13 +8246,3 @@ localStorage.removeItem("lp");
     });
   });
 })();
-
-
-
-
-
-
-
-
-
-
