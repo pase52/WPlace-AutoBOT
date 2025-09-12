@@ -3815,7 +3815,7 @@ localStorage.removeItem("lp");
       max-width: 480px;
       z-index: 99999;
       color: ${theme.text || 'white'};
-      font-family: ${theme.fontFamily || "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"};
+      font-family: ${theme.fontFamily || "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, noto-sans"};
       box-shadow: ${theme.boxShadow || '0 20px 40px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1)'
       };
       backdrop-filter: ${theme.backdropFilter || 'blur(10px)'};
@@ -3825,6 +3825,10 @@ localStorage.removeItem("lp");
         ? `
         box-shadow: ${theme.boxShadow || '0 20px 40px rgba(0,0,0,0.3)'}, 
                    0 0 30px ${theme.highlight || theme.neon || '#00ffff'};
+      `
+        ? `
+        box-shadow: ${theme.boxShadow || '0 20px 40px rgba(0,0,0,0.3)'}, 
+                   0 0 30px ${theme.highlight || theme.neon.cyan || '#81DCF7'};
       `
         : ''
       }
@@ -8248,6 +8252,7 @@ localStorage.removeItem("lp");
     });
   });
 })();
+
 
 
 
