@@ -3821,9 +3821,12 @@ localStorage.removeItem("lp");
       animation: settings-slide-in 0.4s ease-out;
       ${theme.animations?.glow
         ? `
-        box-shadow: ${theme.boxShadow || '0 20px 40px rgba(0,0,0,0.3)'}, 
-                   0 0 30px ${theme.highlight || theme.neon || '#00ffff'},
-                   0 0 30px ${theme.highlight || theme.neon?.cyan || '#81DCF7'};
+              ${theme.boxShadow || '0 20px 40px rgba(0,0,0,0.3)'},
+              0 0 30px ${theme.highlight || theme.neon || '#00ffff'}
+              ${theme.neonCyan ? `, 0 0 60px ${theme.neonCyan}` : ''}
+              `;
+        } else {
+        settingsContainer.style.boxShadow = theme.boxShadow || '0 20px 40px rgba(0,0,0,0.3)';
       `
         : ''
       }
@@ -8247,5 +8250,6 @@ localStorage.removeItem("lp");
     });
   });
 })();
+
 
 
