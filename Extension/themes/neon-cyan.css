@@ -17,7 +17,7 @@
   --wplace-border-style: solid;
   --wplace-border-width: 2px;
   --wplace-border-color: #81DCF7;
-  --wplace-shadow: 0 0 20px rgb(0 255 65 / 30%), inset 0 0 20px rgb(0 255 65 / 10%);
+  --wplace-shadow: 0 0 20px rgb(234 156 0 / 40%), inset 0 0 20px rgb(234 156 0 / 10%);
   --wplace-backdrop: none;
   --wplace-font: 'Press Start 2P', monospace, 'Courier New';
 
@@ -62,7 +62,7 @@
   
   /* Shadow variants - neon style */
   --wplace-shadow-drag: 0 12px 40px rgb(234 156 0 / 60%), 0 0 0 2px rgb(234 156 0 / 80%), 0 0 20px rgb(234 156 0 / 30%);
-  --wplace-shadow-notification: 0 4px 12px rgb(234 156 05 / 40%), 0 0 15px rgb(0 255 65 / 20%);
+  --wplace-shadow-notification: 0 4px 12px rgb(234 156 0 / 40%), 0 0 15px rgb(234 156 0 / 20%);
   --wplace-shadow-slider-thumb: 0 3px 6px rgb(234 156 0 / 50%), 0 0 0 2px var(--wplace-icon-primary), 0 0 10px rgb(234 156 0 / 30%);
   --wplace-shadow-slider-hover: 0 4px 8px rgb(234 156 0 / 60%), 0 0 0 3px var(--wplace-icon-primary), 0 0 15px rgb(234 156 0 / 40%);
   
