@@ -3806,6 +3806,40 @@ localStorage.removeItem("lp");
       : `linear-gradient(135deg, #667eea 0%, #764ba2 100%)`;
 
     settingsContainer.className = 'wplace-settings-container-base';
+    // Define theme properties for each theme
+    const isNeon = settingsContainer.classList.contains('wplace-theme-neon');
+    const isNeonCyan = settingsContainer.classList.contains('wplace-theme-neon-cyan');
+    const neonTheme = {
+      primary: '#1a1a2e',
+      secondary: '#16213e',
+      text: 'green',
+      fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+      boxShadow: '0 20px 40px rgba(255, 0, 255, 0.7), 0 0 0 1px rgba(255, 0, 255, 0.2)',
+      backdropFilter: 'blur(10px)',
+      highlight: '#ff6b35',
+      animations: { glow: true }
+    };
+
+    const neonCyanTheme = {
+      primary: '#00ffff',
+      secondary: '#'#3C74AF',
+      text: 'cyan',
+      fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+      boxShadow: '0 20px 40px rgba(0, 255, 255, 0.7), 0 0 0 1px rgba(0, 255, 255, 0.2)',
+      backdropFilter: 'blur(10px)',
+      highlight: '#EA9C00',
+      animations: { glow: true }
+    };
+
+    const theme = isNeon ? neonTheme : isNeonCyan ? neonCyanTheme : null;
+
+  if (theme) {
+    const themeBackground = theme.primary
+      
+    settingsContainer.className = 'wplace-settings-container-base';
+      
+    if (isNeon) settingsContainer.classList.add('wplace-theme-neon');
+    if (isNeonCyan) settingsContainer.classList.add('wplace-theme-neon-cyan');
     // Apply theme-specific background
     settingsContainer.style.background = themeBackground;
     settingsContainer.style.cssText += `
@@ -3821,12 +3855,8 @@ localStorage.removeItem("lp");
       animation: settings-slide-in 0.4s ease-out;
       ${theme.animations?.glow
         ? `
-              ${theme.boxShadow || '0 20px 40px rgba(0,0,0,0.3)'},
-              0 0 30px ${theme.highlight || theme.neon || '#00ffff'}
-              ${theme.neonCyan ? `, 0 0 60px ${theme.neonCyan}` : ''}
-              `;
-        } else {
-        settingsContainer.style.boxShadow = theme.boxShadow || '0 20px 40px rgba(0,0,0,0.3)';
+        box-shadow: ${theme.boxShadow || '0 20px 40px rgba(0,0,0,0.3)'}, 
+                   0 0 30px ${theme.highlight || theme.neon || '#00ffff'};
       `
         : ''
       }
@@ -8250,6 +8280,7 @@ localStorage.removeItem("lp");
     });
   });
 })();
+
 
 
 
