@@ -511,8 +511,8 @@
 /* Resize dialog styling for neon theme */
 .wplace-theme-neon-cyan .resize-container {
   background: #1959A1 !important;
-  border: 3px solid #81DCF7 !important;
+  opacity: 1 !important;
+  z-index: 99999 !important;
   border-radius: 0 !important;
-  box-shadow: 0 0 30px rgb(234 156 0 / 50%) !important;
   font-family: 'Press Start 2P', monospace !important;
 }
