@@ -104,18 +104,18 @@
 }
 
 .wplace-theme-neon-light .wplace-section {
-  background: rgb(22 33 62 / 50%) !important;
+  background: rgb(22 33 62 / 30%) !important;
   border: 1px solid var(--wplace-text) !important;
   border-radius: 0 !important;
 }
 
 .wplace-theme-neon-light .wplace-status-section {
-  background: rgb(22 33 62 / 50%) !important;
+  background: rgb(22 33 62 / 30%) !important;
   border: 1px solid var(--wplace-text) !important;
   border-radius: 0 !important;
 }
 
-.wwplace-theme-neon-light .wplace-section-title {
+.wplace-theme-neon-light .wplace-section-title {
   color: var(--wplace-text) !important;
   text-shadow: 0 0 8px var(--wplace-text) !important;
   text-transform: uppercase !important;
@@ -249,7 +249,7 @@
 }
 
 .wplace-theme-neon-light .wplace-settings-section-wrapper {
-  background: rgb(22 33 62 / 30%) !important;
+  background: rgb(22 33 62 / 10%) !important;
   border: 1px solid var(--wplace-text) !important;
   border-radius: 0 !important;
 }
