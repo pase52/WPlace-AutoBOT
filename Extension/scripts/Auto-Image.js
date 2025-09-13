@@ -224,6 +224,30 @@ localStorage.removeItem("lp");
           'pixel-blink': true,
         },
       },
+      'Neon Retro Light': {
+        primary: '#E0E0E1',
+        secondary: '#FBFBFB',
+        accent: '#F3F3F3',
+        text: '#203C5D',
+        highlight: '#203C5D',
+        success: '#39ff14',
+        error: '#ff073a',
+        warning: '#ffff00',
+        neon: '#203C5D',
+        purple: '#bf00ff',
+        pink: '#ff1493',
+        fontFamily: "'Press Start 2P', monospace",
+        borderRadius: '0',
+        borderStyle: 'solid',
+        borderWidth: '3px',
+        boxShadow: '0 0 20px rgba(234 156 0, 0.3), inset 0 0 20px rgba(234 156 0, 0.1)',
+        backdropFilter: 'none',
+        animations: {
+          glow: true,
+          scanline: true,
+          'pixel-blink': true,
+        },
+      },
       'Acrylic': {
         primary: '#00000080',
         secondary: '#00000040',
@@ -282,7 +306,8 @@ localStorage.removeItem("lp");
       'wplace-theme-classic-light',
       'wplace-theme-acrylic',
       'wplace-theme-neon',
-      'wplace-theme-neon-cyan'
+      'wplace-theme-neon-cyan',
+      'wplace-theme-neon-light'
     );
 
     let themeClass = 'wplace-theme-classic'; // default
@@ -297,6 +322,9 @@ localStorage.removeItem("lp");
     } else if (CONFIG.currentTheme === 'Neon Retro Cyan') {
       themeClass = 'wplace-theme-neon-cyan';
       themeFileName = 'neon-cyan';
+    } else if (CONFIG.currentTheme === 'Neon Retro Light') {
+      themeClass = 'wplace-theme-neon-light';
+      themeFileName = 'neon-light';
     } else if (CONFIG.currentTheme === 'Acrylic') {
       themeClass = 'wplace-theme-acrylic';
       themeFileName = 'acrylic';
@@ -3604,6 +3632,8 @@ localStorage.removeItem("lp");
         defaultTheme = 'neon';
       } else if (CONFIG.currentTheme === 'Neon Retro Cyan') {
         defaultTheme = 'neon-cyan';
+      } else if (CONFIG.currentTheme === 'Neon Retro Light') {
+        defaultTheme = 'neon-light';
       } else if (CONFIG.currentTheme === 'Classic Light') {
         defaultTheme = 'classic-light';
       } else if (CONFIG.currentTheme === 'Acrylic') {
@@ -8248,3 +8278,4 @@ localStorage.removeItem("lp");
     });
   });
 })();
+
