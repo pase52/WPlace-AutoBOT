@@ -279,7 +279,8 @@ async function loadExtensionResources() {
             'themes/classic-light.css', 
             'themes/classic.css',
             'themes/neon.css',
-            'themes/neon-cyan.css'
+            'themes/neon-cyan.css',
+            'themes/neon-light.css'
         ];
 
         for (const themeFile of themeFiles) {
@@ -461,4 +462,5 @@ async function loadExtensionResources() {
 
     return resources;
 }
+
 
