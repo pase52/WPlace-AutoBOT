@@ -44,25 +44,26 @@ If you find any, make sure to **disable them**.  [Image](https://i.imgur.com/UtZ
 
 1. Download the ZIP/RAR archive from: [Download Link](https://github.com/Wplace-AutoBot/WPlace-AutoBOT/releases/tag/Extension)  
 2. Extract the downloaded archive. [Image]
-<img src="https://i.imgur.com/AbJderX.png" alt="Script Demonstration"/>
+> <img src="https://i.imgur.com/AbJderX.png" alt="Script Demonstration"/>
 3. Open your Chromium-based browser and go to **Manage Extensions**. 
-<img src="https://i.imgur.com/yv1Vk7q.png" alt="Script Demonstration"/>
+> <img src="https://i.imgur.com/yv1Vk7q.png" alt="Script Demonstration"/>
 5. Enable **Developer mode**.
    > Depending on your browser, the option may be located in a slightly different place.
-<img src="https://i.imgur.com/svqktpY.png" alt="Script Demonstration"/>
+> <img src="https://i.imgur.com/svqktpY.png" alt="Script Demonstration"/>
 6. Click **Load unpacked**. 
-<img src="https://i.imgur.com/NhffCJH.png" alt="Script Demonstration"/>
+> <img src="https://i.imgur.com/NhffCJH.png" alt="Script Demonstration"/>
 8. Select the extracted folder. 
-<img src="https://i.imgur.com/uXlDbfM.png"/>
+> <img src="https://i.imgur.com/uXlDbfM.png"/>
 10. Visit [wplace.live](https://wplace.live/) and click the extension icon.  
 11. You can now load any of the available scripts (e.g., Auto Image, Auto Repair).
 
 For Mobile (Android Only):
 You can use the extension on Android using a browser that supports Chrome extensions, such as Kiwi Browser.
 
->Download and install Kiwi Browser from the Google Play Store.
+Download and install Kiwi Browser from the Google Play Store.
 
->Follow the exact same steps listed for Chrome above, using Kiwi Browser instead. The interface for loading unpacked extensions is identical.
+Follow the exact same steps listed for Chrome above, using Kiwi Browser instead. The interface for loading unpacked extensions is identical.
+
 
 ✨┃Features
 - [x] Automatically farms droplets/levels
