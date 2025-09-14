@@ -34,40 +34,39 @@ If you're wondering—yes! These scripts were Developed by a team consisting of 
 🚀┃Installation & Usage
 Since this is a browser extension that is not on the official web stores, you need to load it manually. Follow the instructions for your browser below.
 
-For Chrome, Edge, Brave, and other Chromium-based browsers:
-Download: Click on the green <> Code button on this GitHub page and select Download ZIP.
+> Download From here https://github.com/Wplace-AutoBot/WPlace-AutoBOT/releases/tag/Extension
 
-Extract: Unzip the downloaded file (Extension.zip) to a permanent folder you won't delete.
+>Extract: Unzip the downloaded file (Extension.zip) to a permanent folder you won't delete.
 
-Open Extensions Page: Open your browser and go to the extensions page. You can usually do this by typing chrome://extensions (for Chrome) or edge://extensions (for Edge) in your address bar.
+>Open Extensions Page: Open your browser and go to the extensions page. You can usually do this by typing chrome://extensions (for Chrome) or edge://extensions (for Edge) in your address bar.
 
-Enable Developer Mode: Find and turn on the Developer mode toggle, usually located in the top-right corner of the page.
+>Enable Developer Mode: Find and turn on the Developer mode toggle, usually located in the top-right corner of the page.
 
-Load the Extension: Click on the Load unpacked button that appears.
+>Load the Extension: Click on the Load unpacked button that appears.
 
-Select Folder: In the file dialog, navigate to the folder where you extracted the files and select the main folder (the one containing manifest.json).
+>Select Folder: In the file dialog, navigate to the folder where you extracted the files and select the main folder (the one containing manifest.json).
 
-Done! The WPlace AutoBOT extension should now appear in your extensions list and be active. Visit wplace.live and the bot menu will appear.
+>Done! The WPlace AutoBOT extension should now appear in your extensions list and be active. Visit wplace.live and the bot menu will appear.
 
 For Firefox:
-Download: Download the ZIP file from the <> Code button and extract it to a permanent folder, just like in the Chrome instructions.
+> Download https://github.com/Wplace-AutoBot/WPlace-AutoBOT/releases/tag/Extension
 
-Open Debugging Page: Open Firefox and type about:debugging into the address bar and press Enter.
+>Open Debugging Page: Open Firefox and type about:debugging into the address bar and press Enter.
 
-Select "This Firefox": In the left-hand menu, click on This Firefox.
+>Select "This Firefox": In the left-hand menu, click on This Firefox.
 
-Load Temporary Add-on: Click on the Load Temporary Add-on... button.
+>Load Temporary Add-on: Click on the Load Temporary Add-on... button.
 
-Select File: Navigate into the folder you extracted and select the manifest.json file.
+>Select File: Navigate into the folder you extracted and select the manifest.json file.
 
-Done! The extension is now loaded for your current browser session. Visit wplace.live to use it. Note: For Firefox, you may need to repeat this process every time you restart the browser.
+>Done! The extension is now loaded for your current browser session. Visit wplace.live to use it. Note: For Firefox, you may need to repeat this process every time you restart the browser.
 
 For Mobile (Android Only):
 You can use the extension on Android using a browser that supports Chrome extensions, such as Kiwi Browser.
 
-Download and install Kiwi Browser from the Google Play Store.
+>Download and install Kiwi Browser from the Google Play Store.
 
-Follow the exact same steps listed for Chrome above, using Kiwi Browser instead. The interface for loading unpacked extensions is identical.
+>Follow the exact same steps listed for Chrome above, using Kiwi Browser instead. The interface for loading unpacked extensions is identical.
 
 ✨┃Features
 [x] Automatically farms droplets/levels
