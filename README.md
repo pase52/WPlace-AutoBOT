@@ -33,22 +33,30 @@ If you're wondering—yes! These scripts were Developed by a team consisting of 
 
 ## How to Install the Extension
 
+Note: This browser extension only works on Chromium-based browsers like Google Chrome, Microsoft Edge, Brave, Opera, and others that support Manifest V3 extensions.
+
 Before starting, check if you have any userscripts **enabled** in Tampermonkey/Violentmonkey related to WPLACE (e.g., Bluemarble, Skirk Marble, or older versions of this script).  
-If you find any, make sure to **disable them**. [Image](https://ibb.co/cSwXf965)
+If you find any, make sure to **disable them**.  [Image](https://i.imgur.com/UtZJs3a.png)
 
 ---
 
 ### Installation Steps
 
 1. Download the ZIP/RAR archive from: [Download Link](insert.download.link.to.archive.whould.be.nice.to.be.in.releases)  
-2. Extract the downloaded archive. [Image](https://ibb.co/0yBXzGJy)  
-3. Open your Chromium-based browser and go to **Manage Extensions**.  [Image](https://ibb.co/DHy9MvW9)  
-4. Enable **Developer mode**.  [Image](https://ibb.co/FqzMxCmF)  
-   > Depending on your browser, the option may be located in a slightly different place.  
-5. Click **Load unpacked**.  [Image](https://ibb.co/70RXtGv)  
-6. Select the extracted folder.  [Image](https://ibb.co/84GzSmF0)  
-7. Visit [wplace.live](https://wplace.live/) and click the extension icon.  
-8. You can now load any of the available scripts (e.g., Auto Image, Auto Repair).  
+2. Extract the downloaded archive. [Image]
+<img src="https://i.imgur.com/AbJderX.png" alt="Script Demonstration"/>
+3. Open your Chromium-based browser and go to **Manage Extensions**. 
+<img src="https://i.imgur.com/yv1Vk7q.png" alt="Script Demonstration"/>
+5. Enable **Developer mode**.
+   > Depending on your browser, the option may be located in a slightly different place.
+<img src="https://i.imgur.com/svqktpY.png" alt="Script Demonstration"/>
+6. Click **Load unpacked**. 
+<img src="https://i.imgur.com/NhffCJH.png" alt="Script Demonstration"/>
+8. Select the extracted folder. 
+<img src="https://i.imgur.com/uXlDbfM.png"/>
+10. Visit [wplace.live](https://wplace.live/) and click the extension icon.  
+11. You can now load any of the available scripts (e.g., Auto Image, Auto Repair).
+
 For Mobile (Android Only):
 You can use the extension on Android using a browser that supports Chrome extensions, such as Kiwi Browser.
 
@@ -65,7 +73,7 @@ You can use the extension on Android using a browser that supports Chrome extens
 
 - [x] Paint over multiple tiles
 
-- [x] Multi Account Auto Switcher Via Other Branch ; https://github.com/Wplace-AutoBot/WPlace-AutoBOT/tree/Acc-switch (Ram Efficient LOL)
+- [x] Multi Account Auto Switcher
 
 - [x] AutoCaptcha Solver With Turnstile Token Generator
 
