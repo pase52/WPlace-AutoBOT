@@ -69,27 +69,27 @@ You can use the extension on Android using a browser that supports Chrome extens
 >Follow the exact same steps listed for Chrome above, using Kiwi Browser instead. The interface for loading unpacked extensions is identical.
 
 ✨┃Features
-[x] Automatically farms droplets/levels
+- [x] Automatically farms droplets/levels
 
-[x] Correct Color Pixel Skip
+- [x] Correct Color Pixel Skip
 
-[x] Overlay (you don't need Bluemarble anymore)
+- [x] Overlay (you don't need Bluemarble anymore)
 
-[x] Paint over multiple tiles
+- [x] Paint over multiple tiles
 
-[x] Multi Account Auto Switcher Via Other Branch ; https://github.com/Wplace-AutoBot/WPlace-AutoBOT/tree/Acc-switch (Ram Efficient LOL)
+- [x] Multi Account Auto Switcher Via Other Branch ; https://github.com/Wplace-AutoBot/WPlace-AutoBOT/tree/Acc-switch (Ram Efficient LOL)
 
-[x] AutoCaptcha Solver With Turnstile Token Generator
+- [x] AutoCaptcha Solver With Turnstile Token Generator
 
-[x] Wider Paint Control Options
+- [x] Wider Paint Control Options
 
-[x] Advance Color Processing
+- [x] Advance Color Processing
 
-[x] MultiLanguage Support
+- [x] MultiLanguage Support
 
-[x] Multi account through save and load feature
+- [x] Multi account through save and load feature
 
-[x] Works on mobile (via browsers like Kiwi) :P
+- [x] Works on mobile (via browsers like Kiwi) :P
 
 <p align="center">
 <img src="https://i.imgur.com/5QYvb4w.png" alt="Script Demonstration"/>
@@ -98,17 +98,17 @@ You can use the extension on Android using a browser that supports Chrome extens
 📋┃To-do
 [x] Making AutoFarm working
 
-[ ] Merge both scripts into one
+- [ ] Merge both scripts into one
 
-[x] Add Overlay system
+- [x] Add Overlay system
 
-[x] Add Cross Tiles Support
+- [x] Add Cross Tiles Support
 
-[x] Add AutoCaptcha Solver
+- [x] Add AutoCaptcha Solver
 
-[x] Add Correct Color Pixel Skip
+- [x] Add Correct Color Pixel Skip
 
-[x] Separate Css
+- [x] Separate Css
 
 Contributors:
 
