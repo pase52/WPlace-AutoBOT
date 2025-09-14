@@ -8,6 +8,32 @@
     src: url('https://raw.githubusercontent.com/GORAlexComp/AppleColorEmojiFont/refs/heads/main/fonts/AppleColorEmoji.ttf');
 }
 
+/* Multi-account panel styling */
+.wplace-theme-acrylic #wplace-accounts-container {
+    background: var(--wplace-primary);
+    color: var(--wplace-text);
+    border-radius: var(--wplace-radius);
+    box-shadow: none;
+    backdrop-filter: var(--wplace-backdrop);
+    border: var(--wplace-border-width) var(--wplace-border-style)
+        var(--wplace-border-color);
+    min-width: 250px;
+}
+
+.wplace-theme-acrylic #wplace-accounts-container * {
+    font-size: 15px;
+    line-height: normal;
+}
+
+/* Active account styles */
+.wplace-theme-acrylic .wplace-accounts-container .active-account {
+    --active-bg: color-mix(in srgb, white 15%, transparent);
+    --active-color: var(--wplace-success);
+    --inactive-color: var(--wplace-text);
+    --progress-bg: rgb(255 255 255 / 10%);
+    --progress-fill: white;
+}
+
 /* Main Container */
 .wplace-theme-acrylic #wplace-image-bot-container {
     background: var(--wplace-primary);

@@ -105,6 +105,44 @@ header h1 {
     box-shadow: 0 0 10px #ff073a;
 }
 
+/* Settings Dialog Styles */
+.settings-section {
+    padding: 15px;
+    border-bottom: 1px solid #00ff41;
+}
+
+.settings-section h3 {
+    font-size: 10px;
+    color: #00ff41;
+    margin: 0 0 10px 0;
+    text-shadow: 0 0 8px #00ff41;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.settings-select {
+    width: 100%;
+    padding: 8px;
+    background: #16213e;
+    border: 2px solid #00ff41;
+    color: #00ff41;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    margin-bottom: 10px;
+    text-shadow: 0 0 5px #00ff41;
+}
+
+.settings-select:focus {
+    outline: none;
+    box-shadow: 0 0 15px rgb(0 255 65 / 50%);
+}
+
+.settings-select option {
+    background: #16213e;
+    color: #00ff41;
+    padding: 8px;
+}
+
 @keyframes pixel-blink {
     0%, 50% { opacity: 1; }
     51%, 100% { opacity: 0.7; }
@@ -286,6 +324,498 @@ main {
     text-shadow: 0 0 8px #ff6b35;
     font-size: 7px;
     text-transform: uppercase;
+}
+
+/* Account Management Styles */
+.account-section {
+    margin-top: 20px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.section-header h4 {
+    margin: 0;
+    font-size: 10px;
+    font-weight: 400;
+    color: #00ff41;
+    text-shadow: 0 0 10px #00ff41;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.header-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.btn-small {
+    padding: 4px 8px;
+    font-size: 6px;
+}
+
+.btn-secondary {
+    border-color: #888;
+    color: #888;
+    text-shadow: 0 0 8px #888;
+}
+
+.btn-secondary:hover {
+    background: rgba(136, 136, 136, 0.1);
+    box-shadow: 0 0 15px rgb(136 136 136 / 60%);
+}
+
+.accounts-container {
+    background: #16213e;
+    border: 2px solid #00ff41;
+    border-radius: 0;
+    padding: 8px;
+    max-height: 180px;
+    overflow-y: auto;
+    box-shadow: 0 0 10px rgb(0 255 65 / 30%);
+}
+
+.accounts-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.accounts-container::-webkit-scrollbar-track {
+    background: #16213e;
+    border: 1px solid #00ff41;
+}
+
+.accounts-container::-webkit-scrollbar-thumb {
+    background: #00ff41;
+    border-radius: 0;
+    box-shadow: 0 0 5px #00ff41;
+}
+
+.account-placeholder {
+    text-align: center;
+    padding: 20px;
+    color: #00ff41bb;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.placeholder-icon {
+    font-size: 24px;
+    opacity: 0.7;
+}
+
+.placeholder-text {
+    font-size: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 0 5px #00ff41;
+}
+
+.placeholder-subtext {
+    font-size: 6px;
+    opacity: 0.8;
+}
+
+.account-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    margin-bottom: 6px;
+    background: rgba(0, 255, 65, 0.05);
+    border: 1px solid rgba(0, 255, 65, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+}
+
+.account-item:last-child {
+    margin-bottom: 0;
+}
+
+.account-item:hover {
+    background: rgba(0, 255, 65, 0.1);
+    border-color: #00ff41;
+    box-shadow: 0 0 10px rgb(0 255 65 / 40%);
+}
+
+.account-item.active {
+    background: rgba(57, 255, 20, 0.15);
+    border-color: #39ff14;
+    box-shadow: 0 0 15px rgb(57 255 20 / 50%);
+}
+
+.account-item.active::before {
+    content: '🟢';
+    position: absolute;
+    left: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 8px;
+    animation: pixel-blink 2s infinite;
+}
+
+/* Account item info styling - simplified like old version */
+.account-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.account-name {
+    font-size: 8px;
+    color: #00ff41;
+    text-shadow: 0 0 8px #00ff41;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 400;
+    margin-bottom: 2px;
+}
+
+.account-stats {
+    font-size: 11px;
+    color: #00ff41bb;
+    text-shadow: 0 0 5px #00ff41;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.account-stats span {
+    color: #39ff14;
+    text-shadow: 0 0 5px #39ff14;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+/* Legacy styles for backward compatibility */
+.account-status {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.pixel-status {
+    font-size: 6px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    color: #00ff41bb;
+}
+
+.pixel-current {
+    color: #39ff14;
+    font-weight: bold;
+    text-shadow: 0 0 5px #39ff14;
+}
+
+.pixel-max {
+    color: #00ff41;
+    text-shadow: 0 0 5px #00ff41;
+}
+
+.pixel-percentage {
+    color: #ff6b35;
+    font-size: 5px;
+    text-shadow: 0 0 5px #ff6b35;
+    margin-left: 4px;
+}
+
+.alliance-status {
+    font-size: 6px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.alliance-status.has-alliance {
+    color: #39ff14;
+    text-shadow: 0 0 5px #39ff14;
+}
+
+.alliance-status.no-alliance {
+    color: #888;
+    text-shadow: 0 0 5px #888;
+    opacity: 0.7;
+}
+
+.total-pixels {
+    font-size: 6px;
+    color: #06b6d4;
+    text-shadow: 0 0 5px #06b6d4;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.account-id {
+    font-size: 6px;
+    color: #00ff41bb;
+    text-shadow: 0 0 5px #00ff41;
+}
+
+.account-actions {
+    display: flex;
+    gap: 4px;
+}
+
+.btn-icon {
+    padding: 4px;
+    min-width: 20px;
+    font-size: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(2px);
+}
+
+.modal-content {
+    background: #1a1a2e;
+    border: 2px solid #00ff41;
+    padding: 0;
+    min-width: 280px;
+    max-width: 320px;
+    box-shadow: 0 0 30px rgb(0 255 65 / 60%);
+    position: relative;
+}
+
+.modal-header {
+    background: #16213e;
+    border-bottom: 2px solid #00ff41;
+    padding: 12px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h4 {
+    margin: 0;
+    font-size: 9px;
+    color: #00ff41;
+    text-shadow: 0 0 10px #00ff41;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: #ff073a;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-shadow: 0 0 8px #ff073a;
+    transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+    transform: scale(1.2);
+    text-shadow: 0 0 15px #ff073a;
+}
+
+.modal-body {
+    padding: 15px;
+}
+
+.form-group {
+    margin-bottom: 12px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 7px;
+    color: #00ff41;
+    text-shadow: 0 0 8px #00ff41;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 6px 8px;
+    background: #16213e;
+    border: 2px solid rgba(0, 255, 65, 0.5);
+    color: #00ff41;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 6px;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #00ff41;
+    box-shadow: 0 0 10px rgb(0 255 65 / 50%);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #00ff41bb;
+    opacity: 0.7;
+}
+
+.modal-footer {
+    background: #16213e;
+    border-top: 2px solid #00ff41;
+    padding: 12px 15px;
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+/* Loading States */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.loading .btn {
+    animation: pixel-blink 1s infinite;
+}
+
+/* Notification system */
+.notification {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    padding: 8px 12px;
+    background: #16213e;
+    border: 2px solid #00ff41;
+    color: #00ff41;
+    font-size: 7px;
+    z-index: 2000;
+    max-width: 200px;
+    animation: slideInRight 0.3s ease, fadeOut 0.3s ease 2.7s;
+    box-shadow: 0 0 15px rgb(0 255 65 / 50%);
+}
+
+.notification.error {
+    border-color: #ff073a;
+    color: #ff073a;
+    box-shadow: 0 0 15px rgb(255 7 58 / 50%);
+}
+
+.notification.success {
+    border-color: #39ff14;
+    color: #39ff14;
+    box-shadow: 0 0 15px rgb(57 255 20 / 50%);
+}
+
+.notification.warning {
+    border-color: #ff6b35;
+    color: #ff6b35;
+    box-shadow: 0 0 15px rgb(255 107 53 / 50%);
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+/* Enhanced account item hover states */
+.account-item:hover .account-actions {
+    opacity: 1;
+}
+
+.account-actions {
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+/* Enhanced loading state */
+.loading .account-item {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.loading .btn {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Better modal animations */
+.modal-overlay {
+    animation: modalFadeIn 0.3s ease;
+}
+
+.modal-content {
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes modalSlideIn {
+    from { transform: translateY(-20px) scale(0.95); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* Better form validation states */
+.form-group input:invalid,
+.form-group textarea:invalid {
+    border-color: #ff073a;
+    box-shadow: 0 0 5px rgb(255 7 58 / 30%);
+}
+
+.form-group input:valid,
+.form-group textarea:valid {
+    border-color: #39ff14;
+    box-shadow: 0 0 5px rgb(57 255 20 / 30%);
+}
+
+/* Improved active account indicator */
+.account-item.active .account-name {
+    color: #39ff14;
+    text-shadow: 0 0 10px #39ff14;
+}
+
+.account-item.active .account-id {
+    color: #39ff14bb;
+    text-shadow: 0 0 8px #39ff14;
+}
+
+/* Better disabled state for buttons */
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
 }
 
 .logs-section {

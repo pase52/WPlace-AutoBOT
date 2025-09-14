@@ -73,6 +73,26 @@
 
 /* === COMPONENT STYLING === */
 
+/* Multi-account panel styling */
+.wplace-theme-classic-light #wplace-accounts-container {
+  background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%) !important;
+  color: var(--wplace-text) !important;
+  border: 1px solid rgb(0 0 0 / 15%) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgb(0 0 0 / 15%), 0 0 0 1px rgb(0 0 0 / 8%) !important;
+  font-family: 'Segoe UI', Roboto, sans-serif !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+/* Active account styles */
+.wplace-theme-classic-light .wplace-accounts-container .active-account {
+  --active-bg: var(--wplace-secondary) !important;
+  --active-color: var(--wplace-success) !important;
+  --inactive-color: var(--wplace-text) !important;
+  --progress-bg: rgb(0 0 0 / 10%) !important;
+  --progress-fill: var(--wplace-highlight) !important;
+}
+
 /* Main container with clean light styling */
 .wplace-theme-classic-light #wplace-image-bot-container {
   background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%) !important;

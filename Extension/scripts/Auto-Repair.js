@@ -17,6 +17,11 @@
     TOKEN_PRELOAD_BUFFER: 60000, // Preload tokens 1 minute before expiry
     MAX_RETRIES: 10,
     RETRY_DELAY_BASE: 1000,
+    // Auto-batch configuration
+    AUTO_BATCH_ENABLED: true, // Enable auto pixel batch sizing
+    MAX_BATCH_SIZE: 500, // Maximum pixels per batch
+    MIN_BATCH_SIZE: 1, // Minimum pixels per batch
+    BATCH_OPTIMIZATION: true, // Optimize batch size based on detected damage
     COLOR_MAP: {
       0: { id: 1, name: 'Black', rgb: { r: 0, g: 0, b: 0 } },
       1: { id: 2, name: 'Dark Gray', rgb: { r: 60, g: 60, b: 60 } },
@@ -100,7 +105,7 @@
     startPosition: null,
     region: null,
     paintWhitePixels: true,
-    paintTransparentPixels: false,
+    paintTransparentPixels: true, // Changed to true to fix transparent pixel detection
     autoRepairEnabled: false,
     autoRepairInterval: 30,
     autoRepairTimer: null,
@@ -117,6 +122,10 @@
     windowMinimized: false,
     lastAttackState: null,
     initialSetupComplete: false,
+    // Auto-batch state
+    autoBatchEnabled: CONFIG.AUTO_BATCH_ENABLED,
+    currentBatchSize: CONFIG.MIN_BATCH_SIZE,
+    batchOptimization: CONFIG.BATCH_OPTIMIZATION,
   };
 
   // Random string generator
@@ -125,7 +134,7 @@
 
   const fpStr32 = randStr(32);
 
-  // Enhanced Turnstile token handling - Actualizado con la lógica de new.txt
+  // Enhanced Turnstile token handling - Actualizado con la lógica de new.txt lol
   let turnstileToken = null;
   let tokenExpiryTime = 0;
   let tokenGenerationInProgress = false;
@@ -1352,9 +1361,7 @@
         const d = cached.data;
         const a = d[idx + 3];
 
-        if (!state.paintTransparentPixels && a < alphaThresh) {
-          return null;
-        }
+        // Always return pixel data, let caller decide about transparency
         return [d[idx], d[idx + 1], d[idx + 2], a];
       }
 
@@ -1385,10 +1392,7 @@
         const data = ctx.getImageData(x, y, 1, 1).data;
         const a = data[3];
 
-        if (!state.paintTransparentPixels && a < alphaThresh) {
-          return null;
-        }
-
+        // Always return pixel data, let caller decide about transparency
         return [data[0], data[1], data[2], a];
       } catch (e) {
         Utils.addDebugLog(`Error reading pixel from tile ${tileKey}: ${e.message}`, 'error');
@@ -1457,7 +1461,7 @@
 
   const overlayManager = new OverlayManager();
 
-  // Enhanced WPlace API Service with autonomous capabilities - ACTUALIZADO CON NUEVA LÓGICA
+  // Enhanced WPlace API Service with auto-batch functionality
   const WPlaceService = {
     async paintPixelInRegion(regionX, regionY, pixelX, pixelY, color, retryCount = 0) {
       try {
@@ -1524,6 +1528,83 @@
       }
     },
 
+    // NEW: Auto-batch pixel painting functionality
+    async paintPixelBatchInRegion(regionX, regionY, pixelBatch, retryCount = 0) {
+      try {
+        await ensureToken();
+        if (!turnstileToken) {
+          Utils.addDebugLog('No valid token available for batch paint request', 'error');
+          return 'token_error';
+        }
+
+        // Prepare batch coordinates and colors
+        const coords = [];
+        const colors = [];
+        
+        for (const pixel of pixelBatch) {
+          coords.push(pixel.pixelX, pixel.pixelY);
+          colors.push(pixel.color);
+        }
+
+        const payload = {
+          coords: coords,
+          colors: colors,
+          t: turnstileToken,
+          fp: fpStr32,
+        };
+
+        const wasmToken = await createWasmToken(regionX, regionY, payload);
+        if (!wasmToken) {
+          Utils.addDebugLog('Failed to generate WASM token for batch', 'error');
+          return false;
+        }
+
+        const res = await fetch(`https://backend.wplace.live/s0/pixel/${regionX}/${regionY}`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'text/plain;charset=UTF-8',
+            'x-pawtect-token': wasmToken 
+          },
+          credentials: 'include',
+          body: JSON.stringify(payload),
+        });
+
+        if (res.status === 403) {
+          Utils.addDebugLog(`403 Forbidden for batch (${pixelBatch.length} pixels). Token invalid/expired.`, 'error');
+          invalidateToken();
+          
+          if (retryCount < 2 && state.autonomousMode) {
+            Utils.addDebugLog(`Autonomous batch retry ${retryCount + 1}/2 for ${pixelBatch.length} pixels`, 'warning');
+            await Utils.sleep(1000);
+            return await this.paintPixelBatchInRegion(regionX, regionY, pixelBatch, retryCount + 1);
+          }
+          
+          return 'token_error';
+        }
+
+        if (!res.ok) {
+          Utils.addDebugLog(`Batch paint request failed with status ${res.status}`, 'error');
+          return false;
+        }
+
+        const data = await res.json();
+        const successCount = data?.painted || 0;
+        
+        Utils.addDebugLog(`Batch paint result: ${successCount}/${pixelBatch.length} pixels painted successfully`, 
+                          successCount === pixelBatch.length ? 'success' : 'warning');
+        
+        return {
+          success: successCount > 0,
+          painted: successCount,
+          total: pixelBatch.length
+        };
+        
+      } catch (e) {
+        Utils.addDebugLog(`Batch paint request error for ${pixelBatch.length} pixels: ${e.message}`, 'error');
+        return false;
+      }
+    },
+
     async getCharges() {
       try {
         const res = await fetch('https://backend.wplace.live/me', {
@@ -1543,14 +1624,14 @@
     },
   };
 
-  // Anti-grief repair system with autonomous capabilities
+  // Enhanced anti-grief repair system with improved transparent pixel detection
   async function scanForDamage() {
     if (!state.imageData || !state.startPosition || !state.region) {
       Utils.addDebugLog('No image data or position for scanning', 'warning');
       return [];
     }
 
-    Utils.addDebugLog('Starting autonomous damage scan...', 'info');
+    Utils.addDebugLog('Starting enhanced damage scan with transparent pixel detection...', 'info');
     updateStatus(Utils.t('scanningForDamage'));
 
     const damagedPixels = [];
@@ -1579,9 +1660,11 @@
       return [];
     }
 
-    Utils.addDebugLog(`Scanning ${width}x${height} image for damage (autonomous: ${state.autonomousMode})...`, 'info');
+    Utils.addDebugLog(`Scanning ${width}x${height} image for damage (transparent detection: ${state.paintTransparentPixels})...`, 'info');
 
     let scannedPixels = 0;
+    let transparentPixelsDetected = 0;
+    let wrongColorPixelsDetected = 0;
     let lastProgressUpdate = Date.now();
     
     for (let y = 0; y < height; y++) {
@@ -1594,10 +1677,10 @@
         const originalB = pixels[idx + 2];
         const originalA = pixels[idx + 3];
 
-        if (!state.paintTransparentPixels && originalA < CONFIG.TRANSPARENCY_THRESHOLD) {
-          continue;
-        }
-
+        // Enhanced transparent pixel detection
+        const isOriginalTransparent = originalA < state.customTransparencyThreshold;
+        
+        // Skip white pixels if configured
         if (!state.paintWhitePixels && Utils.isWhitePixel(originalR, originalG, originalB)) {
           continue;
         }
@@ -1614,30 +1697,93 @@
         try {
           const currentPixel = await overlayManager.getTilePixelColor(tileX, tileY, pixelX, pixelY);
 
+          // Handle missing current pixel data (could indicate transparent area)
           if (!currentPixel) {
-            if (!state.autonomousMode) {
-              Utils.addDebugLog(`No current pixel data for (${x},${y}) - tile ${tileX},${tileY}`, 'warning');
+            if (state.paintTransparentPixels && !isOriginalTransparent) {
+              // Original pixel is not transparent but current is missing/transparent
+              const targetColor = Utils.resolveColor([originalR, originalG, originalB], state.availableColors);
+              damagedPixels.push({
+                x,
+                y,
+                originalColor: targetColor,
+                currentColor: { id: 63, name: 'Transparent', rgb: [0, 0, 0] }, // Transparent color
+                originalRgb: [originalR, originalG, originalB],
+                currentRgb: [0, 0, 0],
+                isDamagedTransparent: true
+              });
+              transparentPixelsDetected++;
+              
+              if (!state.autonomousMode || transparentPixelsDetected <= 10) {
+                Utils.addDebugLog(`Missing/Transparent pixel at (${x},${y}): expected color ${targetColor.id}, found transparent/missing`, 'warning');
+              }
             }
             continue;
           }
 
-          const targetColor = Utils.resolveColor([originalR, originalG, originalB], state.availableColors);
-          const currentColor = Utils.resolveColor(currentPixel.slice(0, 3), state.availableColors);
+          const currentIsTransparent = currentPixel[3] < state.customTransparencyThreshold;
 
-          if (targetColor.id !== currentColor.id) {
+          // Case 1: Original is not transparent, but current is transparent (damaged)
+          if (!isOriginalTransparent && currentIsTransparent && state.paintTransparentPixels) {
+            const targetColor = Utils.resolveColor([originalR, originalG, originalB], state.availableColors);
             damagedPixels.push({
               x,
               y,
               originalColor: targetColor,
-              currentColor: currentColor,
+              currentColor: { id: 63, name: 'Transparent', rgb: [0, 0, 0] },
               originalRgb: [originalR, originalG, originalB],
-              currentRgb: currentPixel.slice(0, 3)
+              currentRgb: currentPixel.slice(0, 3),
+              isDamagedTransparent: true
             });
+            transparentPixelsDetected++;
+            
+            if (!state.autonomousMode || transparentPixelsDetected <= 10) {
+              Utils.addDebugLog(`Transparent damage at (${x},${y}): expected color ${targetColor.id}, found transparent`, 'warning');
+            }
+            continue;
+          }
 
-            if (!state.autonomousMode || damagedPixels.length <= 10) {
-              Utils.addDebugLog(`Damage at (${x},${y}): expected color ${targetColor.id}, found color ${currentColor.id}`, 'warning');
+          // Case 2: Original is transparent, current is not transparent (wrong placement)
+          if (isOriginalTransparent && !currentIsTransparent && state.paintTransparentPixels) {
+            damagedPixels.push({
+              x,
+              y,
+              originalColor: { id: 63, name: 'Transparent', rgb: null },
+              currentColor: Utils.resolveColor(currentPixel.slice(0, 3), state.availableColors),
+              originalRgb: [originalR, originalG, originalB],
+              currentRgb: currentPixel.slice(0, 3),
+              isDamagedTransparent: true
+            });
+            transparentPixelsDetected++;
+            
+            if (!state.autonomousMode || transparentPixelsDetected <= 10) {
+              Utils.addDebugLog(`Wrong placement at (${x},${y}): expected transparent, found color`, 'warning');
+            }
+            continue;
+          }
+
+          // Case 3: Both are not transparent, check color match (normal damage detection)
+          if (!isOriginalTransparent && !currentIsTransparent) {
+            const targetColor = Utils.resolveColor([originalR, originalG, originalB], state.availableColors);
+            const currentColor = Utils.resolveColor(currentPixel.slice(0, 3), state.availableColors);
+
+            if (targetColor.id !== currentColor.id) {
+              damagedPixels.push({
+                x,
+                y,
+                originalColor: targetColor,
+                currentColor: currentColor,
+                originalRgb: [originalR, originalG, originalB],
+                currentRgb: currentPixel.slice(0, 3),
+                isDamagedTransparent: false
+              });
+              wrongColorPixelsDetected++;
+
+              if (!state.autonomousMode || wrongColorPixelsDetected <= 10) {
+                Utils.addDebugLog(`Color damage at (${x},${y}): expected color ${targetColor.id}, found color ${currentColor.id}`, 'warning');
+              }
             }
           }
+
         } catch (e) {
           if (!state.autonomousMode) {
             Utils.addDebugLog(`Error checking pixel (${x},${y}): ${e.message}`, 'error');
@@ -1646,7 +1792,7 @@
       }
 
       if (state.autonomousMode && Date.now() - lastProgressUpdate > 5000) {
-        Utils.addDebugLog(`Scan progress: ${y}/${height} rows (${Math.round((y / height) * 100)}%), found ${damagedPixels.length} damaged`, 'info');
+        Utils.addDebugLog(`Scan progress: ${y}/${height} rows (${Math.round((y / height) * 100)}%), found ${damagedPixels.length} damaged (${transparentPixelsDetected} transparent, ${wrongColorPixelsDetected} wrong color)`, 'info');
         lastProgressUpdate = Date.now();
       } else if (!state.autonomousMode && y % 10 === 0) {
         Utils.addDebugLog(`Scan progress: ${y}/${height} rows (${Math.round((y / height) * 100)}%)`, 'info');
@@ -1654,7 +1800,17 @@
     }
 
     const logLevel = damagedPixels.length > 0 ? 'warning' : 'success';
-    Utils.addDebugLog(`Scan complete. Checked ${scannedPixels} pixels, found ${damagedPixels.length} damaged`, logLevel);
+    Utils.addDebugLog(`Enhanced scan complete. Checked ${scannedPixels} pixels, found ${damagedPixels.length} damaged (${transparentPixelsDetected} transparent issues, ${wrongColorPixelsDetected} wrong colors)`, logLevel);
+
+    // Smart auto-adjust batch size: if 6 pixels detected, batch size = 6
+    if (state.autoBatchEnabled && state.batchOptimization && damagedPixels.length > 0) {
+      const newBatchSize = Math.min(CONFIG.MAX_BATCH_SIZE, Math.max(CONFIG.MIN_BATCH_SIZE, damagedPixels.length));
+      if (newBatchSize !== state.currentBatchSize) {
+        state.currentBatchSize = newBatchSize;
+        Utils.addDebugLog(`Smart batch: Auto-adjusted batch size to ${newBatchSize} to match ${damagedPixels.length} detected damaged pixels`, 'info');
+        updateBatchInfo(); // Update UI display
+      }
+    }
 
     return damagedPixels;
   }
@@ -1665,98 +1821,174 @@
       return 0;
     }
 
-    Utils.addDebugLog(`Starting autonomous repair of ${damagedPixels.length} pixels`, 'info');
+    Utils.addDebugLog(`Starting enhanced repair of ${damagedPixels.length} pixels with auto-batch (batch size: ${state.currentBatchSize})`, 'info');
     updateStatus(Utils.t('repairingPixels', { count: damagedPixels.length }));
 
     let repairedCount = 0;
     let consecutiveFailures = 0;
     const maxConsecutiveFailures = state.autonomousMode ? 5 : 3;
 
-    for (let i = 0; i < damagedPixels.length; i++) {
-      const pixel = damagedPixels[i];
+    // Group pixels by region for batch processing
+    const pixelsByRegion = new Map();
+    
+    for (const pixel of damagedPixels) {
+      const absX = state.startPosition.x + pixel.x;
+      const absY = state.startPosition.y + pixel.y;
+      const regionX = state.region.x + Math.floor(absX / 1000);
+      const regionY = state.region.y + Math.floor(absY / 1000);
+      const regionKey = `${regionX},${regionY}`;
       
+      if (!pixelsByRegion.has(regionKey)) {
+        pixelsByRegion.set(regionKey, []);
+      }
+      
+      pixelsByRegion.get(regionKey).push({
+        ...pixel,
+        regionX,
+        regionY,
+        pixelX: absX % 1000,
+        pixelY: absY % 1000,
+        color: pixel.isDamagedTransparent && pixel.originalColor.id === 63 ? 63 : pixel.originalColor.id
+      });
+    }
+
+    Utils.addDebugLog(`Grouped ${damagedPixels.length} pixels into ${pixelsByRegion.size} regions for batch processing`, 'info');
+
+    // Process each region
+    for (const [regionKey, regionPixels] of pixelsByRegion) {
       if (state.stopFlag) {
         Utils.addDebugLog('Repair stopped by user request', 'warning');
         break;
       }
 
-      // Enhanced charge management for autonomous mode
-      await updateCharges();
-      let chargeWaitAttempts = 0;
-      const maxChargeWaitAttempts = state.autonomousMode ? 20 : 10;
-      
-      while (state.displayCharges < 1 && !state.stopFlag && chargeWaitAttempts < maxChargeWaitAttempts) {
-        chargeWaitAttempts++;
-        const waitTime = state.autonomousMode ? Math.min(state.cooldown, 10000) : state.cooldown;
+      const [regionX, regionY] = regionKey.split(',').map(Number);
+      Utils.addDebugLog(`Processing region ${regionKey} with ${regionPixels.length} pixels`, 'info');
+
+      // Process pixels in batches
+      for (let i = 0; i < regionPixels.length; i += state.currentBatchSize) {
+        if (state.stopFlag) break;
+
+        const batch = regionPixels.slice(i, i + state.currentBatchSize);
+        const actualBatchSize = Math.min(batch.length, state.currentBatchSize);
         
-        if (chargeWaitAttempts === 1) {
-          Utils.addDebugLog(`Waiting for charges... (${state.displayCharges}/${state.maxCharges})`, 'info');
-        }
-        
-        await Utils.dynamicSleep(() => {
-          if (state.displayCharges >= 1) return 0;
-          if (state.stopFlag) return 0;
-          return waitTime;
-        });
+        // Enhanced charge management for batch processing
         await updateCharges();
-      }
-
-      if (state.stopFlag) break;
-      
-      if (state.displayCharges < 1) {
-        Utils.addDebugLog(`No charges available after waiting, skipping pixel (${pixel.x},${pixel.y})`, 'warning');
-        continue;
-      }
-
-      const success = await repairSinglePixel(pixel);
-      if (success) {
-        repairedCount++;
-        consecutiveFailures = 0;
-        if (!state.autonomousMode || repairedCount <= 10 || repairedCount % 10 === 0) {
-          Utils.addDebugLog(`Repaired pixel (${pixel.x},${pixel.y}) with color ${pixel.originalColor.id} [${repairedCount}/${damagedPixels.length}]`, 'success');
-        }
-      } else {
-        consecutiveFailures++;
-        Utils.addDebugLog(`Failed to repair pixel (${pixel.x},${pixel.y}) [${consecutiveFailures}/${maxConsecutiveFailures} consecutive failures]`, 'error');
+        let chargeWaitAttempts = 0;
+        const maxChargeWaitAttempts = state.autonomousMode ? 20 : 10;
         
-        if (consecutiveFailures >= maxConsecutiveFailures) {
-          Utils.addDebugLog(`Too many consecutive failures (${consecutiveFailures}), pausing repair`, 'error');
-          if (state.autonomousMode) {
-            Utils.addDebugLog('Autonomous mode: will retry repair in 60 seconds', 'warning');
-            setTimeout(() => {
-              if (state.autoRepairEnabled && !state.stopFlag) {
-                performRepairCheck();
-              }
-            }, 60000);
+        while (state.displayCharges < actualBatchSize && !state.stopFlag && chargeWaitAttempts < maxChargeWaitAttempts) {
+          chargeWaitAttempts++;
+          const waitTime = state.autonomousMode ? Math.min(state.cooldown, 10000) : state.cooldown;
+          
+          if (chargeWaitAttempts === 1) {
+            Utils.addDebugLog(`Waiting for charges... (need ${actualBatchSize}, have ${state.displayCharges}/${state.maxCharges})`, 'info');
           }
-          break;
+          
+          await Utils.dynamicSleep(() => {
+            if (state.displayCharges >= actualBatchSize) return 0;
+            if (state.stopFlag) return 0;
+            return waitTime;
+          });
+          await updateCharges();
         }
-      }
 
-      await updateCharges();
+        if (state.stopFlag) break;
+        
+        if (state.displayCharges < actualBatchSize) {
+          Utils.addDebugLog(`Insufficient charges for batch (need ${actualBatchSize}, have ${state.displayCharges}), falling back to single pixel repair`, 'warning');
+          
+          // Fall back to single pixel repair
+          for (const pixel of batch) {
+            if (state.stopFlag) break;
+            
+            await updateCharges();
+            if (state.displayCharges < 1) {
+              Utils.addDebugLog(`No charges available, skipping pixel (${pixel.x},${pixel.y})`, 'warning');
+              continue;
+            }
+            
+            const success = await repairSinglePixel(pixel);
+            if (success) {
+              repairedCount++;
+              consecutiveFailures = 0;
+            } else {
+              consecutiveFailures++;
+            }
+            
+            if (consecutiveFailures >= maxConsecutiveFailures) break;
+            await Utils.sleep(100);
+          }
+        } else {
+          // Use batch repair
+          const batchResult = await repairPixelBatch(regionX, regionY, batch);
+          
+          if (batchResult && batchResult.success) {
+            repairedCount += batchResult.painted;
+            consecutiveFailures = 0;
+            
+            Utils.addDebugLog(`Batch repair: ${batchResult.painted}/${batchResult.total} pixels repaired successfully [Total: ${repairedCount}/${damagedPixels.length}]`, 'success');
+          } else {
+            consecutiveFailures++;
+            Utils.addDebugLog(`Batch repair failed for ${batch.length} pixels [${consecutiveFailures}/${maxConsecutiveFailures} consecutive failures]`, 'error');
+            
+            if (consecutiveFailures >= maxConsecutiveFailures) {
+              Utils.addDebugLog(`Too many consecutive batch failures (${consecutiveFailures}), pausing repair`, 'error');
+              if (state.autonomousMode) {
+                Utils.addDebugLog('Autonomous mode: will retry repair in 60 seconds', 'warning');
+                setTimeout(() => {
+                  if (state.autoRepairEnabled && !state.stopFlag) {
+                    performRepairCheck();
+                  }
+                }, 60000);
+              }
+              break;
+            }
+          }
+        }
+
+        await updateCharges();
+        
+        // Dynamic delay based on mode and success rate
+        const baseDelay = state.autonomousMode ? 100 : 200;
+        const adaptiveDelay = consecutiveFailures > 0 ? baseDelay * (consecutiveFailures + 1) : baseDelay;
+        await Utils.sleep(adaptiveDelay);
+      }
       
-      // Dynamic delay based on mode and success rate
-      const baseDelay = state.autonomousMode ? 100 : 200;
-      const adaptiveDelay = consecutiveFailures > 0 ? baseDelay * (consecutiveFailures + 1) : baseDelay;
-      await Utils.sleep(adaptiveDelay);
+      if (consecutiveFailures >= maxConsecutiveFailures) break;
     }
 
     const message = Utils.t('repairComplete', { repaired: repairedCount });
     updateStatus(message);
-    Utils.addDebugLog(`${message} (${damagedPixels.length - repairedCount} remaining)`, 'success');
+    Utils.addDebugLog(`${message} (${damagedPixels.length - repairedCount} remaining) - Used auto-batch with size ${state.currentBatchSize}`, 'success');
 
     return repairedCount;
   }
 
-  async function repairSinglePixel(pixel) {
-    const { x, y, originalColor } = pixel;
+  async function repairPixelBatch(regionX, regionY, pixelBatch) {
+    try {
+      Utils.addDebugLog(`Attempting batch repair of ${pixelBatch.length} pixels in region ${regionX},${regionY}`, 'info');
+      
+      const result = await WPlaceService.paintPixelBatchInRegion(regionX, regionY, pixelBatch);
 
-    const absX = state.startPosition.x + x;
-    const absY = state.startPosition.y + y;
-    const regionX = state.region.x + Math.floor(absX / 1000);
-    const regionY = state.region.y + Math.floor(absY / 1000);
-    const pixelX = absX % 1000;
-    const pixelY = absY % 1000;
+      if (result === 'token_error') {
+        Utils.addDebugLog('Token error during batch repair, refreshing token...', 'warning');
+        await ensureToken(true);
+        await Utils.sleep(state.autonomousMode ? 500 : 1000);
+        
+        // Retry once with new token
+        const retryResult = await WPlaceService.paintPixelBatchInRegion(regionX, regionY, pixelBatch);
+        return retryResult;
+      }
+
+      return result;
+    } catch (e) {
+      Utils.addDebugLog(`Error during batch repair: ${e.message}`, 'error');
+      return false;
+    }
+  }
+
+  async function repairSinglePixel(pixel) {
+    const { x, y, originalColor, regionX, regionY, pixelX, pixelY, color } = pixel;
 
     try {
       const result = await WPlaceService.paintPixelInRegion(
@@ -1764,7 +1996,7 @@
         regionY,
         pixelX,
         pixelY,
-        originalColor.id
+        color || originalColor.id
       );
 
       if (result === 'token_error') {
@@ -1773,8 +2005,14 @@
         await Utils.sleep(state.autonomousMode ? 500 : 1000);
         
         // Retry once with new token
-        const retryResult = await WPlaceService.paintPixelInRegion(regionX, regionY, pixelX, pixelY, originalColor.id);
+        const retryResult = await WPlaceService.paintPixelInRegion(regionX, regionY, pixelX, pixelY, color || originalColor.id);
         return retryResult === true;
+      }
+
+      if (result === true) {
+        if (pixel.isDamagedTransparent) {
+          Utils.addDebugLog(`Repaired transparent pixel (${x},${y}) with color ${color || originalColor.id}`, 'success');
+        }
       }
 
       return result === true;
@@ -1993,6 +2231,42 @@
     }
   }
 
+  // Update batch information display for new UI
+  function updateBatchInfo() {
+    const batchSizeEl = document.getElementById('batchSize');
+    const batchStatusEl = document.getElementById('batchStatus');
+    const smartModeEl = document.getElementById('smartBatchMode');
+    const manualModeEl = document.getElementById('manualBatchMode');
+    const manualControlsEl = document.getElementById('manualBatchControls');
+    
+    // Update radio button states
+    if (smartModeEl && manualModeEl) {
+      smartModeEl.checked = state.autoBatchEnabled && state.batchOptimization;
+      manualModeEl.checked = !state.autoBatchEnabled || !state.batchOptimization;
+    }
+    
+    // Update manual controls visibility
+    if (manualControlsEl) {
+      manualControlsEl.style.display = (!state.autoBatchEnabled || !state.batchOptimization) ? 'flex' : 'none';
+    }
+    
+    // Update batch size input
+    if (batchSizeEl) {
+      batchSizeEl.value = state.currentBatchSize;
+    }
+    
+    // Update status display
+    if (batchStatusEl) {
+      if (state.autoBatchEnabled && state.batchOptimization) {
+        batchStatusEl.textContent = `🧠 Smart Batch: AUTO (Current: ${state.currentBatchSize})`;
+        batchStatusEl.className = 'status-info';
+      } else {
+        batchStatusEl.textContent = `✋ Manual Batch: ${state.currentBatchSize} pixels fixed`;
+        batchStatusEl.className = 'status-warning';
+      }
+    }
+  }
+
   function updateSystemStatus() {
     const systemEl = document.getElementById('systemInfo');
     if (systemEl) {
@@ -2182,6 +2456,149 @@
         margin-right: 8px !important;
       }
       
+      /* Enhanced Batch Control Styles */
+      .batch-control-group {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        margin: 5px 0 !important;
+        padding: 8px !important;
+        background: rgba(0, 255, 65, 0.05) !important;
+        border: 1px solid rgba(0, 255, 65, 0.3) !important;
+        border-radius: 3px !important;
+      }
+      
+      .batch-control-header {
+        text-align: center !important;
+        margin-bottom: 10px !important;
+        padding: 5px !important;
+        border-bottom: 1px solid rgba(0, 255, 65, 0.3) !important;
+      }
+      
+      .batch-control-label {
+        color: #00ff41 !important;
+        font-family: 'Press Start 2P', monospace !important;
+        font-size: 6px !important;
+        text-shadow: 0 0 3px #00ff41 !important;
+        white-space: nowrap !important;
+      }
+      
+      .batch-mode-selection {
+        margin: 10px 0 !important;
+      }
+      
+      .batch-mode-option {
+        margin: 8px 0 !important;
+        padding: 6px !important;
+        background: rgba(0, 255, 65, 0.03) !important;
+        border: 1px solid rgba(0, 255, 65, 0.2) !important;
+        border-radius: 3px !important;
+        transition: all 0.3s ease !important;
+      }
+      
+      .batch-mode-option:hover {
+        background: rgba(0, 255, 65, 0.08) !important;
+        border-color: rgba(0, 255, 65, 0.4) !important;
+      }
+      
+      .batch-mode-label {
+        color: #00ff41 !important;
+        font-family: 'Press Start 2P', monospace !important;
+        font-size: 6px !important;
+        text-shadow: 0 0 3px #00ff41 !important;
+        margin-left: 8px !important;
+      }
+      
+      .neon-radio {
+        accent-color: #00ff41 !important;
+        transform: scale(1.2) !important;
+        margin-right: 8px !important;
+      }
+      
+      .batch-manual-controls {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        margin: 8px 0 !important;
+        padding: 8px !important;
+        background: rgba(0, 255, 65, 0.05) !important;
+        border: 1px solid rgba(0, 255, 65, 0.3) !important;
+        border-radius: 3px !important;
+      }
+      
+      .batch-size-control {
+        display: flex !important;
+        align-items: center !important;
+        gap: 2px !important;
+        border: 1px solid #00ff41 !important;
+        border-radius: 3px !important;
+        background: #16213e !important;
+        overflow: hidden !important;
+      }
+      
+      .batch-adjust-btn {
+        width: 20px !important;
+        height: 24px !important;
+        background: #16213e !important;
+        border: none !important;
+        color: #00ff41 !important;
+        font-family: 'Press Start 2P', monospace !important;
+        font-size: 8px !important;
+        cursor: pointer !important;
+        transition: all 0.3s ease !important;
+        text-shadow: 0 0 3px #00ff41 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+      
+      .batch-adjust-btn:hover {
+        background: rgba(0, 255, 65, 0.1) !important;
+        box-shadow: 0 0 5px rgba(0, 255, 65, 0.3) !important;
+      }
+      
+      .batch-adjust-btn:active {
+        background: rgba(0, 255, 65, 0.2) !important;
+        transform: scale(0.95) !important;
+      }
+      
+      .batch-size-input {
+        width: 50px !important;
+        height: 24px !important;
+        background: #16213e !important;
+        border: none !important;
+        color: #00ff41 !important;
+        padding: 0 4px !important;
+        font-family: 'Press Start 2P', monospace !important;
+        font-size: 6px !important;
+        text-align: center !important;
+        text-shadow: 0 0 3px #00ff41 !important;
+        outline: none !important;
+        /* Hide browser default spinner buttons */
+        -webkit-appearance: none !important;
+        -moz-appearance: textfield !important;
+      }
+      
+      /* Hide Chrome spinner buttons */
+      .batch-size-input::-webkit-outer-spin-button,
+      .batch-size-input::-webkit-inner-spin-button {
+        -webkit-appearance: none !important;
+        margin: 0 !important;
+      }
+      
+      /* Hide Firefox spinner buttons */
+      .batch-size-input[type=number] {
+        -moz-appearance: textfield !important;
+      }
+      
+      .status-info {
+        color: #00ff41 !important;
+      }
+      
+      .status-warning {
+        color: #ff6b35 !important;
+      }
+      
       .neon-panel {
         background: rgba(22, 33, 62, 0.3) !important;
         border: 1px solid #00ff41 !important;
@@ -2312,6 +2729,9 @@
           <div id="systemInfo" class="neon-text warning" style="font-size: 7px; margin-top: 3px;">
             System: AUTONOMOUS | Token: GENERATOR | Auto-refresh: ON
           </div>
+          <div id="batchStatus" class="neon-text info" style="font-size: 7px; margin-top: 2px;">
+            Auto-Batch: ON | Size: 5 | Opt: ON
+          </div>
         </div>
 
         <div style="margin-bottom: 15px; display: flex; flex-wrap: wrap; gap: 5px;">
@@ -2354,11 +2774,54 @@
               <option value="manual" ${state.tokenSource === 'manual' ? 'selected' : ''}>Manual</option>
             </select>
           </div>
+
+          <!-- NEW: Enhanced Pixel Batch Controls -->
+          <div style="border-top: 1px solid #00ff41; margin-top: 15px; padding-top: 10px;">
+            <div class="batch-control-header">
+              <span class="batch-control-label">🎯 Pixel Batch Mode</span>
+            </div>
+            
+            <!-- Batch Mode Selection -->
+            <div class="batch-mode-selection">
+              <div class="batch-mode-option">
+                <label style="display: flex; align-items: center; cursor: pointer;">
+                  <input type="radio" name="batchMode" id="smartBatchMode" ${state.autoBatchEnabled && state.batchOptimization ? 'checked' : ''} class="neon-radio">
+                  <span class="batch-mode-label">🧠 Smart Batch (Auto-adjust to damage)</span>
+                </label>
+              </div>
+              
+              <div class="batch-mode-option">
+                <label style="display: flex; align-items: center; cursor: pointer;">
+                  <input type="radio" name="batchMode" id="manualBatchMode" ${!state.autoBatchEnabled || !state.batchOptimization ? 'checked' : ''} class="neon-radio">
+                  <span class="batch-mode-label">✋ Manual Batch (Fixed size)</span>
+                </label>
+              </div>
+            </div>
+            
+            <!-- Manual Batch Size Controls -->
+              <div class="batch-manual-controls" id="manualBatchControls" style="display: ${!state.autoBatchEnabled || !state.batchOptimization ? 'flex' : 'none'};">
+                <span class="batch-control-label">Batch Size:</span>
+                <div class="batch-size-control">
+                  <button type="button" id="batchSizeDecrease" class="batch-adjust-btn">-</button>
+                  <input type="number" id="batchSize" value="${state.currentBatchSize}" min="1" max="${CONFIG.MAX_BATCH_SIZE}" 
+                         class="batch-size-input">
+                  <button type="button" id="batchSizeIncrease" class="batch-adjust-btn">+</button>
+                </div>
+                <span class="batch-control-label">pixels</span>
+              </div>            <!-- Transparent Pixel Control -->
+            <div class="batch-control-group">
+              <label style="display: flex; align-items: center; cursor: pointer;">
+                <input type="checkbox" id="paintTransparentPixels" ${state.paintTransparentPixels ? 'checked' : ''} class="neon-checkbox">
+                <span class="batch-control-label">🔧 Repair Transparent Pixels</span>
+              </label>
+            </div>
+          </div>
           
           <div style="margin-top: 10px; font-size: 8px;" class="neon-text info">
             <div>Image: <span id="imageInfo">Not loaded</span></div>
             <div>Position: <span id="positionInfo">Not set</span></div>
             <div>Colors: <span id="colorsInfo">0 available</span></div>
+            <div>Batch Mode: <span id="batchInfo">Auto (${state.currentBatchSize} pixels)</span></div>
           </div>
         </div>
 
@@ -2413,6 +2876,9 @@
     // Update system status
     updateSystemStatus();
     setInterval(updateSystemStatus, 15000);
+    
+    // Update batch information
+    updateBatchInfo();
     
     // Initialize token generator
     initializeTokenGenerator();
@@ -2646,6 +3112,69 @@
         Utils.addDebugLog('Invalidating current token due to source change', 'info');
         invalidateToken();
       }
+    });
+
+    // NEW: Enhanced batch mode controls
+    document.getElementById('smartBatchMode').addEventListener('change', (e) => {
+      if (e.target.checked) {
+        state.autoBatchEnabled = true;
+        state.batchOptimization = true;
+        document.getElementById('manualBatchControls').style.display = 'none';
+        Utils.addDebugLog('Smart batch mode enabled - will auto-adjust to damage count', 'info');
+        updateBatchInfo();
+      }
+    });
+
+    document.getElementById('manualBatchMode').addEventListener('change', (e) => {
+      if (e.target.checked) {
+        state.autoBatchEnabled = false;
+        state.batchOptimization = false;
+        document.getElementById('manualBatchControls').style.display = 'flex';
+        Utils.addDebugLog('Manual batch mode enabled - using fixed batch size', 'info');
+        updateBatchInfo();
+      }
+    });
+
+    // Manual batch size controls with +/- buttons
+    document.getElementById('batchSizeIncrease').addEventListener('click', () => {
+      const newSize = Math.min(CONFIG.MAX_BATCH_SIZE, state.currentBatchSize + 1);
+      if (newSize !== state.currentBatchSize) {
+        state.currentBatchSize = newSize;
+        document.getElementById('batchSize').value = state.currentBatchSize;
+        Utils.addDebugLog(`Increased batch size to ${state.currentBatchSize} pixels`, 'info');
+        updateBatchInfo();
+      }
+    });
+
+    document.getElementById('batchSizeDecrease').addEventListener('click', () => {
+      const newSize = Math.max(CONFIG.MIN_BATCH_SIZE, state.currentBatchSize - 1);
+      if (newSize !== state.currentBatchSize) {
+        state.currentBatchSize = newSize;
+        document.getElementById('batchSize').value = state.currentBatchSize;
+        Utils.addDebugLog(`Decreased batch size to ${state.currentBatchSize} pixels`, 'info');
+        updateBatchInfo();
+      }
+    });
+
+    // Manual input allows direct typing for precise control
+    document.getElementById('batchSize').addEventListener('input', (e) => {
+      const value = parseInt(e.target.value);
+      if (!isNaN(value)) {
+        const clampedValue = Math.max(CONFIG.MIN_BATCH_SIZE, Math.min(CONFIG.MAX_BATCH_SIZE, value));
+        if (clampedValue !== state.currentBatchSize) {
+          state.currentBatchSize = clampedValue;
+          if (clampedValue !== value) {
+            e.target.value = state.currentBatchSize;
+          }
+          Utils.addDebugLog(`Manual batch size set to ${state.currentBatchSize} pixels`, 'info');
+          updateBatchInfo();
+        }
+      }
+    });
+
+    document.getElementById('paintTransparentPixels').addEventListener('change', (e) => {
+      state.paintTransparentPixels = e.target.checked;
+      Utils.addDebugLog(`Transparent pixel repair ${state.paintTransparentPixels ? 'enabled' : 'disabled'}`, 'info');
     });
 
     // Clear debug

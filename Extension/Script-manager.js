@@ -34,6 +34,13 @@
       description: 'Automated repair and maintenance tasks',
       icon: '🔧',
       category: 'utility'
+    },
+    {
+      name: 'Acc-Switch.js',
+      displayName: '🔄 Account Switcher',
+      description: 'Temporary account switching script',
+      icon: '🔄',
+      category: 'automation'
     }
   ];
 

@@ -34,6 +34,29 @@
 }
 
 /* Classic theme container styling */
+/* Multi-account panel styling */
+:root #wplace-accounts-container,
+.wplace-theme-classic #wplace-accounts-container {
+  background: var(--wplace-primary);
+  color: var(--wplace-text);
+  border-radius: var(--wplace-radius);
+  box-shadow: var(--wplace-shadow);
+  font-family: var(--wplace-font);
+  backdrop-filter: var(--wplace-backdrop);
+  border: var(--wplace-border-width) var(--wplace-border-style) var(--wplace-border-color);
+}
+
+/* Active account styles */
+:root .wplace-accounts-container .active-account,
+.wplace-theme-classic .wplace-accounts-container .active-account {
+  --active-bg: var(--wplace-secondary);
+  --active-color: var(--wplace-success);
+  --inactive-color: var(--wplace-text);
+  --progress-bg: rgb(255 255 255 / 10%);
+  --progress-fill: var(--wplace-highlight);
+}
+
+/* Base container styling */
 :root #wplace-image-bot-container,
 .wplace-theme-classic #wplace-image-bot-container {
   background: var(--wplace-primary);

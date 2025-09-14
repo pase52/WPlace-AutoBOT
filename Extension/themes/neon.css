@@ -84,6 +84,122 @@
   font-family: var(--wplace-font) !important;
 }
 
+/* Multi-Account Panel Styles */
+.wplace-theme-neon #wplace-multi-account-container {
+  position: fixed !important;
+  top: 180px !important;
+  right: 20px !important;
+  width: 320px !important;
+  background: rgb(22 33 62 / 50%) !important;
+  border: 2px solid var(--wplace-text) !important;
+  border-radius: 0 !important;
+  box-shadow: 0 0 20px var(--wplace-text), inset 0 0 20px rgb(0 255 65 / 10%) !important;
+  font-family: var(--wplace-font) !important;
+  z-index: 9997 !important;
+  color: var(--wplace-text) !important;
+  text-shadow: 0 0 5px var(--wplace-text) !important;
+}
+
+.wplace-theme-neon #wplace-multi-account-container .wplace-panel-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 10px !important;
+  background: var(--wplace-secondary) !important;
+  border-bottom: 1px solid var(--wplace-text) !important;
+  text-transform: uppercase !important;
+  font-size: 9px !important;
+}
+
+.wplace-theme-neon #wplace-multi-account-container .wplace-header-btn {
+  background: transparent !important;
+  border: 1px solid var(--wplace-text) !important;
+  color: var(--wplace-text) !important;
+  font-size: 8px !important;
+  padding: 4px 8px !important;
+  cursor: pointer !important;
+  text-shadow: 0 0 5px var(--wplace-text) !important;
+  font-family: var(--wplace-font) !important;
+  text-transform: uppercase !important;
+}
+
+.wplace-theme-neon #wplace-multi-account-container .wplace-header-btn:hover {
+  box-shadow: 0 0 15px var(--wplace-text) !important;
+  animation: pixel-blink 0.5s infinite !important;
+}
+
+.wplace-theme-neon .wplace-multi-account-content {
+  padding: 10px !important;
+}
+
+.wplace-theme-neon .wplace-multi-account-info {
+  font-size: 9px !important;
+  text-transform: uppercase !important;
+  margin-bottom: 10px !important;
+  color: var(--wplace-text) !important;
+  text-shadow: 0 0 5px var(--wplace-text) !important;
+  font-family: var(--wplace-font) !important;
+}
+
+.wplace-theme-neon .wplace-multi-account-current,
+.wplace-theme-neon .wplace-multi-account-stats {
+  margin-bottom: 8px !important;
+  font-size: 8px !important;
+}
+
+.wplace-theme-neon .wplace-multi-account-toggle {
+  margin-bottom: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.wplace-theme-neon .wplace-multi-account-switch {
+  margin-right: 8px !important;
+}
+
+.wplace-theme-neon .wplace-multi-account-list {
+  max-height: 200px !important;
+  overflow-y: auto !important;
+}
+
+.wplace-theme-neon .wplace-multi-account-item {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 8px !important;
+  margin-bottom: 4px !important;
+  background: rgb(22 33 62 / 50%) !important;
+  border: 1px solid var(--wplace-text) !important;
+  font-size: 8px !important;
+  text-transform: uppercase !important;
+  font-family: var(--wplace-font) !important;
+}
+
+.wplace-theme-neon .wplace-multi-account-item.active {
+  background: rgb(0 255 65 / 10%) !important;
+  border-color: var(--wplace-success) !important;
+  box-shadow: 0 0 15px var(--wplace-success) !important;
+}
+
+.wplace-theme-neon .wplace-multi-account-list::-webkit-scrollbar {
+  width: 6px !important;
+}
+
+.wplace-theme-neon .wplace-multi-account-list::-webkit-scrollbar-track {
+  background: rgb(22 33 62 / 50%) !important;
+}
+
+.wplace-theme-neon .wplace-multi-account-list::-webkit-scrollbar-thumb {
+  background: var(--wplace-text) !important;
+  border-radius: 0 !important;
+  box-shadow: 0 0 10px var(--wplace-text) !important;
+}
+
+.wplace-theme-neon .wplace-multi-account-list::-webkit-scrollbar-thumb:hover {
+  background: var(--wplace-success) !important;
+  box-shadow: 0 0 15px var(--wplace-success) !important;
+}
+
 .wplace-theme-neon #wplace-stats-container {
   background: var(--wplace-primary) !important;
   border: 2px solid var(--wplace-text) !important;
