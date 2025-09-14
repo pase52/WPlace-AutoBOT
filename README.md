@@ -1,4 +1,3 @@
-WPlace AutoBOT Browser Extension
 <p align="center">
 <img width="379" height="376" alt="image" src="https://github.com/user-attachments/assets/c14ef2b5-e104-4526-9b17-23cb2abc9efe" />
 </p>
