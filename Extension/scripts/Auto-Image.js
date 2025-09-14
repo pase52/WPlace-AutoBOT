@@ -4428,14 +4428,14 @@ localStorage.removeItem("lp");
               <div class="resize-brush-control">
                 <label class="resize-tool-label">Brush</label>
                 <div class="resize-tool-input-group">
-                  <input id="maskBrushSize" type="range" min="1" max="7" step="1" value="1" class="resize-tool-slider">
+                  <input id="maskBrushSize" type="range" min="1" max="255" step="1" value="1" class="resize-tool-slider">
                   <span id="maskBrushSizeValue" class="resize-tool-value">1</span>
                 </div>
               </div>
             <div class="resize-brush-control">
               <label class="resize-tool-label">Row/col size</label>
               <div class="resize-tool-input-group">
-                <input id="rowColSize" type="range" min="1" max="7" step="1" value="1" class="resize-tool-slider">
+                <input id="rowColSize" type="range" min="1" max="255" step="1" value="1" class="resize-tool-slider">
                 <span id="rowColSizeValue" class="resize-tool-value">1</span>
               </div>
             </div>
@@ -8278,4 +8278,5 @@ localStorage.removeItem("lp");
     });
   });
 })();
+
 
